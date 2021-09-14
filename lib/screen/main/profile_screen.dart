@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+// import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/screen/panel/login_screen.dart';
+// import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
+
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  Widget build(BuildContext context) {
+    // bool _loginState = false;
+    /*setState(() {
+      _loginState =
+          MySharedPreferences.myShrdPref.getString('token') == null;
+    });*/
+
+    return const Scaffold(
+      body: LoginScreen(),
+    );
+  }
+}
