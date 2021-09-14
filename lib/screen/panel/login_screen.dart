@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
-import 'package:flutter_sl_001/main.dart';
-import 'package:flutter_sl_001/screen/main/profile_screen.dart';
 import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
 import 'package:flutter_sl_001/screen/panel/signup_screen.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
@@ -20,7 +19,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Check if form is valid
+  //TODO
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
+
   late LoginRequestModel loginRequestModel; //late
   bool isApiCallProcess = false;
 
@@ -42,11 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _uiSetup(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      /*appBar: AppBar(
-        title: Center(
-          child: Text("ورود"),
-        ),
-      ),*/
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -97,15 +93,24 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(
                               () {
                                 isApiCallProcess = false;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ProfileScreenContent(),
+                                  ),
+                                );
                               },
                             );
                             MySharedPreferences.myShrdPref.setString(
-                                "token", value.data!.token.toString());
+                              "token",
+                              value.data!.token.toString(),
+                            );
                             MySharedPreferences.myShrdPref.setString(
                               "user_data",
-                              // value.data!,
                               jsonEncode(value),
                             );
+                            print(jsonEncode(value));
                           },
                           onError: (err) {
                             // print("Error1" + err);
@@ -116,12 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             setState(() {
                               isApiCallProcess = false;
                             });
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const ProfileScreenContent(),
-                              ),
-                            );
+
                             // Navigator.pushNamed(context, ProfileScreen().routeName);
                           },
                         );
@@ -146,7 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SignupScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => const SignupScreen()),
                       );
                     },
                     child: const Text("اگر عضو نیستید، از اینجا ثبت نام کنید"),

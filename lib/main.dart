@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
 import 'package:flutter_sl_001/tab_navigator.dart';
 
 void main() async {
-  // await MySharedPreferences.init(); // Initializing Shared Prefs throughout app
+  await MySharedPreferences.init(); // Initializing Shared Prefs throughout app
   runApp(const MyApp());
 }
 
