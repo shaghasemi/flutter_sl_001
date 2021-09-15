@@ -24,201 +24,212 @@ class _HomeScreenState extends State<HomeScreen> {
       _loginState = true;
     }*/
 
-    return ListView(
-      children: const [
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("TTTTWWWWW"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-        ListTile(
-          title: Text("One"),
-        ),
-      ],
+    return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScroller) => [
+          const SliverAppBar(
+            title: Text("App Bar: Home Screen"),
+            snap: true,
+            floating: true,
+          ),
+        ],
+        body: ListView(
+          children: const [
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("TTTTWWWWW"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+            ListTile(
+              title: Text("One"),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

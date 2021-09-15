@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
 import 'package:flutter_sl_001/tab_navigator.dart';
 
 void main() async {
   await MySharedPreferences.init(); // Initializing Shared Prefs throughout app
   runApp(const MyApp());
+  // runApp(const ProfileScreenContent());
 }
 
 class MyApp extends StatefulWidget {
@@ -60,9 +62,9 @@ class _MyAppState extends State<MyApp> {
       },
       child: MaterialApp(
         home: Scaffold(
-          appBar: AppBar(
+          /*appBar: AppBar(
             title: const Text("Sivan Land 0.01"),
-          ),
+          ),*/
           // body: screens[currentIndex],
           body: Stack(
             children: <Widget>[

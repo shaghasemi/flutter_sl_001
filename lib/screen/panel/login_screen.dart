@@ -43,121 +43,134 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _uiSetup(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: globalFormKey,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(
-                      hintText: "شماره تلفن",
-                      prefixIcon: Icon(Icons.phone),
+      /*body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScroller) => [
+          SliverAppBar(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Icon(Icons.alarm),
+                Icon(Icons.settings),
+              ],
+            ),
+            snap: true,
+            floating: true,
+          ),
+        ],*/
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Form(
+              key: globalFormKey,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      keyboardType: TextInputType.phone,
+                      decoration: const InputDecoration(
+                        hintText: "شماره تلفن",
+                        prefixIcon: Icon(Icons.phone),
+                      ),
+                      onChanged: (input) {
+                        loginRequestModel.phone = input;
+                      },
+                      autofocus: true,
                     ),
-                    onChanged: (input) {
-                      loginRequestModel.phone = input;
-                    },
-                    autofocus: true,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: "رمز عبور",
-                      prefixIcon: Icon(Icons.lock),
+                    const SizedBox(
+                      height: 30,
                     ),
-                    onChanged: (input) {
-                      loginRequestModel.password = input;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      // var response = {};
-                      setState(
-                        () {
-                          isApiCallProcess = true;
-                        },
-                      );
-                      APIService apiService = APIService();
-                      try {
-                        apiService.login(loginRequestModel).then(
-                          (value) {
-                            setState(
-                              () {
-                                isApiCallProcess = false;
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ProfileScreenContent(),
-                                  ),
-                                );
-                              },
-                            );
-                            MySharedPreferences.myShrdPref.setString(
-                              "token",
-                              value.data!.token.toString(),
-                            );
-                            MySharedPreferences.myShrdPref.setString(
-                              "user_data",
-                              jsonEncode(value),
-                            );
-                            print(jsonEncode(value));
-                          },
-                          onError: (err) {
-                            // print("Error1" + err);
-                          },
-                        ).whenComplete(
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "رمز عبور",
+                        prefixIcon: Icon(Icons.lock),
+                      ),
+                      onChanged: (input) {
+                        loginRequestModel.password = input;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        // var response = {};
+                        setState(
                           () {
-                            // print("Complete");
-                            setState(() {
-                              isApiCallProcess = false;
-                            });
-
-                            // Navigator.pushNamed(context, ProfileScreen().routeName);
+                            isApiCallProcess = true;
                           },
                         );
-                      } catch (myError) {
-                        // print("My Error");
-                      }
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
-                      ),
-                      child: Text(
-                        "ورود",
+                        APIService apiService = APIService();
+                        try {
+                          apiService.login(loginRequestModel).then(
+                            (value) {
+                              MySharedPreferences.myShrdPref.setString(
+                                "token",
+                                value.data!.token.toString(),
+                              );
+                              MySharedPreferences.myShrdPref.setString(
+                                "user_data",
+                                jsonEncode(value),
+                              );
+                              print(jsonEncode(value));
+                              setState(
+                                () {
+                                  // isApiCallProcess = false;
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ProfileScreenContent()),
+                                  );
+                                },
+                              );
+                            },
+                            onError: (err) {
+                              // print("Error1" + err);
+                            },
+                          ).whenComplete(
+                            () {
+                              print("Complete");
+                              setState(() {
+                                isApiCallProcess = false;
+                              });
+                              // Navigator.pushNamed(context, ProfileScreen().routeName);
+                            },
+                          );
+                        } catch (myError) {
+                          // print("My Error");
+                        }
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 16,
+                        ),
+                        child: Text(
+                          "ورود",
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignupScreen()),
-                      );
-                    },
-                    child: const Text("اگر عضو نیستید، از اینجا ثبت نام کنید"),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignupScreen()),
+                        );
+                      },
+                      child: const Text("عضو نیستید؟ ثبت نام کنید"),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
+      // ),
     );
   }
 

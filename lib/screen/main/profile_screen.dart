@@ -13,16 +13,12 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    print(MySharedPreferences.myShrdPref.getString('token'));
     bool _loginState = false;
     setState(() {
       _loginState = MySharedPreferences.myShrdPref.getString('token') != null;
-      print(MySharedPreferences.myShrdPref.getString('token') != null);
     });
-    // print(_loginState);
 
     return Scaffold(
-      // body: LoginScreen(),
       body: _loginState ? const ProfileScreenContent() : const LoginScreen(),
     );
   }

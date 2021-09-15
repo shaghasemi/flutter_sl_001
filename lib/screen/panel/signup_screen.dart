@@ -72,7 +72,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         MaterialPageRoute(builder: (context) => const LoginScreen()),
                       );
                     },
-                    child: const Text("اگر عضو هستید از اینجا وارد شوید"),
+                    child: const Text("عضو هستید؟ وارد شوید"),
                   ),
                 ],
               ),
