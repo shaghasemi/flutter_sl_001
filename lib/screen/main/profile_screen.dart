@@ -14,8 +14,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     bool _loginState = false;
+    // bool _loginState = true;
     setState(() {
-      _loginState = MySharedPreferences.myShrdPref.getString('token') != null;
+      _loginState = MySharedPreferences.mySharedPreferences.getString('token') != null;
     });
 
     return Scaffold(

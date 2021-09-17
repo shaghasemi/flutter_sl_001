@@ -1,8 +1,7 @@
-// import 'dart:convert';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-
-// import 'package:flutter_sl_001/data/local/mySharedPref.dart';
-// import 'package:flutter_sl_001/model/LoginModel.dart';
+import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/model/panel/login_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    /*bool _loginState = false;
+    bool _loginState = false;
     var userData;
     var rawData =
         MySharedPreferences.mySharedPreferences.getString('user_data');
@@ -22,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
       userData = LoginResponseModel.fromJson(jsonDecode(
           MySharedPreferences.mySharedPreferences.getString('user_data')!));
       _loginState = true;
-    }*/
+    }
 
     return Scaffold(
       body: NestedScrollView(

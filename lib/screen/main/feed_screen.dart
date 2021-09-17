@@ -14,14 +14,11 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     bool _loginState = false;
     String _loginStringState = "Default";
-    // setState(() {
-    var token = MySharedPreferences.myShrdPref.getString('token');
-    // token == null ? _loginState = true : _loginState = false;
-    /*_loginState = token == null;
+    var token = MySharedPreferences.mySharedPreferences.getString('token');
+    _loginState = token == null;
       _loginState
           ? _loginStringState = "Not Logged In"
-          : _loginStringState = "Logged In";*/
-    // });
+          : _loginStringState = "Logged In";
     updateLoginState() {
       setState(() {
         _loginState = token == null;
@@ -32,8 +29,6 @@ class _FeedScreenState extends State<FeedScreen> {
       return _loginStringState;
     }
 
-    /*String token =
-        MySharedPreferences.mySharedPreferences.getString('token').toString();*/
     return Scaffold(
       appBar: AppBar(
         title: const Text("App Bar: Feed Screen"),
@@ -41,11 +36,10 @@ class _FeedScreenState extends State<FeedScreen> {
       body: Center(
         child: Column(
           children: [
-            // Text("Feed"),
             Text(updateLoginState()),
             ElevatedButton(
               onPressed: () {
-                MySharedPreferences.myShrdPref.clear();
+                MySharedPreferences.mySharedPreferences.clear();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const SignupScreen()));
               },

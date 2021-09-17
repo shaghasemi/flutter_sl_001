@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
-import 'package:flutter_sl_001/screen/panel/login_screen.dart';
+import 'package:flutter_sl_001/screen/main/cart_screen.dart';
+import 'package:flutter_sl_001/screen/main/home_screen.dart';
+import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
+import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
+import 'profile_settings_screen.dart';
+import 'widget/user_info_main_widget.dart';
 
 class ProfileScreenContent extends StatelessWidget {
   const ProfileScreenContent({Key? key}) : super(key: key);
@@ -13,18 +17,19 @@ class ProfileScreenContent extends StatelessWidget {
           SliverAppBar(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                // A button at the top right will access: Settings Screen
-                // 1. FAQ
-                // 2. Contact Us
-                // 3. Submit Error
-                // 4. Rate Us
-                // 5. Logout
-                // 6. How to use
-                // 7. Rights and ...
-                // 8. Log Out
+              children: [
                 Icon(Icons.alarm),
-                Icon(Icons.settings),
+                InkWell(
+                  child: const Icon(Icons.settings),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileSettingsScreen(),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
             snap: true,
@@ -34,61 +39,40 @@ class ProfileScreenContent extends StatelessWidget {
         body: Column(
           children: [
             // Column for user's name and number - personal info display
-            Column(
-              children: [
-                Text("User's Name"),
-                Text("User's Phone Number"),
-              ],
-            ),
+            const SizedBox(height: 20),
+            const UserInfoMainWidget(),
             // Column for orders, with row for different status
-            Column(
-              children: [
-                const Text("My Orders"),
-                Row(
-                  children: [
-                    // Different boxes for orders
-                    Column(
-                      children: [
-                        Image.asset('images/awaiting_payment.png'),
-                        const Text("در انتظار پرداخت"),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Image.asset('images/processing.png'),
-                        const Text("در حال پردازش"),
-                      ],
-                    ),
-                  Column(
-                      children: [
-                        Image.asset('images/processing.png'),
-                        const Text("ارسال شده"),
-                      ],
-                    ),
-                  Column(
-                      children: [
-                        Image.asset('images/processing.png'),
-                        const Text("تحویل شده"),
-                      ],
-                    ),
-                  Column(
-                      children: [
-                        Image.asset('images/processing.png'),
-                        const Text("مرجوعی"),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            const SizedBox(height: 20),
+            const OrderByStatusWidget(),
+
             // Various entries for panel
-            Column(
-              children: const [
-                // Favorites widget,
-                // Comments Widget,
-                // Addresses Widget,
-                // User Info widget: This includes info updates
-              ],
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: const [
+                  ProfileSectionGoToWidget(
+                    title: 'Favorites',
+                    iconName: Icons.favorite_border_outlined,
+                    destination: CartScreen(),
+                  ),
+                  ProfileSectionGoToWidget(
+                    title: 'Comments',
+                    iconName: Icons.comment,
+                    destination: CartScreen(),
+                  ),
+                  ProfileSectionGoToWidget(
+                    title: 'Address List',
+                    iconName: Icons.pattern_sharp,
+                    destination: CartScreen(),
+                  ),
+                  ProfileSectionGoToWidget(
+                    title: 'User Info',
+                    iconName: Icons.person_outline,
+                    destination: CartScreen(),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -6,7 +6,6 @@ import 'package:flutter_sl_001/tab_navigator.dart';
 void main() async {
   await MySharedPreferences.init(); // Initializing Shared Prefs throughout app
   runApp(const MyApp());
-  // runApp(const ProfileScreenContent());
 }
 
 class MyApp extends StatefulWidget {
@@ -19,7 +18,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _currentPage = "Page1";
 
-  // int currentIndex;
   List<String> pageKeys = [
     "Page1",
     "Page2",
@@ -62,10 +60,6 @@ class _MyAppState extends State<MyApp> {
       },
       child: MaterialApp(
         home: Scaffold(
-          /*appBar: AppBar(
-            title: const Text("Sivan Land 0.01"),
-          ),*/
-          // body: screens[currentIndex],
           body: Stack(
             children: <Widget>[
               _buildOffstageNavigator("Page1"),
@@ -112,7 +106,6 @@ class _MyAppState extends State<MyApp> {
     return Offstage(
       offstage: _currentPage != tabItem,
       child: TabNavigator(
-        // navigatorKey:  GlobalKey<NavigatorState>() "Page1",
         navigatorKey: _navigatorKeys[tabItem]!,
         tabItem: tabItem,
       ),

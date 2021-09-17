@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
 import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
 import 'package:flutter_sl_001/screen/panel/signup_screen.dart';
@@ -43,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _uiSetup(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      /*body: NestedScrollView(
+      body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
             title: Row(
@@ -56,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
             snap: true,
             floating: true,
           ),
-        ],*/
+        ],
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -104,11 +103,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         try {
                           apiService.login(loginRequestModel).then(
                             (value) {
-                              MySharedPreferences.myShrdPref.setString(
+                              MySharedPreferences.mySharedPreferences.setString(
                                 "token",
                                 value.data!.token.toString(),
                               );
-                              MySharedPreferences.myShrdPref.setString(
+                              MySharedPreferences.mySharedPreferences.setString(
                                 "user_data",
                                 jsonEncode(value),
                               );
@@ -170,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-      // ),
+      ),
     );
   }
 
