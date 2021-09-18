@@ -6,6 +6,7 @@ import 'package:flutter_sl_001/screen/panel/signup_screen.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
 import 'package:flutter_sl_001/api/api_service.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _uiSetup(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      body: NestedScrollView(
+      /*body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
             title: Row(
@@ -55,54 +56,55 @@ class _LoginScreenState extends State<LoginScreen> {
             snap: true,
             floating: true,
           ),
-        ],
-        body: SingleChildScrollView(
+        ],*/
+      body: Center(
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Form(
               key: globalFormKey,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextFormField(
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        hintText: "شماره تلفن",
-                        prefixIcon: Icon(Icons.phone),
-                      ),
-                      onChanged: (input) {
-                        loginRequestModel.phone = input;
-                      },
-                      autofocus: true,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextFormField(
+                    keyboardType: TextInputType.phone,
+                    decoration: const InputDecoration(
+                      hintText: "شماره تلفن",
+                      prefixIcon: Icon(Icons.phone),
                     ),
-                    const SizedBox(
-                      height: 30,
+                    onChanged: (input) {
+                      loginRequestModel.phone = input;
+                    },
+                    autofocus: true,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: "رمز عبور",
+                      prefixIcon: Icon(Icons.lock),
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: "رمز عبور",
-                        prefixIcon: Icon(Icons.lock),
-                      ),
-                      onChanged: (input) {
-                        loginRequestModel.password = input;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        // var response = {};
-                        setState(
-                          () {
-                            isApiCallProcess = true;
-                          },
-                        );
-                        APIService apiService = APIService();
-                        try {
-                          apiService.login(loginRequestModel).then(
-                            (value) {
+                    onChanged: (input) {
+                      loginRequestModel.password = input;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      // var response = {};
+                      setState(
+                        () {
+                          isApiCallProcess = true;
+                        },
+                      );
+                      APIService apiService = APIService();
+                      try {
+                        apiService.login(loginRequestModel).then(
+                          (value) {
+                            if (value.status == 200) {
                               MySharedPreferences.mySharedPreferences.setString(
                                 "token",
                                 value.data!.token.toString(),
@@ -123,53 +125,66 @@ class _LoginScreenState extends State<LoginScreen> {
                                   );
                                 },
                               );
-                            },
-                            onError: (err) {
-                              // print("Error1" + err);
-                            },
-                          ).whenComplete(
-                            () {
-                              print("Complete");
-                              setState(() {
+                            } else {
+                              // throw Exception('Login Failed!');
+                              Fluttertoast.showToast(
+                                msg: value.message.toString(),
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.CENTER,
+                                // timeInSecForIosWeb: 1,
+                                // backgroundColor: Colors.red,
+                                // textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
+                            }
+                          },
+                          onError: (err) {
+                            // print("Error1" + err);
+                          },
+                        ).whenComplete(
+                          () {
+                            print("Complete");
+                            setState(
+                              () {
                                 isApiCallProcess = false;
-                              });
-                              // Navigator.pushNamed(context, ProfileScreen().routeName);
-                            },
-                          );
-                        } catch (myError) {
-                          // print("My Error");
-                        }
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 32,
-                          vertical: 16,
-                        ),
-                        child: Text(
-                          "ورود",
-                        ),
+                              },
+                            );
+                          },
+                        );
+                      } catch (myError) {
+                        // print("My Error");
+                      }
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 32,
+                        vertical: 16,
+                      ),
+                      child: Text(
+                        "ورود",
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignupScreen()),
-                        );
-                      },
-                      child: const Text("عضو نیستید؟ ثبت نام کنید"),
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignupScreen()),
+                      );
+                    },
+                    child: const Text("عضو نیستید؟ ثبت نام کنید"),
+                  ),
+                ],
               ),
             ),
           ),
         ),
       ),
+      // ),
     );
   }
 

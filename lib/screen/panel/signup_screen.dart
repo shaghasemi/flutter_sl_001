@@ -1,5 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/api/api_service.dart';
+import 'package:flutter_sl_001/model/panel/signup_model.dart';
+import 'package:flutter_sl_001/progress_hud.dart';
 import 'package:flutter_sl_001/screen/panel/login_screen.dart';
+
+import 'profile_screen_content.dart';
+import 'validate_signup_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -11,32 +19,51 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  late SignupRequestModel signupRequestModel; //late
+  bool isApiCallProcess = false;
+
   // Check if form is valid
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    signupRequestModel = SignupRequestModel(phone: '', password: '');
+  }
+
+  @override
   Widget build(BuildContext context) {
+    return ProgressHUD(
+      child: _uiSetup(context),
+      isAsyncCall: isApiCallProcess,
+      opacity: 0.3,
+    );
+  }
+
+  @override
+  Widget _uiSetup(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        title: Center(
-          child: Text("ثبت نام"),
-        ),
-      ),*/
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: globalFormKey,
-            child: Center(
+      key: scaffoldKey,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Form(
+              key: globalFormKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TextFormField(
+                    keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
                       hintText: "شماره تلفن",
                       prefixIcon: Icon(Icons.phone),
                     ),
                     autofocus: true,
+                    onChanged: (input) {
+                      signupRequestModel.phone = input;
+                    },
                   ),
                   const SizedBox(
                     height: 30,
@@ -46,12 +73,76 @@ class _SignupScreenState extends State<SignupScreen> {
                       hintText: "رمز عبور",
                       prefixIcon: Icon(Icons.lock),
                     ),
+                    onChanged: (input) {
+                      signupRequestModel.password = input;
+                    },
                   ),
                   const SizedBox(
                     height: 30,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      setState(
+                        () {
+                          isApiCallProcess = true;
+                        },
+                      );
+                      APIService apiService = APIService();
+                      try {
+                        apiService.signup(signupRequestModel).then(
+                          (value) {
+                            setState(
+                              () {
+                                if (value.status == 200) {
+                                  // isApiCallProcess = false;
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ValidateSignupScreen(
+                                                passedPhoneNumber:
+                                                    signupRequestModel.phone)),
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      // return object of type Dialog
+                                      return AlertDialog(
+                                        title: Text(value.error.toString()),
+                                        content: Text(value.message.toString()),
+                                        actions: <Widget>[
+                                          // usually buttons at the bottom of the dialog
+                                          ElevatedButton(
+                                            child: const Text("Close"),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                            );
+                          },
+                          onError: (err) {
+                            print("On Error:" + err);
+                          },
+                        ).whenComplete(
+                          () {
+                            setState(
+                              () {
+                                isApiCallProcess = false;
+                              },
+                            );
+                          },
+                        );
+                      } catch (myError) {
+                        print("Try/Catch Error");
+                      }
+                    },
                     child: const Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 32,
@@ -69,7 +160,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
                       );
                     },
                     child: const Text("عضو هستید؟ وارد شوید"),

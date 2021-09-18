@@ -59,6 +59,7 @@ class _MyAppState extends State<MyApp> {
         return isFirstRouteInCurrentTab;
       },
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
           body: Stack(
             children: <Widget>[

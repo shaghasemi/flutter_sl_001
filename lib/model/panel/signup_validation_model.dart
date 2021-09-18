@@ -1,9 +1,9 @@
 
-class SignupRequestValidationModel {
+class ValidateSignupRequestModel {
   String phone;
   String code;
 
-  SignupRequestValidationModel({
+  ValidateSignupRequestModel({
     required this.phone,
     required this.code,
   });
@@ -17,7 +17,7 @@ class SignupRequestValidationModel {
     return map;
   }*/
 
-  SignupRequestValidationModel.fromJson(Map<String, dynamic> json)
+  ValidateSignupRequestModel.fromJson(Map<String, dynamic> json)
       : phone = json['mobile'],
         code = json['code'];
 
@@ -27,20 +27,20 @@ class SignupRequestValidationModel {
       };
 }
 
-class SignupResponseValidationModel {
+class ValidateSignupResponseModel {
   String? message;
   List<dynamic>? error;
   bool? success;
   int? status;
 
-  SignupResponseValidationModel({
+  ValidateSignupResponseModel({
     this.message,
     this.error,
     this.success,
     this.status,
   });
 
-  SignupResponseValidationModel.fromJson(dynamic json) {
+  ValidateSignupResponseModel.fromJson(dynamic json) {
     message = json['message'];
     error = json['error'];
     success = json['success'];

@@ -18,6 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       _loginState = MySharedPreferences.mySharedPreferences.getString('token') != null;
     });
+    print(_loginState);
 
     return Scaffold(
       body: _loginState ? const ProfileScreenContent() : const LoginScreen(),

@@ -4,6 +4,7 @@ import 'package:flutter_sl_001/screen/main/home_screen.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
 import 'profile_settings_screen.dart';
+import 'user_info_screen.dart';
 import 'widget/user_info_main_widget.dart';
 
 class ProfileScreenContent extends StatelessWidget {
@@ -69,7 +70,7 @@ class ProfileScreenContent extends StatelessWidget {
                   ProfileSectionGoToWidget(
                     title: 'User Info',
                     iconName: Icons.person_outline,
-                    destination: CartScreen(),
+                    destination: UserInfoScreen(),
                   ),
                 ],
               ),
