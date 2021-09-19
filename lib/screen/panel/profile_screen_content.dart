@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
 import 'package:flutter_sl_001/screen/main/home_screen.dart';
+import 'package:flutter_sl_001/screen/panel/user_info_screen_temp.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
 import 'profile_settings_screen.dart';
@@ -70,7 +71,8 @@ class ProfileScreenContent extends StatelessWidget {
                   ProfileSectionGoToWidget(
                     title: 'User Info',
                     iconName: Icons.person_outline,
-                    destination: UserInfoScreen(),
+                    // destination: UserInfoScreen(),
+                    destination: UserInfoScreenTemp(),
                   ),
                 ],
               ),

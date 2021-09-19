@@ -24,7 +24,7 @@ class UserInfoScreen extends StatelessWidget {
               ),
               content: 'محتوای نام کاربر',
             ),
-          InfoViewEditWidget(
+            InfoViewEditWidget(
               title: 'نام کاربر',
               destination: UserInfoEditScreen(
                 title: 'عنوان ویرایش',
@@ -33,7 +33,7 @@ class UserInfoScreen extends StatelessWidget {
               ),
               content: 'محتوای نام کاربر',
             ),
-          InfoViewEditWidget(
+            InfoViewEditWidget(
               title: 'نام کاربر',
               destination: UserInfoEditScreen(
                 title: 'عنوان ویرایش',
