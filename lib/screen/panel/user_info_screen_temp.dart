@@ -91,22 +91,41 @@ class _UserInfoScreenTempState extends State<UserInfoScreenTemp> {
   }
 
   Widget _uiSetup(BuildContext context) {
-    return SafeArea(
-      child: SizedBox(
-        height: 400,
-        // width: 100,
-        child: ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: infoList.length,
-          itemBuilder: (context, i) {
-            return ListTile(
-              title: Text(infoList[i]['key']),
-              leading: Text(infoList[i]['value'].toString()),
-              // title: Text("Hey"),
-            );
-          },
-        ),
+    return Container(
+      // color: Colors.yellow,
+      // constraints: BoxConstraints(minWidth: 150, minHeight: 250),
+      // height: 300,
+      // width: double.infinity,
+      // width: 200,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: infoList.length,
+              itemBuilder: (context, i) {
+                return ListTile(
+                  leading: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {},
+                    child: Container(
+                      width: 100,
+                      // height: 20,
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      alignment: Alignment.center,
+                      child: Text(infoList[i]['value'].toString()),
+                    ),
+                  ),
+                  title: Text(infoList[i]['key']),
+                  dense: false,
+                  // leading: Text(infoList[i]['value'].toString()),
+                  // title: Text("Hey"),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
