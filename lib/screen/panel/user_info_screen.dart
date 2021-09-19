@@ -17,17 +17,38 @@ class UserInfoScreen extends StatelessWidget {
             SizedBox(height: 50),
             InfoViewEditWidget(
               title: 'نام کاربر',
-              destination: UserInfoEditScreen(),
+              destination: UserInfoEditScreen(
+                title: 'عنوان ویرایش',
+                hint: 'متن داخل ویرایشگر',
+                content: 'راهنما (اختیاری)',
+              ),
+              content: 'محتوای نام کاربر',
+            ),
+          InfoViewEditWidget(
+              title: 'نام کاربر',
+              destination: UserInfoEditScreen(
+                title: 'عنوان ویرایش',
+                hint: 'متن داخل ویرایشگر',
+                content: 'راهنما (اختیاری)',
+              ),
+              content: 'محتوای نام کاربر',
+            ),
+          InfoViewEditWidget(
+              title: 'نام کاربر',
+              destination: UserInfoEditScreen(
+                title: 'عنوان ویرایش',
+                hint: 'متن داخل ویرایشگر',
+                content: 'راهنما (اختیاری)',
+              ),
               content: 'محتوای نام کاربر',
             ),
             InfoViewEditWidget(
               title: 'نام کاربر',
-              destination: UserInfoEditScreen(),
-              content: 'محتوای نام کاربر',
-            ),
-            InfoViewEditWidget(
-              title: 'نام کاربر',
-              destination: UserInfoEditScreen(),
+              destination: UserInfoEditScreen(
+                title: 'عنوان ویرایش',
+                hint: 'متن داخل ویرایشگر',
+                content: 'راهنما (اختیاری)',
+              ),
               content: 'محتوای نام کاربر',
             ),
           ],
