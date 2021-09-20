@@ -90,8 +90,7 @@ class Data {
     id = json['_id'];
     trackingCode = json['tracking_code'];
     mobile = json['mobile'];
-    userId =
-        json['user_id'] != null ? UserId.fromJson(json['user_id']) : null;
+    userId = json['user_id'] != null ? UserId.fromJson(json['user_id']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     v = json['__v'];

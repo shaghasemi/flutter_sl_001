@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_sl_001/model/order/order_all_model.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
@@ -90,5 +91,27 @@ class APIService {
     }*/
     // print(UserInfoResponseModel.fromJson(json.decode(response.body)));
     return UserInfoResponseModel.fromJson(json.decode(response.body));
+  }
+
+  Future<OrderAllResponseModel> orderAll(
+    OrderAllRequestModel orderAllRequestModel,
+  ) async {
+    String url = "${baseURLV1}${userRole}order/all";
+    final response = await http.get(
+      Uri.parse(url),
+      // body: userInfoRequestModel.toJson(),
+      headers: {
+        'x-access-token': orderAllRequestModel.token,
+      },
+    );
+    /* if (response.statusCode == 200 || response.statusCode == 400) {
+      return LoginResponseModel.fromJson(json.decode(response.body));
+    } else {
+      print("Error from API Service");
+      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
+      throw Exception('Failed to Login');
+    }*/
+    // print(UserInfoResponseModel.fromJson(json.decode(response.body)));
+    return OrderAllResponseModel.fromJson(json.decode(response.body));
   }
 }
