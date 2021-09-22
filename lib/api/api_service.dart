@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_sl_001/model/order/order_all_model.dart';
+import 'package:flutter_sl_001/model/panel/change_password_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_send_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_validate_model.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
@@ -132,6 +133,29 @@ class APIService {
       throw Exception('Failed to load data');
     }*/
     return ForgetCodeValidateResponseModel.fromJson(json.decode(response.body));
+  }
+
+  // Change Password
+  Future<ChangePasswordResponseModel> changePassword(
+      ChangePasswordRequestModel changePasswordRequestModel) async {
+    String url = "${baseURLV1}${userRole}password/changer";
+    final response = await http.put(
+      Uri.parse(url),
+      body: changePasswordRequestModel.toJson(),
+      headers: {
+        'x-access-token': changePasswordRequestModel.token,
+      },
+    );
+    /*if (response.statusCode == 200 || response.statusCode == 400) {
+      var resendCodeResponse =
+          ResendCodeResponseModel.fromJson(json.decode(response.body));
+      return resendCodeResponse;
+    } else {
+      print("Error from API Service");
+      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
+      throw Exception('Failed to load data');
+    }*/
+    return ChangePasswordResponseModel.fromJson(json.decode(response.body));
   }
 
   // get User Info

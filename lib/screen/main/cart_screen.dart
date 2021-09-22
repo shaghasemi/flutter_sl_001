@@ -20,6 +20,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+    orderListInfo = [];
     orderAllRequestModel = OrderAllRequestModel(
         token: MySharedPreferences.mySharedPreferences.getString("token")!);
     apiService.orderAll(orderAllRequestModel).then(

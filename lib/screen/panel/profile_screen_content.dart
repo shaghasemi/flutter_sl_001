@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
 import 'package:flutter_sl_001/screen/main/home_screen.dart';
+import 'package:flutter_sl_001/screen/panel/password_change_screen.dart';
 import 'package:flutter_sl_001/screen/panel/user_info_screen_temp.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
@@ -34,7 +35,6 @@ class ProfileScreenContent extends StatelessWidget {
                 },
               ),
             ],
-
             snap: true,
             floating: true,
           )
@@ -74,6 +74,12 @@ class ProfileScreenContent extends StatelessWidget {
                     iconName: Icons.person_outline,
                     // destination: UserInfoScreen(),
                     destination: UserInfoScreenTemp(),
+                  ),
+                  ProfileSectionGoToWidget(
+                    title: 'تغییر رمز عبور',
+                    iconName: Icons.person_outline,
+                    // destination: UserInfoScreen(),
+                    destination: ChangePasswordScreen(),
                   ),
                 ],
               ),
