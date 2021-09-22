@@ -4,7 +4,8 @@ import 'package:flutter_sl_001/screen/panel/login_screen.dart';
 import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({bool? shouldRebuild = false, Key? key})
+      : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -16,7 +17,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     bool _loginState = false;
     // bool _loginState = true;
     setState(() {
-      _loginState = MySharedPreferences.mySharedPreferences.getString('token') != null;
+      _loginState =
+          MySharedPreferences.mySharedPreferences.getString('token') != null;
     });
     print(_loginState);
 

@@ -117,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               setState(
                                 () {
                                   // isApiCallProcess = false;
+                                  Navigator.pop(context);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -162,6 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: Text(
                         "ورود",
+                        style: TextStyle(fontFamily: 'Vazir', fontSize: 20),
                       ),
                     ),
                   ),

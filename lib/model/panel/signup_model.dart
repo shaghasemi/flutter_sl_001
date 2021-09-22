@@ -7,15 +7,6 @@ class SignupRequestModel {
     required this.password,
   });
 
-  // This was working. The method down low is new and untested
-  /*Map<String, dynamic> toJson() {
-    Map<String, String> map = {
-      "mobile": phone.trim(),
-      "password": password.trim(),
-    };
-    return map;
-  }*/
-
   SignupRequestModel.fromJson(Map<String, dynamic> json)
       : phone = json['mobile'],
         password = json['password'];

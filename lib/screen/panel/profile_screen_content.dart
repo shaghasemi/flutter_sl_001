@@ -17,23 +17,24 @@ class ProfileScreenContent extends StatelessWidget {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Icon(Icons.alarm),
-                InkWell(
-                  child: const Icon(Icons.settings),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProfileSettingsScreen(),
-                      ),
-                    );
-                  },
-                ),
-              ],
+            leading: IconButton(
+              icon: const Icon(Icons.ring_volume),
+              onPressed: () {},
             ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileSettingsScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
+
             snap: true,
             floating: true,
           )
@@ -54,22 +55,22 @@ class ProfileScreenContent extends StatelessWidget {
               child: Column(
                 children: const [
                   ProfileSectionGoToWidget(
-                    title: 'Favorites',
+                    title: 'علاقمندی',
                     iconName: Icons.favorite_border_outlined,
                     destination: CartScreen(),
                   ),
                   ProfileSectionGoToWidget(
-                    title: 'Comments',
+                    title: 'نظرات',
                     iconName: Icons.comment,
                     destination: CartScreen(),
                   ),
                   ProfileSectionGoToWidget(
-                    title: 'Address List',
+                    title: 'نشانی',
                     iconName: Icons.pattern_sharp,
                     destination: CartScreen(),
                   ),
                   ProfileSectionGoToWidget(
-                    title: 'User Info',
+                    title: 'اطلاعات کاربر',
                     iconName: Icons.person_outline,
                     // destination: UserInfoScreen(),
                     destination: UserInfoScreenTemp(),

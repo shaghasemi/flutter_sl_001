@@ -27,8 +27,20 @@ class _HomeScreenState extends State<HomeScreen> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           const SliverAppBar(
-            title: Text("App Bar: Home Screen"),
+            title: Text(
+              "سیوان لند",
+              style: TextStyle(
+                // color: Color(0xff28a745),
+                fontWeight: FontWeight.bold,
+                // fontFamily: 'fonts/Vazir.ttf'
+                fontFamily: 'Vazir'
+                // fontFamily: 'Mitra_1.ttf'
+                // fontFamily: 'Vazir.ttf'
+              ),
+            ),
+            backgroundColor: Color(0xff28a745),
             snap: true,
+            centerTitle: true,
             floating: true,
           ),
         ],

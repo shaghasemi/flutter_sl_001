@@ -23,7 +23,7 @@ class ValidateSignupRequestModel {
 
   Map<String, dynamic> toJson() => {
         "mobile": phone.trim(),
-        "password": code.trim(),
+        "code": code.trim(),
       };
 }
 

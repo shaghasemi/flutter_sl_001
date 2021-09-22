@@ -5,7 +5,7 @@ import 'package:flutter_sl_001/tab_navigator.dart';
 
 void main() async {
   await MySharedPreferences.init(); // Initializing Shared Prefs throughout app
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -34,7 +34,9 @@ class _MyAppState extends State<MyApp> {
   };
 
   void _selectTab(String tabItem, int index) {
-    if (tabItem == _currentPage) {
+    /*if (tabItem == _currentPage && tabItem == "Page4") {
+      _navigatorKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
+    } else*/ if (tabItem == _currentPage) {
       _navigatorKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
     } else {
       setState(() {
@@ -60,6 +62,10 @@ class _MyAppState extends State<MyApp> {
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Vazir',
+          primaryColor: const Color(0xff222222),
+        ),
         home: Scaffold(
           body: Stack(
             children: <Widget>[

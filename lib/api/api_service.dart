@@ -55,7 +55,6 @@ class APIService {
   Future<ValidateSignupResponseModel> validateSignup(
       ValidateSignupRequestModel validateSignupRequestModel) async {
     String url = "${baseURLV1}${userRole}signup/code/Validation";
-    print(url);
     final response = await http.post(
       Uri.parse(url),
       body: validateSignupRequestModel.toJson(),
@@ -69,7 +68,7 @@ class APIService {
       // return LoginResponseErrorModel.fromJson(json.decode(response.body));
       throw Exception('Failed to load data');
     }
-    // return SignupResponseModel.fromJson(json.decode(response.body));
+    // return ValidateSignupResponseModel.fromJson(json.decode(response.body));
   }
 
   Future<UserInfoResponseModel> userInfo(
