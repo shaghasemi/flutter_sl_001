@@ -16,9 +16,9 @@ class _FeedScreenState extends State<FeedScreen> {
     String _loginStringState = "Default";
     var token = MySharedPreferences.mySharedPreferences.getString('token');
     _loginState = token == null;
-      _loginState
-          ? _loginStringState = "Not Logged In"
-          : _loginStringState = "Logged In";
+    _loginState
+        ? _loginStringState = "Not Logged In"
+        : _loginStringState = "Logged In";
     updateLoginState() {
       setState(() {
         _loginState = token == null;
@@ -40,8 +40,12 @@ class _FeedScreenState extends State<FeedScreen> {
             ElevatedButton(
               onPressed: () {
                 MySharedPreferences.mySharedPreferences.clear();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const SignupScreen()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SignupScreen(),
+                  ),
+                );
               },
               child: const Text("Log Out"),
             )

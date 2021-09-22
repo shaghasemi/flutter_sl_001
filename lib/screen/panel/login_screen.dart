@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/screen/panel/forgot_code_screen.dart';
 import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
 import 'package:flutter_sl_001/screen/panel/signup_screen.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
@@ -175,10 +176,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SignupScreen()),
+                          builder: (context) => const SignupScreen(),
+                        ),
                       );
                     },
-                    child: const Text("عضو نیستید؟ ثبت نام کنید"),
+                    child: const Text("ثبت نام"),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotCodeScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("فراموشی رمز عبور"),
                   ),
                 ],
               ),
