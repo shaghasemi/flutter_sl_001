@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
 import 'package:flutter_sl_001/screen/main/home_screen.dart';
 import 'package:flutter_sl_001/screen/panel/password_change_screen.dart';
@@ -9,8 +13,16 @@ import 'profile_settings_screen.dart';
 import 'user_info_screen.dart';
 import 'widget/user_info_main_widget.dart';
 
-class ProfileScreenContent extends StatelessWidget {
+class ProfileScreenContent extends StatefulWidget {
   const ProfileScreenContent({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileScreenContent> createState() => _ProfileScreenContentState();
+}
+
+class _ProfileScreenContentState extends State<ProfileScreenContent> {
+  late var userInfoRaw;
+  late LoginResponseModel userInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +31,7 @@ class ProfileScreenContent extends StatelessWidget {
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
             leading: IconButton(
-              icon: const Icon(Icons.ring_volume),
+              icon: const Icon(Icons.alarm),
               onPressed: () {},
             ),
             actions: [
@@ -41,9 +53,27 @@ class ProfileScreenContent extends StatelessWidget {
         ],
         body: Column(
           children: [
+            ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    userInfoRaw = jsonDecode(
+                      MySharedPreferences.mySharedPreferences
+                          .getString("user_data")!,
+                    );
+                    print(userInfoRaw['data']);
+                    print(userInfoRaw.runtimeType);
+                    userInfo = jsonDecode(userInfoRaw);
+                    print(userInfo);
+                    print(userInfo.runtimeType);
+                  });
+                },
+                child: Text("Check Data")),
             // Column for user's name and number - personal info display
             const SizedBox(height: 20),
-            const UserInfoMainWidget(),
+            const UserInfoMainWidget(
+              userName: 'User Name',
+              userPhone: 'Phone Number',
+            ),
             // Column for orders, with row for different status
             const SizedBox(height: 20),
             const OrderByStatusWidget(),
@@ -66,7 +96,7 @@ class ProfileScreenContent extends StatelessWidget {
                   ),
                   ProfileSectionGoToWidget(
                     title: 'نشانی',
-                    iconName: Icons.pattern_sharp,
+                    iconName: Icons.map,
                     destination: CartScreen(),
                   ),
                   ProfileSectionGoToWidget(
@@ -77,7 +107,7 @@ class ProfileScreenContent extends StatelessWidget {
                   ),
                   ProfileSectionGoToWidget(
                     title: 'تغییر رمز عبور',
-                    iconName: Icons.person_outline,
+                    iconName: Icons.lock,
                     // destination: UserInfoScreen(),
                     destination: ChangePasswordScreen(),
                   ),

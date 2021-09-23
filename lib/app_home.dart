@@ -67,22 +67,22 @@ class _AppHomeState extends State<AppHome> {
           currentIndex: _selectedIndex,
           items: const [
             BottomNavigationBarItem(
-              label: "Home",
+              label: "خانه",
               icon: Icon(Icons.home),
               backgroundColor: Colors.blueAccent,
             ),
             BottomNavigationBarItem(
-              label: "Cart",
+              label: "سبد خرید",
               icon: Icon(Icons.shopping_cart),
               backgroundColor: Colors.blueAccent,
             ),
             BottomNavigationBarItem(
-              label: "Feed",
+              label: "دسته بندی",
               icon: Icon(Icons.feed),
               backgroundColor: Colors.blueAccent,
             ),
             BottomNavigationBarItem(
-              label: "Profile",
+              label: "سیوان من",
               icon: Icon(Icons.person),
               backgroundColor: Colors.blueAccent,
             ),
