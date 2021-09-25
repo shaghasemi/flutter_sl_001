@@ -9,7 +9,7 @@ class OrderByStatusWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text("My Orders"),
+        const Text("سفارشات من"),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           reverse: true,

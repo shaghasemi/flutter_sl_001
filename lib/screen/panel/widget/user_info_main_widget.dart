@@ -4,7 +4,7 @@ class UserInfoMainWidget extends StatelessWidget {
   final String userName;
   final String userPhone;
 
-  const UserInfoMainWidget({
+  UserInfoMainWidget({
     Key? key,
     required this.userName,
     required this.userPhone,
