@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
-import 'package:flutter_sl_001/screen/main/feed_screen.dart';
+import 'package:flutter_sl_001/screen/main/category_screen.dart';
 import 'package:flutter_sl_001/screen/main/home_screen.dart';
 import 'package:flutter_sl_001/screen/main/profile_screen.dart';
 
@@ -23,7 +23,7 @@ class TabNavigator extends StatelessWidget {
     } else if (tabItem == "Page2") {
       child = const CartScreen();
     } else if (tabItem == "Page3") {
-      child = const FeedScreen();
+      child = const CategoryScreen();
     } else if (tabItem == "Page4") {
       child = const ProfileScreen();
     }

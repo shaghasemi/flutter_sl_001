@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
     bool _loginState = false;
     var userData;
     var rawData =
-        MySharedPreferences.mySharedPreferences.getString('user_data');
+    MySharedPreferences.mySharedPreferences.getString('user_data');
     if (rawData != null) {
       userData = LoginResponseModel.fromJson(jsonDecode(
           MySharedPreferences.mySharedPreferences.getString('user_data')!));
@@ -25,17 +25,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScroller) => [
+        headerSliverBuilder: (context, innerBoxIsScroller) =>
+        [
           const SliverAppBar(
             title: Text(
               "سیوان لند",
               style: TextStyle(
                 // color: Color(0xff28a745),
-                fontWeight: FontWeight.bold,
-                // fontFamily: 'fonts/Vazir.ttf'
-                fontFamily: 'Vazir'
-                // fontFamily: 'Mitra_1.ttf'
-                // fontFamily: 'Vazir.ttf'
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Vazir'
               ),
             ),
             backgroundColor: Color(0xff28a745),
@@ -44,201 +42,26 @@ class _HomeScreenState extends State<HomeScreen> {
             floating: true,
           ),
         ],
-        body: ListView(
-          children: const [
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("TTTTWWWWW"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-            ListTile(
-              title: Text("One"),
-            ),
-          ],
+        body: Column(
+          children:[
+            // Image Slider - Advertisement
+
+            // Popular Categories
+            Row(),
+
+            // New Products
+            // Listview Horizontal
+
+            // Static Advertisement
+            // ListView Vertical
+
+            // Special Products
+            // Listview Horizontal
+
+            // Top Sellers
+            // Listview Horizontal
+
+          ]
         ),
       ),
     );

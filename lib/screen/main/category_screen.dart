@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/screen/helper/under_construction.dart';
 import 'package:flutter_sl_001/screen/panel/signup_screen.dart';
 
-class FeedScreen extends StatefulWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+class CategoryScreen extends StatefulWidget {
+  const CategoryScreen({Key? key}) : super(key: key);
 
   @override
-  State<FeedScreen> createState() => _FeedScreenState();
+  State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
+class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
-    bool _loginState = false;
+    /*bool _loginState = false;
     String _loginStringState = "Default";
     var token = MySharedPreferences.mySharedPreferences.getString('token');
     _loginState = token == null;
@@ -27,31 +28,17 @@ class _FeedScreenState extends State<FeedScreen> {
             : _loginStringState = "Logged In";
       });
       return _loginStringState;
-    }
+    }*/
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("App Bar: Feed Screen"),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            Text(updateLoginState()),
-            ElevatedButton(
-              onPressed: () {
-                MySharedPreferences.mySharedPreferences.clear();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SignupScreen(),
-                  ),
-                );
-              },
-              child: const Text("Log Out"),
-            )
-          ],
+        title: const Text(
+          "دسته بندی",
+          style: TextStyle(fontFamily: 'Vazir'),
         ),
+        centerTitle: true,
       ),
+      body: const UnderConstructionScreen(),
     );
   }
 }

@@ -79,8 +79,7 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
             const OrderByStatusWidget(),
             // Various entries for panel
             const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+            Expanded(
               child: Column(
                 children: const [
                   ProfileSectionGoToWidget(

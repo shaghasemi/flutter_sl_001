@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/app_home.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
 import 'package:flutter_sl_001/main.dart';
 import 'package:flutter_sl_001/screen/main/profile_screen.dart';
@@ -21,6 +22,9 @@ class _LogoutGlobalScreenState extends State<LogoutGlobalScreen> {
             setState(
               () {
                 MySharedPreferences.mySharedPreferences.clear();
+                // Here we need to handle events that rely on login status
+                // Cart Screen should be refreshed
+                // AppHome.build
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const LoginScreen()),

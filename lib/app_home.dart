@@ -53,10 +53,10 @@ class _AppHomeState extends State<AppHome> {
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-            _buildOffstageNavigator("Page1"),
-            _buildOffstageNavigator("Page2"),
-            _buildOffstageNavigator("Page3"),
-            _buildOffstageNavigator("Page4"),
+            buildOffstageNavigator("Page1"),
+            buildOffstageNavigator("Page2"),
+            buildOffstageNavigator("Page3"),
+            buildOffstageNavigator("Page4"),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -92,7 +92,7 @@ class _AppHomeState extends State<AppHome> {
     );
   }
 
-  Widget _buildOffstageNavigator(String tabItem) {
+  Widget buildOffstageNavigator(String tabItem) {
     return Offstage(
       offstage: _currentPage != tabItem,
       child: TabNavigator(

@@ -232,8 +232,6 @@ class _SignupScreenState extends State<SignupScreen> {
                         },
                       );
                       APIService validateApiService = APIService();
-                      print(validateSignupRequestModel.phone);
-                      print(validateSignupRequestModel.code);
                       try {
                         validateApiService
                             .validateSignup(validateSignupRequestModel)
@@ -287,7 +285,6 @@ class _SignupScreenState extends State<SignupScreen> {
                         );
                       } catch (myError) {
                         print("Try/Catch Error");
-                        print(myError);
                         print(myError.toString());
                       }
                     },

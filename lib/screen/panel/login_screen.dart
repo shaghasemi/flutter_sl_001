@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
 
   late LoginRequestModel loginRequestModel; //late
-  bool isApiCallProcess = false;
+  bool _isApiCallProcess = false;
 
   @override
   void initState() {
@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return ProgressHUD(
       child: _uiSetup(context),
-      isAsyncCall: isApiCallProcess,
+      isAsyncCall: _isApiCallProcess,
       opacity: 0.3,
     );
   }
@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       // var response = {};
                       setState(
                         () {
-                          isApiCallProcess = true;
+                          _isApiCallProcess = true;
                         },
                       );
                       APIService apiService = APIService();
@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             print("Complete");
                             setState(
                               () {
-                                isApiCallProcess = false;
+                                _isApiCallProcess = false;
                               },
                             );
                           },
