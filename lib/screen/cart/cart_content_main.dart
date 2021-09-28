@@ -17,7 +17,6 @@ class CartContent extends StatefulWidget {
 class _CartContentState extends State<CartContent> {
   APIService apiService = APIService();
   late OrderAllRequestModel orderAllRequestModel; //late
-  bool isApiCallProcess = false;
   bool loginState = false;
   late List<Data> orderListInfo;
   bool _isApiCallProcess = true;
@@ -25,23 +24,9 @@ class _CartContentState extends State<CartContent> {
   @override
   void initState() {
     super.initState();
-    orderAllRequestModel = OrderAllRequestModel(token: '');
+    orderAllRequestModel = OrderAllRequestModel(token: widget.token);
     // orderListInfo = List as List<Data>;
     orderListInfo = [];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ProgressHUD(
-      child: _uiSetup(context),
-      isAsyncCall: _isApiCallProcess,
-      opacity: 0.3,
-    );
-  }
-
-  Widget _uiSetup(BuildContext context) {
-    orderAllRequestModel.token = widget.token;
-    // print(orderAllRequestModel.token);
     apiService.orderAll(orderAllRequestModel).then(
       (value) {
         setState(() {
@@ -58,6 +43,36 @@ class _CartContentState extends State<CartContent> {
         }
       },
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ProgressHUD(
+      child: _uiSetup(context),
+      isAsyncCall: _isApiCallProcess,
+      opacity: 0.3,
+    );
+  }
+
+  Widget _uiSetup(BuildContext context) {
+    // orderAllRequestModel.token = widget.token;
+    // print(orderAllRequestModel.token);
+    /*apiService.orderAll(orderAllRequestModel).then(
+      (value) {
+        setState(() {
+          _isApiCallProcess = false;
+        });
+        print("Requested order list");
+        if (value.status == 200) {
+          print(value.toJson());
+          orderListInfo = value.data!;
+          MySharedPreferences.mySharedPreferences.setString(
+            "order_data",
+            value.data!.toString(),
+          );
+        }
+      },
+    );*/
     // return Text("Waiting on Result from Order Collection");
     return ListView.builder(
       itemCount: orderListInfo.length,

@@ -15,83 +15,27 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  late String? token;
+  // late String? token;
   APIService apiService = APIService();
   late OrderAllRequestModel orderAllRequestModel; //late
   bool isApiCallProcess = false;
   bool loginState = false;
-  // late List<Data> orderListInfo;
-
-  /* @override
-  void initState() {
-    super.initState();
-    orderListInfo = [];
-    token = MySharedPreferences.mySharedPreferences.getString("token");
-    print(token);
-    loginState = token != "";
-    // orderAllRequestModel = OrderAllRequestModel(token: token);
-    orderAllRequestModel.token = token!;
-    apiService.orderAll(orderAllRequestModel).then(
-      (value) {
-        if (value.status == 200) {
-          print(value.toJson());
-          orderListInfo = value.data!;
-          MySharedPreferences.mySharedPreferences.setString(
-            "order_data",
-            value.data!.toString(),
-          );
-        } else {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              // return object of type Dialog
-              return AlertDialog(
-                // title: Text(value.error.toString()),
-                content: Text(value.message.toString()),
-                actions: <Widget>[
-                  // usually buttons at the bottom of the dialog
-                  ElevatedButton(
-                    child: const Text("Close"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        }
-        isApiCallProcess = false;
-      },
-    );
-  }*/
-
-  /*@override
-  void initState() {
-    super.initState();
-    orderAllRequestModel = OrderAllRequestModel(token: '');
-  }*/
-
-  /*@override
-  void didUpdateWidget(covariant CartScreen oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-  }
+  String? token = MySharedPreferences.mySharedPreferences.getString("token");
 
   @override
-  void setState(VoidCallback fn) {
-    // TODO: implement setState
-    super.setState(fn);
-  }*/
+  void initState() {
+    super.initState();
+    loginState = checkLoginState(token);
+  }
 
   @override
   Widget build(BuildContext context) {
     // orderListInfo = [];
-    token = MySharedPreferences.mySharedPreferences.getString("token");
+    // token = MySharedPreferences.mySharedPreferences.getString("token");
     /*setState(() {
       token = MySharedPreferences.mySharedPreferences.getString("token");
     });*/
-    loginState = token != null;
+    // loginState = token != null;
 
     return Scaffold(
       body: NestedScrollView(
@@ -111,7 +55,9 @@ class _CartScreenState extends State<CartScreen> {
             actions: [
               IconButton(
                   onPressed: () {
-                    setState(() {});
+                    setState(() {
+                      loginState = token != null;
+                    });
                   },
                   icon: const Icon(Icons.refresh))
             ],
@@ -119,12 +65,16 @@ class _CartScreenState extends State<CartScreen> {
         ],
         body: loginState == false
             ? const RequestLoginScreen()
-            :
-            // UnderConstructionScreen()
-        CartContent(
-                token: token.toString(),
-              ),
+            : CartContent(token: token.toString()),
       ),
     );
+  }
+}
+
+checkLoginState(String? token) {
+  if (token != null) {
+    return true;
+  } else {
+    return false;
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/app_home.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
 import 'package:flutter_sl_001/screen/panel/forgot_code_screen.dart';
 import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
@@ -117,7 +118,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               print(jsonEncode(value));
                               setState(
                                 () {
-                                  // isApiCallProcess = false;
                                   Navigator.pop(context);
                                   Navigator.push(
                                     context,
@@ -125,6 +125,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                         builder: (context) =>
                                             const ProfileScreenContent()),
                                   );
+                                  /*Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const AppHome(),
+                                    ),
+                                    (route) => false,
+                                  );*/
                                 },
                               );
                             } else {
