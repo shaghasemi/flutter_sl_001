@@ -17,6 +17,9 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   bool loginState = false;
   late List<Data> categoryListInfo;
   late List<Data> categoryListMain;
+  late List<Data> categorySubOne;
+  late List<Data> categorySubTwo;
+  late List<Data> categorySubOneTemp;
   bool _isApiCallProcess = true;
   String? token = MySharedPreferences.mySharedPreferences.getString("token");
 
@@ -26,6 +29,9 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
     categoryAllRequestModel = CategoryAllRequestModel(token: token!);
     categoryListInfo = [];
     categoryListMain = [];
+    categorySubOne = [];
+    categorySubTwo = [];
+    categorySubOneTemp = [];
     apiServiceCategory.categoryAll(categoryAllRequestModel).then(
       (value) {
         setState(() {
@@ -37,6 +43,10 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
           categoryListInfo = value.data!;
           categoryListMain =
               categoryListInfo.where((element) => element.lvl == 0).toList();
+          categorySubOne =
+              categoryListInfo.where((element) => element.lvl == 1).toList();
+          categorySubTwo =
+              categoryListInfo.where((element) => element.lvl == 2).toList();
           MySharedPreferences.mySharedPreferences.setString(
             "category_data",
             value.data!.toString(),
@@ -49,16 +59,41 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      /*itemCount: categoryListInfo.length,
-      itemBuilder: (context, index) {
-        return CategoryListWidget(
-          title_fa: categoryListInfo[index].titleFa ?? 'عنوان دسته',
-          title_en:
-              categoryListInfo[index].titleEn ?? 'PlaceHolder: Category Title',
-          slug: categoryListInfo[index].slug ?? 'PlaceHolder: Slug',
-          lvl: categoryListInfo[index].lvl ?? 99,
+      itemCount: categoryListMain.length,
+      itemBuilder: (context, i) {
+        categorySubOneTemp = categorySubOne
+            .where((element) => element.parentId == categoryListMain[i].id)
+            .toList();
+        return SizedBox(
+          height: 100,
+          child: Column(
+            /*categorySubOneTemp =
+                    categorySubOne.where((element) => element.parentId ==
+                        categoryListMain[i].id).toList();*/
+            children: [
+              Text(categoryListMain[i].titleFa ?? "عنوان سطح 0"),
+              SizedBox(
+                height: 60,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categorySubOneTemp.length,
+                  itemBuilder: (context, j) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 16),
+                    child: Text(categorySubOne
+                            .where((element) =>
+                                element.parentId == categoryListMain[i].id)
+                            .toList()[j]
+                            .titleFa ??
+                        "عنوان سطح 0"),
+                  ),
+                ),
+              )
+            ],
+          ),
         );
-      },*/
+      },
+    );
+    /*return ListView.builder(
       itemCount: categoryListMain.length,
       itemBuilder: (context, index) {
         return CategoryListWidget(
@@ -67,11 +102,12 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
               categoryListMain[index].titleEn ?? 'PlaceHolder: Category Title',
           slug_0: categoryListMain[index].slug ?? 'PlaceHolder: Slug',
           lvl_0: categoryListMain[index].lvl ?? 99,
-          title_fa_1: categoryListMain[index].titleFa ?? 'عنوان دسته',
+          itemCountSubOne: categorySubOne.length,
+          title_fa_1: categorySubOne[index].titleFa ?? 'عنوان دسته',
           title_en_1:
-              categoryListMain[index].titleEn ?? 'PlaceHolder: Category Title',
+              categorySubOne[index].titleEn ?? 'PlaceHolder: Category Title',
         );
       },
-    );
+    );*/
   }
 }

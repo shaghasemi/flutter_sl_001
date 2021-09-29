@@ -5,6 +5,7 @@ class CategoryListWidget extends StatelessWidget {
   final String title_fa_0;
   final String slug_0;
   final int lvl_0;
+  final int itemCountSubOne;
   final String title_en_1;
   final String title_fa_1;
 
@@ -14,6 +15,7 @@ class CategoryListWidget extends StatelessWidget {
     required this.title_fa_0,
     required this.slug_0,
     required this.lvl_0,
+    required this.itemCountSubOne,
     required this.title_en_1,
     required this.title_fa_1,
   }) : super(key: key);
@@ -33,20 +35,20 @@ class CategoryListWidget extends StatelessWidget {
 
           // Level 1
           SizedBox(
-            height: 55,
+            height: 70,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 10,
+              itemCount: itemCountSubOne,
               itemBuilder: (context, index) {
                 return SizedBox(
-                  height: 30,
-                  width: 40,
+                  height: 40,
+                  width: 70,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
                         Text(title_fa_1),
-                        Text(title_en_1),
+                        // Text(title_en_1),
                       ],
                     ),
                   ),

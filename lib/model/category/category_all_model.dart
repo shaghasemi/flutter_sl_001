@@ -55,6 +55,7 @@ class Data {
     int? trackingCode,
     String? titleEn,
     String? titleFa,
+    String? parentId,
     String? slug,
     int? lvl,
     String? createdAt,
@@ -66,6 +67,7 @@ class Data {
     _trackingCode = trackingCode;
     _titleEn = titleEn;
     _titleFa = titleFa;
+    _parentId = parentId;
     _slug = slug;
     _lvl = lvl;
     _createdAt = createdAt;
@@ -79,6 +81,7 @@ class Data {
     _trackingCode = json['tracking_code'];
     _titleEn = json['title_en'];
     _titleFa = json['title_fa'];
+    _parentId = json['parent_id'];
     _slug = json['slug'];
     _lvl = json['lvl'];
     _createdAt = json['createdAt'];
@@ -91,6 +94,7 @@ class Data {
   int? _trackingCode;
   String? _titleEn;
   String? _titleFa;
+  String? _parentId;
   String? _slug;
   int? _lvl;
   String? _createdAt;
@@ -106,6 +110,8 @@ class Data {
   String? get titleEn => _titleEn;
 
   String? get titleFa => _titleFa;
+
+  String? get parentId => _parentId;
 
   String? get slug => _slug;
 
@@ -124,6 +130,7 @@ class Data {
     map['tracking_code'] = _trackingCode;
     map['title_en'] = _titleEn;
     map['title_fa'] = _titleFa;
+    map['parent_id'] = _parentId;
     map['slug'] = _slug;
     map['lvl'] = _lvl;
     map['createdAt'] = _createdAt;
@@ -132,7 +139,6 @@ class Data {
     return map;
   }
 }
-
 
 class CategoryAllRequestModel {
   String token;
@@ -145,6 +151,6 @@ class CategoryAllRequestModel {
       : token = json['x-access-token'];
 
   Map<String, dynamic> toJson() => {
-    "x-access-token": token.trim(),
-  };
+        "x-access-token": token.trim(),
+      };
 }
