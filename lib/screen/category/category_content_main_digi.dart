@@ -26,14 +26,104 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   @override
   void initState() {
     super.initState();
+    print("Called After Super initState");
     categoryAllRequestModel = CategoryAllRequestModel(token: token!);
     categoryListInfo = [];
     categoryListMain = [];
     categorySubOne = [];
     categorySubTwo = [];
     categorySubOneTemp = [];
+    /*apiServiceCategory.categoryAll(categoryAllRequestModel).then(
+      (value) {
+        print("Called in API call");
+        setState(() {
+          _isApiCallProcess = false;
+        });
+        print("Requested Category All");
+        if (value.status == 200) {
+          print(value.toJson());
+          categoryListInfo = value.data!;
+          categoryListMain =
+              categoryListInfo.where((element) => element.lvl == 0).toList();
+          categorySubOne =
+              categoryListInfo.where((element) => element.lvl == 1).toList();
+          categorySubTwo =
+              categoryListInfo.where((element) => element.lvl == 2).toList();
+          MySharedPreferences.mySharedPreferences.setString(
+            "category_data",
+            value.data!.toString(),
+          );
+        }
+      },
+    );*/
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // future: fetchCategoryData();
+    setState(() {
+      fetchCategoryData();
+    });
+    // fetchCategoryData();
+    return ListView.builder(
+      itemCount: categoryListMain.length,
+      itemBuilder: (context, i) {
+        categorySubOneTemp = categorySubOne
+            .where((element) => element.parentId == categoryListMain[i].id)
+            .toList();
+        return Text(categoryListMain[i].titleFa ?? "عنوان سطح 0");
+        /*return SizedBox(
+          height: 100,
+          child: Column(
+            */ /*categorySubOneTemp =
+                    categorySubOne.where((element) => element.parentId ==
+                        categoryListMain[i].id).toList();*/ /*
+            children: [
+              Text(categoryListMain[i].titleFa ?? "عنوان سطح 0"),
+              SizedBox(
+                height: 60,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categorySubOneTemp.length,
+                  itemBuilder: (context, j) => Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16),
+                    child: Text(categorySubOne
+                            .where((element) =>
+                                element.parentId == categoryListMain[i].id)
+                            .toList()[j]
+                            .titleFa ??
+                        "عنوان سطح 0"),
+                  ),
+                ),
+              )
+            ],
+          ),
+        );*/
+      },
+    );
+    /*return ListView.builder(
+      itemCount: categoryListMain.length,
+      itemBuilder: (context, index) {
+        return CategoryListWidget(
+          title_fa_0: categoryListMain[index].titleFa ?? 'عنوان دسته',
+          title_en_0:
+              categoryListMain[index].titleEn ?? 'PlaceHolder: Category Title',
+          slug_0: categoryListMain[index].slug ?? 'PlaceHolder: Slug',
+          lvl_0: categoryListMain[index].lvl ?? 99,
+          itemCountSubOne: categorySubOne.length,
+          title_fa_1: categorySubOne[index].titleFa ?? 'عنوان دسته',
+          title_en_1:
+              categorySubOne[index].titleEn ?? 'PlaceHolder: Category Title',
+        );
+      },
+    );*/
+  }
+
+  void fetchCategoryData() {
     apiServiceCategory.categoryAll(categoryAllRequestModel).then(
       (value) {
+        print("Called in API call");
         setState(() {
           _isApiCallProcess = false;
         });
@@ -54,60 +144,5 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
         }
       },
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: categoryListMain.length,
-      itemBuilder: (context, i) {
-        categorySubOneTemp = categorySubOne
-            .where((element) => element.parentId == categoryListMain[i].id)
-            .toList();
-        return SizedBox(
-          height: 100,
-          child: Column(
-            /*categorySubOneTemp =
-                    categorySubOne.where((element) => element.parentId ==
-                        categoryListMain[i].id).toList();*/
-            children: [
-              Text(categoryListMain[i].titleFa ?? "عنوان سطح 0"),
-              SizedBox(
-                height: 60,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categorySubOneTemp.length,
-                  itemBuilder: (context, j) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 16),
-                    child: Text(categorySubOne
-                            .where((element) =>
-                                element.parentId == categoryListMain[i].id)
-                            .toList()[j]
-                            .titleFa ??
-                        "عنوان سطح 0"),
-                  ),
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    );
-    /*return ListView.builder(
-      itemCount: categoryListMain.length,
-      itemBuilder: (context, index) {
-        return CategoryListWidget(
-          title_fa_0: categoryListMain[index].titleFa ?? 'عنوان دسته',
-          title_en_0:
-              categoryListMain[index].titleEn ?? 'PlaceHolder: Category Title',
-          slug_0: categoryListMain[index].slug ?? 'PlaceHolder: Slug',
-          lvl_0: categoryListMain[index].lvl ?? 99,
-          itemCountSubOne: categorySubOne.length,
-          title_fa_1: categorySubOne[index].titleFa ?? 'عنوان دسته',
-          title_en_1:
-              categorySubOne[index].titleEn ?? 'PlaceHolder: Category Title',
-        );
-      },
-    );*/
   }
 }
