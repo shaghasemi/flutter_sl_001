@@ -25,7 +25,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   late List<Data> categorySubOneAll;
   late List<List<Data>> categorySubOne;
   late List<Data> categorySubTwoAll;
-  late List<List<Data>> categorySubTwo;
+  late List<List<List<Data>>> categorySubTwo;
   String? token = MySharedPreferences.mySharedPreferences.getString("token");
 
   @override
@@ -46,7 +46,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ExpansionTile(
-        title: Text("Expansion Tile 0"),
+        title: Text("همه دسته بندی ها"),
         children: [
           ListView.builder(
             scrollDirection: Axis.vertical,
@@ -71,9 +71,10 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
                               ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
-                                itemCount: categorySubTwo[j].length,
-                                itemBuilder: (context, k) =>
-                                    Text(categorySubTwo[j][k].titleFa?? "عنوان 2"),
+                                itemCount: categorySubTwo[i][j].length,
+                                itemBuilder: (context, k) => Text(
+                                    categorySubTwo[i][j][k].titleFa ??
+                                        "عنوان 2"),
                               ),
                             ],
                           ),
@@ -107,6 +108,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
 
         for (int counter1 = 0; counter1 < categoryListMain.length; counter1++) {
           categorySubOne.add([]);
+          categorySubTwo.add([]);
         }
         for (int x = 0; x < categoryListMain.length; x++) {
           categorySubOne[x] = categorySubOneAll
@@ -119,20 +121,21 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
           for (int counter2 = 0;
               counter2 < categorySubOne[x].length;
               counter2++) {
-            categorySubTwo.add([]);
+            categorySubTwo[x].add([]);
           }
           for (var y = 0; y < categorySubOne[x].length; y++) {
-            categorySubTwo[y] = categorySubTwoAll
+            categorySubTwo[x][y] = categorySubTwoAll
                 .where((element) =>
                     element.parentId ==
                     categorySubOne[x].map((e) => e.id).elementAt(y))
                 .toList();
           }
         }
-      MySharedPreferences.mySharedPreferences.setString(
-        "category_data",
-        value.data!.toString(),
-      );
+        MySharedPreferences.mySharedPreferences.setString(
+          "category_data",
+          value.data!.toString(),
+        );
+      }
     }).whenComplete(
       () => _isApiCallProcess = false,
     );
