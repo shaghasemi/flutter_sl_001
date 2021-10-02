@@ -1,9 +1,9 @@
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
 import 'package:flutter_sl_001/model/category/category_all_model.dart';
-import 'package:flutter_sl_001/screen/category/widget/category_list_widget.dart';
+import 'package:flutter_sl_001/progress_hud.dart';
+import 'package:flutter_sl_001/screen/product/product_screen_temp.dart';
 
 class CategoryContentScreen extends StatefulWidget {
   const CategoryContentScreen({Key? key}) : super(key: key);
@@ -44,9 +44,18 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return ProgressHUD(
+      child: _uiSetup(context),
+      isAsyncCall: _isApiCallProcess,
+      opacity: 0.3,
+    );
+  }
+
+  Widget _uiSetup(BuildContext context) {
     return SingleChildScrollView(
       child: ExpansionTile(
         title: Text("همه دسته بندی ها"),
+        initiallyExpanded: true,
         children: [
           ListView.builder(
             scrollDirection: Axis.vertical,
@@ -56,6 +65,8 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
               return SingleChildScrollView(
                 child: ExpansionTile(
                   title: Text(categoryListMain[i].titleFa ?? "عنوان 0"),
+                  initiallyExpanded: false,
+                  childrenPadding: EdgeInsets.symmetric(horizontal: 16),
                   children: [
                     ListView.builder(
                       scrollDirection: Axis.vertical,
@@ -67,14 +78,28 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
                           child: ExpansionTile(
                             title:
                                 Text(categorySubOne[i][j].titleFa ?? "عنوان 1"),
+                            initiallyExpanded: false,
+                            childrenPadding:
+                                EdgeInsets.symmetric(horizontal: 32),
                             children: [
                               ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
                                 itemCount: categorySubTwo[i][j].length,
-                                itemBuilder: (context, k) => Text(
-                                    categorySubTwo[i][j][k].titleFa ??
-                                        "عنوان 2"),
+                                itemBuilder: (context, k) => GestureDetector(
+                                  child: Text(categorySubTwo[i][j][k].titleFa ??
+                                      "عنوان 2"),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductScreenTemp(
+                                                  id: categorySubTwo[i][j][k]
+                                                      .id!)),
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),
