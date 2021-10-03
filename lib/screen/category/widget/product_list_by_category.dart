@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
 import 'package:flutter_sl_001/model/category/product_list_by_category_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
+import 'package:flutter_sl_001/screen/product/widget/product_fullscreen_widget.dart';
 
 class ProductListByCategoryWidget extends StatefulWidget {
   final String token;
@@ -66,17 +67,30 @@ class _ProductListByCategoryWidgetState
               physics: NeverScrollableScrollPhysics(),
               itemCount: productByCategoryListInfo.length,
               itemBuilder: (context, index) {
-                return Card(
-                  child: Column(
-                    children: [
-                      Image.asset("assets/images/awaiting_payment.png"),
-                      Text(productByCategoryListInfo[index].titleFa ??
-                          "Product Title"),
-                      SizedBox(height: 400),
-                      Text(productByCategoryListInfo[index].shopId ?? "Seller"),
-                      Text(productByCategoryListInfo[index].price ??
-                          "Price Maybe"),
-                    ],
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductFullScreenWidget(
+                          product_id: productByCategoryListInfo[index].id!,
+                          token: widget.token,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    child: Column(
+                      children: [
+                        Image.asset("assets/images/awaiting_payment.png"),
+                        Text(productByCategoryListInfo[index].titleFa ??
+                            "Product Title"),
+                        Text(productByCategoryListInfo[index].shopId ??
+                            "Seller"),
+                        Text(productByCategoryListInfo[index].price ??
+                            "Price Maybe"),
+                      ],
+                    ),
                   ),
                 );
               },
