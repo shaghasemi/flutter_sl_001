@@ -3,6 +3,7 @@ import 'package:flutter_sl_001/api/api_service_category.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
 import 'package:flutter_sl_001/model/category/category_all_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
+import 'package:flutter_sl_001/screen/category/widget/product_list_by_category.dart';
 import 'package:flutter_sl_001/screen/product/product_screen_temp.dart';
 
 class CategoryContentScreen extends StatefulWidget {
@@ -58,8 +59,9 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
         initiallyExpanded: true,
         children: [
           ListView.builder(
-            scrollDirection: Axis.vertical,
             shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            physics: NeverScrollableScrollPhysics(),
             itemCount: categoryListMain.length,
             itemBuilder: (context, i) {
               return SingleChildScrollView(
@@ -69,8 +71,9 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
                   childrenPadding: EdgeInsets.symmetric(horizontal: 16),
                   children: [
                     ListView.builder(
-                      scrollDirection: Axis.vertical,
                       shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: categorySubOne[i].length,
                       // itemCount: 5,
                       itemBuilder: (context, j) {
@@ -83,8 +86,9 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
                                 EdgeInsets.symmetric(horizontal: 32),
                             children: [
                               ListView.builder(
-                                scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                physics: NeverScrollableScrollPhysics(),
                                 itemCount: categorySubTwo[i][j].length,
                                 itemBuilder: (context, k) => GestureDetector(
                                   child: Text(categorySubTwo[i][j][k].titleFa ??
@@ -93,10 +97,13 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductScreenTemp(
-                                                  id: categorySubTwo[i][j][k]
-                                                      .id!)),
+                                        builder: (context) =>
+                                            ProductListByCategoryWidget(
+                                          categoryId:
+                                              categorySubTwo[i][j][k].id!,
+                                          token: token!,
+                                        ),
+                                      ),
                                     );
                                   },
                                 ),
