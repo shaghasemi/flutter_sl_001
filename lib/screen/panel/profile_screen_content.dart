@@ -7,7 +7,7 @@ import 'package:flutter_sl_001/screen/main/cart_screen.dart';
 import 'package:flutter_sl_001/screen/main/home_screen.dart';
 import 'package:flutter_sl_001/screen/panel/message_list_screen.dart';
 import 'package:flutter_sl_001/screen/panel/password_change_screen.dart';
-import 'package:flutter_sl_001/screen/panel/user_info_screen_temp.dart';
+import 'package:flutter_sl_001/screen/panel/user_info_screen_editable.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
 import 'profile_settings_screen.dart';
@@ -101,7 +101,7 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
                     title: 'اطلاعات کاربر',
                     iconName: Icons.person_outline,
                     // destination: UserInfoScreen(),
-                    destination: UserInfoScreenTemp(),
+                    destination: UserInfoEditScreenUpdated(),
                   ),
                   ProfileSectionGoToWidget(
                     title: 'تغییر رمز عبور',

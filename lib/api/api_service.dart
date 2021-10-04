@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter_sl_001/model/category/category_all_model.dart';
 import 'package:flutter_sl_001/model/order/order_all_model.dart';
 import 'package:flutter_sl_001/model/panel/change_password_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_send_model.dart';
@@ -9,6 +6,7 @@ import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/model/panel/resend_code_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
+import 'package:flutter_sl_001/model/panel/user_info_edit.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -204,4 +202,46 @@ class APIService {
     return OrderAllResponseModel.fromJson(json.decode(response.body));
   }
 
+  // Get User Info
+  Future<UserInfoResponseModel> getUserInfo(
+    UserInfoRequestModel userInfoRequestModel,
+  ) async {
+    String url = "${baseURLV1}${userRole}info";
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'x-access-token': userInfoRequestModel.token,
+      },
+    );
+    /* if (response.statusCode == 200 || response.statusCode == 400) {
+      return LoginResponseModel.fromJson(json.decode(response.body));
+    } else {
+      print("Error from API Service");
+      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
+      throw Exception('Failed to Login');
+    }*/
+    return UserInfoResponseModel.fromJson(json.decode(response.body));
+  }
+
+  // Edit User Info
+  Future<UserInfoEditResponseModel> editUserInfo(
+    UserInfoEditRequestModel userInfoEditRequestModel,
+  ) async {
+    String url = "${baseURLV1}${userRole}editor";
+    final response = await http.put(
+      Uri.parse(url),
+      body: userInfoEditRequestModel.toJson(),
+      headers: {
+        'x-access-token': userInfoEditRequestModel.token!,
+      },
+    );
+    /* if (response.statusCode == 200 || response.statusCode == 400) {
+      return LoginResponseModel.fromJson(json.decode(response.body));
+    } else {
+      print("Error from API Service");
+      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
+      throw Exception('Failed to Login');
+    }*/
+    return UserInfoEditResponseModel.fromJson(json.decode(response.body));
+  }
 }

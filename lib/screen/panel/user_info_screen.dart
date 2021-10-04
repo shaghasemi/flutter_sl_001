@@ -17,7 +17,7 @@ class UserInfoScreen extends StatelessWidget {
             SizedBox(height: 50),
             InfoViewEditWidget(
               title: 'نام کاربر',
-              destination: UserInfoEditScreen(
+              destination: UserInfoScreenTemp(
                 title: 'عنوان ویرایش',
                 hint: 'متن داخل ویرایشگر',
                 content: 'راهنما (اختیاری)',
@@ -26,7 +26,7 @@ class UserInfoScreen extends StatelessWidget {
             ),
             InfoViewEditWidget(
               title: 'نام کاربر',
-              destination: UserInfoEditScreen(
+              destination: UserInfoScreenTemp(
                 title: 'عنوان ویرایش',
                 hint: 'متن داخل ویرایشگر',
                 content: 'راهنما (اختیاری)',
@@ -35,7 +35,7 @@ class UserInfoScreen extends StatelessWidget {
             ),
             InfoViewEditWidget(
               title: 'نام کاربر',
-              destination: UserInfoEditScreen(
+              destination: UserInfoScreenTemp(
                 title: 'عنوان ویرایش',
                 hint: 'متن داخل ویرایشگر',
                 content: 'راهنما (اختیاری)',
@@ -44,7 +44,7 @@ class UserInfoScreen extends StatelessWidget {
             ),
             InfoViewEditWidget(
               title: 'نام کاربر',
-              destination: UserInfoEditScreen(
+              destination: UserInfoScreenTemp(
                 title: 'عنوان ویرایش',
                 hint: 'متن داخل ویرایشگر',
                 content: 'راهنما (اختیاری)',

@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 
-class UserInfoEditScreen extends StatelessWidget {
-  final String title;
-  final String content;
-  final String hint;
+class UserInfoScreenTemp extends StatelessWidget {
+  final String? title;
+  final String? content;
+  final String? hint;
 
-  const UserInfoEditScreen({
+  const UserInfoScreenTemp({
     Key? key,
-    required this.title,
-    required this.content,
-    required this.hint,
+    this.title,
+    this.content,
+    this.hint,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(title),
+        Text(title ?? "Title"),
+        Text("Before TextField"),
         TextFormField(
           decoration: InputDecoration(
-            hintText: content,
+            hintText: hint ?? "Hint ",
           ),
         ),
-        Text(hint),
+        Text("After TextField"),
         ElevatedButton(
           onPressed: () {
             Navigator.pop(context);

@@ -1,11 +1,11 @@
 {
-    "name": "flutter_sl_001",
-    "short_name": "flutter_sl_001",
+    "name": "SivanLand",
+    "short_name": "SivanLand",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "SivanLand Shop App",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
