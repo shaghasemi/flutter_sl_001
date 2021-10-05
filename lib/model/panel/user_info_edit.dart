@@ -304,20 +304,21 @@ class UserInfoEditRequestModel {
   int? gender;
   String? email;
   String? mainAddress;
-  List<String>? addressList;
-  int? active;
+  // List<String>? addressList;
+  // int? active;
   String? nationalCode;
   String? birthday;
   String? foreignNational;
   String? postalCode;
-  String? image;
-  bool? personal;
-  String? companyName;
+  // String? image;
+  // bool? personal;
+  // String? companyName;
   String? telephone;
-  String? economicCode;
-  String? nationalId;
-  String? companyCode;
+  // String? economicCode;
+  // String? nationalId;
+  // String? companyCode;
   String? sosPhone;
+
   // City? city;
   // Province? province;
 
@@ -328,73 +329,72 @@ class UserInfoEditRequestModel {
     this.gender,
     this.email,
     this.mainAddress,
-    this.addressList,
-    this.active,
+    // this.addressList,
+    // this.active,
     this.nationalCode,
     this.birthday,
     this.foreignNational,
     this.postalCode,
-    this.image,
-    this.personal,
-    this.companyName,
+    // this.image,
+    // this.personal,
+    // this.companyName,
     this.telephone,
-    this.economicCode,
-    this.nationalId,
-    this.companyCode,
+    // this.economicCode,
+    // this.nationalId,
+    // this.companyCode,
     this.sosPhone,
     // this.city,
     // this.province;
   });
 
   UserInfoEditRequestModel.fromJson(Map<String, dynamic> json)
-      :
-        token = json['token'],
+      : token = json['token'],
         name = json['name'],
         family = json['family'],
         gender = json['gender'],
         email = json['email'],
         mainAddress = json['main_address'],
-        addressList =
-        json['address_list'] != null ? json['address_list'].cast<String>() : [],
-        active = json['active'],
+        /*addressList = json['address_list'] != null
+            ? json['address_list'].cast<String>()
+            : [],*/
+        // active = json['active'],
         nationalCode = json['national_code'],
         birthday = json['birthday'],
         foreignNational = json['foreign_national'],
         postalCode = json['postal_code'],
-        image = json['image'],
-        personal = json['personal'],
-        companyName = json['company_name'],
+        // image = json['image'],
+        // personal = json['personal'],
+        // companyName = json['company_name'],
         telephone = json['telephone'],
-        economicCode = json['economic_code'],
-        nationalId = json['national_id'],
-        companyCode = json['company_code'],
+        // economicCode = json['economic_code'],
+        // nationalId = json['national_id'],
+        // companyCode = json['company_code'],
         sosPhone = json['sosPhone'];
 
   /*city = json['city'] != null ? City.fromJson(json['city']) : null,
         province =
         json['province'] != null ? Province.fromJson(json['province']) : null;*/
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'token': token!.trim(),
         'name': name!.trim(),
         'family': family!.trim(),
         'gender': gender,
         'email': email!.trim(),
-        'mainaddress': mainAddress!.trim(),
-        'addresslist': addressList,
-        'active': active,
-        'nationalcode': nationalCode!.trim(),
+        'main_address': mainAddress!.trim(),
+        // 'address_list': addressList,
+        // 'active': active,
+        'national_code': nationalCode!.trim(),
         'birthday': birthday!.trim(),
-        'foreignnational': foreignNational!.trim(),
-        'postalcode': postalCode!.trim(),
-        'image': image!.trim(),
-        'personal': personal,
-        'companyname': companyName!.trim(),
+        'foreign_national': foreignNational!.trim(),
+        'postal_code': postalCode!.trim(),
+        // 'image': image!.trim(),
+        // 'personal': personal,
+        // 'company_name': companyName!.trim(),
         'telephone': telephone!.trim(),
-        'economiccode': economicCode!.trim(),
-        'nationalid': nationalId!.trim(),
-        'companycode': companyCode!.trim(),
+        // 'economic_code': economicCode!.trim(),
+        // 'national_id': nationalId!.trim(),
+        // 'company_code': companyCode!.trim(),
         'sosPhone': sosPhone!.trim(),
         /*if (city != null) {
       'city':city?.toJson()!.trim(),
@@ -475,4 +475,3 @@ class City {
     map['lng'] = _lng;
     return map;
   }*/
-
