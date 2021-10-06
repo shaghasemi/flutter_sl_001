@@ -298,22 +298,25 @@ class City {
 */
 
 class UserInfoEditRequestModel {
-  String? token;
+  String token;
   String? name;
   String? family;
-  int? gender;
+  String? gender;
   String? email;
   String? mainAddress;
+
   // List<String>? addressList;
   // int? active;
   String? nationalCode;
   String? birthday;
   String? foreignNational;
   String? postalCode;
+
   // String? image;
   // bool? personal;
   // String? companyName;
   String? telephone;
+
   // String? economicCode;
   // String? nationalId;
   // String? companyCode;
@@ -323,7 +326,7 @@ class UserInfoEditRequestModel {
   // Province? province;
 
   UserInfoEditRequestModel({
-    this.token,
+    required this.token,
     this.name,
     this.family,
     this.gender,
@@ -376,7 +379,7 @@ class UserInfoEditRequestModel {
         json['province'] != null ? Province.fromJson(json['province']) : null;*/
 
   Map<String, dynamic> toJson() => {
-        'token': token!.trim(),
+        'token': token.trim(),
         'name': name!.trim(),
         'family': family!.trim(),
         'gender': gender,

@@ -232,7 +232,7 @@ class APIService {
       Uri.parse(url),
       body: userInfoEditRequestModel.toJson(),
       headers: {
-        'x-access-token': userInfoEditRequestModel.token!,
+        'x-access-token': userInfoEditRequestModel.token,
       },
     );
     /* if (response.statusCode == 200 || response.statusCode == 400) {

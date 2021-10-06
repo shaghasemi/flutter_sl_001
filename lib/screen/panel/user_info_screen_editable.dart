@@ -31,17 +31,6 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
     userInfoRequestModel = UserInfoRequestModel(token: token);
     userInfoEditRequestModel = UserInfoEditRequestModel(token: token);
     fetchUserInfo();
-    /*userInfoEditRequestModel.name = userInfo.user_id!.name!;
-    userInfoEditRequestModel.family = userInfo.user_id!.family!;
-    userInfoEditRequestModel.gender = userInfo.user_id!.gender!;
-    userInfoEditRequestModel.email = userInfo.user_id!.email!;
-    userInfoEditRequestModel.mainAddress = userInfo.user_id!.main_address!;
-    userInfoEditRequestModel.nationalCode = userInfo.user_id!.national_code!;
-    userInfoEditRequestModel.birthday = userInfo.user_id!.birthday!;
-    userInfoEditRequestModel.foreignNational = userInfo.user_id!.foreign_national!;
-    userInfoEditRequestModel.postalCode = userInfo.user_id!.postal_code!;
-    userInfoEditRequestModel.telephone = userInfo.user_id!.telephone!;
-    userInfoEditRequestModel.sosPhone = userInfo.user_id!.sosPhone!;*/
   }
 
   @override
@@ -56,15 +45,30 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
   Widget _uiSetup(BuildContext context) {
     userInfoEditRequestModel.name = userInfo.user_id!.name!;
     userInfoEditRequestModel.family = userInfo.user_id!.family!;
-    userInfoEditRequestModel.gender = userInfo.user_id!.gender!;
+    userInfoEditRequestModel.gender = userInfo.user_id!.gender!.toString();
+    /*switch (userInfo.user_id!.gender!) {
+      case 0:
+        {
+          userInfoEditRequestModel.gender = 0;
+        }
+        break;
+      case 1:
+        {
+          userInfoEditRequestModel.gender = 1;
+        }
+        break;
+    }*/
     userInfoEditRequestModel.email = userInfo.user_id!.email!;
     userInfoEditRequestModel.mainAddress = userInfo.user_id!.main_address!;
     userInfoEditRequestModel.nationalCode = userInfo.user_id!.national_code!;
     userInfoEditRequestModel.birthday = userInfo.user_id!.birthday!;
-    userInfoEditRequestModel.foreignNational = userInfo.user_id!.foreign_national!;
+    userInfoEditRequestModel.foreignNational =
+        userInfo.user_id!.foreign_national!;
     userInfoEditRequestModel.postalCode = userInfo.user_id!.postal_code!;
     userInfoEditRequestModel.telephone = userInfo.user_id!.telephone!;
     userInfoEditRequestModel.sosPhone = userInfo.user_id!.sosPhone!;
+    print("userInfoEditRequestModel.sosPhone");
+    print(userInfoEditRequestModel.sosPhone);
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScroller) => [
         const SliverAppBar(
@@ -123,7 +127,24 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
                   TextFormField(
                     initialValue: userInfo.user_id!.gender!.toString(),
                     onChanged: (input) {
-                      userInfoEditRequestModel.gender = int.parse(input);
+                      int? genderInput;
+                      // userInfoEditRequestModel.gender = 1;
+                      // userInfoEditRequestModel.gender = int.parse(input);
+                      userInfoEditRequestModel.gender = input;
+                      // userInfoEditRequestModel.gender = switch(input) {};
+                      /*switch (input) {
+                        case "male":
+                          {
+                            genderInput = 0;
+                          }
+                          break;
+                        case "female":
+                          {
+                            genderInput = 1;
+                          }
+                          break;
+                      }
+                      userInfoEditRequestModel.gender = genderInput;*/
                     },
                   ),
                 ],
@@ -278,14 +299,25 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
   }
 
   void updateUserInfo() {
-    print("Called info update");
-    print("userInfoEditRequestModel.name in Request");
-    print(userInfoEditRequestModel.name);
     apiService.editUserInfo(userInfoEditRequestModel).then((value) {
       setState(() {
         _isApiCallProcess = false;
       });
       if (value.status == 200) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: Text("Successful Info Update"),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Understood"),
+              ),
+            ],
+          ),
+        );
         // userInfo = value.data!;
       }
     }).whenComplete(
