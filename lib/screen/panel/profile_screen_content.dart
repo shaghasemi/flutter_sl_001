@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
+import 'package:flutter_sl_001/screen/main/cart_screen_provider.dart';
 import 'package:flutter_sl_001/screen/main/home_screen.dart';
 import 'package:flutter_sl_001/screen/panel/message_list_screen.dart';
 import 'package:flutter_sl_001/screen/panel/password_change_screen.dart';

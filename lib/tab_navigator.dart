@@ -4,6 +4,8 @@ import 'package:flutter_sl_001/screen/main/category_screen.dart';
 import 'package:flutter_sl_001/screen/main/home_screen.dart';
 import 'package:flutter_sl_001/screen/main/profile_screen.dart';
 
+import 'screen/main/cart_screen_provider.dart';
+
 class TabNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final String tabItem;

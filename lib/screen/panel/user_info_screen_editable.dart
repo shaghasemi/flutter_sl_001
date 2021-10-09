@@ -67,8 +67,6 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
     userInfoEditRequestModel.postalCode = userInfo.user_id!.postal_code!;
     userInfoEditRequestModel.telephone = userInfo.user_id!.telephone!;
     userInfoEditRequestModel.sosPhone = userInfo.user_id!.sosPhone!;
-    print("userInfoEditRequestModel.sosPhone");
-    print(userInfoEditRequestModel.sosPhone);
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScroller) => [
         const SliverAppBar(
