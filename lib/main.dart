@@ -7,15 +7,15 @@ import 'model/cart/cart_product_temp.dart';
 
 void main() async {
   await MySharedPreferences.init(); // Initializing Shared Prefs throughout app
-  // runApp(const MyApp());
-  runApp(
+  runApp(const MyApp());
+  /*runApp(
     ChangeNotifierProvider(
       create: (_) {
         CartProductTemp();
       },
       child: const MyApp(),
     ),
-  );
+  );*/
 }
 
 class MyApp extends StatelessWidget {
@@ -36,7 +36,11 @@ class MyApp extends StatelessWidget {
         },
         child: AppHome(),
       ),*/
-      home: AppHome(),
+      // home: AppHome(),
+      home: ChangeNotifierProvider(
+        create: (_) => CartProductTemp(),
+        child: AppHome(),
+      ),
     );
   }
 }
