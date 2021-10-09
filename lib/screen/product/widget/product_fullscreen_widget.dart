@@ -73,7 +73,7 @@ class _ProductFullScreenWidgetState extends State<ProductFullScreenWidget> {
   }
 
   void fetchProductById() {
-    ApiServiceCategory apiServiceCategory = ApiServiceCategory();
+    ApiServiceProduct apiServiceCategory = ApiServiceProduct();
     productSingleRequestModel =
         ProductSingleRequestModel(token: widget.token, id: widget.product_id);
     apiServiceCategory.productSingle(productSingleRequestModel).then((value) {
