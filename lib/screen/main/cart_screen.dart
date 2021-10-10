@@ -1,9 +1,9 @@
-/*
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
 import 'package:flutter_sl_001/model/order/order_all_model.dart';
 import 'package:flutter_sl_001/screen/cart/cart_content_main.dart';
+import 'package:flutter_sl_001/screen/cart/cart_content_provider.dart';
 import 'package:flutter_sl_001/screen/helper/request_login.dart';
 import 'package:flutter_sl_001/screen/helper/under_construction.dart';
 import 'package:flutter_sl_001/screen/product/widget/product_order_list_widget.dart';
@@ -16,10 +16,6 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  // late String? token;
-  APIService apiService = APIService();
-  late OrderAllRequestModel orderAllRequestModel; //late
-  bool isApiCallProcess = false;
   bool loginState = false;
   String? token = MySharedPreferences.mySharedPreferences.getString("token");
 
@@ -33,10 +29,9 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     // orderListInfo = [];
     // token = MySharedPreferences.mySharedPreferences.getString("token");
-    */
-/*setState(() {
+    setState(() {
       token = MySharedPreferences.mySharedPreferences.getString("token");
-    });*//*
+    });
 
     // loginState = token != null;
 
@@ -68,7 +63,8 @@ class _CartScreenState extends State<CartScreen> {
         ],
         body: loginState == false
             ? const RequestLoginScreen()
-            : CartContent(token: token.toString()),
+            // : CartContent(token: token.toString()),
+            : CartContent(),
       ),
     );
   }
@@ -81,4 +77,3 @@ checkLoginState(String? token) {
     return false;
   }
 }
-*/

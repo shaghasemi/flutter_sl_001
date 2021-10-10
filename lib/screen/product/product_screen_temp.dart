@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_product.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
-import 'package:flutter_sl_001/model/cart/cart_product_temp.dart';
+import 'package:flutter_sl_001/model/cart/cart_product_list.dart';
 import 'package:flutter_sl_001/model/product/product_all_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
 import 'package:flutter_sl_001/provider_test/cart_model.dart';
@@ -52,7 +52,7 @@ class _ProductScreenTempState extends State<ProductScreenTemp> {
               child: Text("View Products"),
             ),
             SizedBox(
-              height: 600,
+              height: 400,
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: productAllInfo.length,
@@ -61,7 +61,7 @@ class _ProductScreenTempState extends State<ProductScreenTemp> {
                     Text(productAllInfo[index].titleFa!),
                     ElevatedButton(
                       onPressed: () =>
-                          Provider.of<CartProductTemp>(context, listen: false)
+                          Provider.of<CartProductList>(context, listen: false)
                               .addProductToCart(id: "Some id"),
                       child: Text("Add to Cart"),
                     ),

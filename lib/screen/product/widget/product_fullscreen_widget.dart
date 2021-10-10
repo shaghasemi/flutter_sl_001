@@ -20,7 +20,7 @@ class ProductFullScreenWidget extends StatefulWidget {
 
 class _ProductFullScreenWidgetState extends State<ProductFullScreenWidget> {
   late ProductSingleRequestModel productSingleRequestModel;
-  late Data productInfo;
+  late ProductSingleData productInfo;
   bool _isApiCallProcess = false;
 
   @override

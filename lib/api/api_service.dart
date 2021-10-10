@@ -11,7 +11,8 @@ import 'package:flutter_sl_001/model/panel/user_info_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
+// const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
+const String baseURLV1 = "https://newapi.sivanland.com/api/";
 const String userRole = "customer/";
 
 class APIService {
@@ -19,7 +20,6 @@ class APIService {
   Future<SignupResponseModel> signup(
       SignupRequestModel signupRequestModel) async {
     String url = "${baseURLV1}${userRole}signup";
-    print(url);
     final response = await http.post(
       Uri.parse(url),
       body: signupRequestModel.toJson(),
@@ -31,10 +31,8 @@ class APIService {
       return signupResponse;
     } else {
       print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
       throw Exception('Failed to load data');
     }
-    // return SignupResponseModel.fromJson(json.decode(response.body));
   }
 
   // Validate Signup
@@ -51,10 +49,8 @@ class APIService {
       return validateSignupResponse;
     } else {
       print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
       throw Exception('Failed to load data');
     }
-    // return ValidateSignupResponseModel.fromJson(json.decode(response.body));
   }
 
   // Login

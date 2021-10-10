@@ -1,6 +1,6 @@
 class ProductSingleResponseModel {
   ProductSingleResponseModel({
-    Data? data,
+    ProductSingleData? data,
     String? message,
     bool? success,
     int? status,
@@ -12,18 +12,18 @@ class ProductSingleResponseModel {
   }
 
   ProductSingleResponseModel.fromJson(dynamic json) {
-    _data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    _data = json['data'] != null ? ProductSingleData.fromJson(json['data']) : null;
     _message = json['message'];
     _success = json['success'];
     _status = json['status'];
   }
 
-  Data? _data;
+  ProductSingleData? _data;
   String? _message;
   bool? _success;
   int? _status;
 
-  Data? get data => _data;
+  ProductSingleData? get data => _data;
 
   String? get message => _message;
 
@@ -43,8 +43,8 @@ class ProductSingleResponseModel {
   }
 }
 
-class Data {
-  Data({
+class ProductSingleData {
+  ProductSingleData({
     int? status,
     List<String>? categoryIdList,
     List<String>? colorRange,
@@ -98,7 +98,7 @@ class Data {
     _rules = rules;
   }
 
-  Data.fromJson(dynamic json) {
+  ProductSingleData.fromJson(dynamic json) {
     _status = json['status'];
     _categoryIdList = json['category_id_list'] != null
         ? json['category_id_list'].cast<String>()

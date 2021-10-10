@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
 import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/model/cart/cart_product_list.dart';
 import 'package:flutter_sl_001/model/category/category_all_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
 import 'package:flutter_sl_001/screen/category/widget/product_list_by_category.dart';
 import 'package:flutter_sl_001/screen/product/product_screen_temp.dart';
+import 'package:provider/provider.dart';
 
 class CategoryContentScreen extends StatefulWidget {
   const CategoryContentScreen({Key? key}) : super(key: key);
@@ -91,8 +93,25 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: categorySubTwo[i][j].length,
                                 itemBuilder: (context, k) => GestureDetector(
-                                  child: Text(categorySubTwo[i][j][k].titleFa ??
-                                      "عنوان 2"),
+                                  child: Column(
+                                    children: [
+                                      Text(categorySubTwo[i][j][k].titleFa ??
+                                          "عنوان فارسی"),
+                                      /*Text(categorySubTwo[i][j][k].id ??
+                                          "Product Id"),
+                                      ElevatedButton(
+                                          //TODO: Add product to cart
+                                          onPressed: () {
+                                            Provider.of<CartProductList>(
+                                                    context,
+                                                    listen: false)
+                                                .addProductToCart(
+                                                    id: categorySubTwo[i][j][k]
+                                                        .id!);
+                                          },
+                                          child: Text("افزودن به سبد خرید"))*/
+                                    ],
+                                  ),
                                   onTap: () {
                                     Navigator.push(
                                       context,
