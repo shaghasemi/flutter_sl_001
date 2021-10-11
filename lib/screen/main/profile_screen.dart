@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/screen/panel/login_screen.dart';
 import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
 
@@ -18,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // bool _loginState = true;
     setState(() {
       _loginState =
-          MySharedPreferences.mySharedPreferences.getString('token') != null;
+          UserPreferences.prefs.getString('token') != null;
     });
     print(_loginState);
 

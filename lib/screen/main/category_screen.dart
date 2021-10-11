@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/screen/category/category_content_list.dart';
 import 'package:flutter_sl_001/screen/helper/under_construction.dart';
 import 'package:flutter_sl_001/screen/panel/signup_screen.dart';

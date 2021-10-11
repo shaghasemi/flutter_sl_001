@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/screen/product/product_screen_temp.dart';
 
@@ -17,10 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
     bool _loginState = false;
     var userData;
     var rawData =
-        MySharedPreferences.mySharedPreferences.getString('user_data');
+        UserPreferences.prefs.getString('user_data');
     if (rawData != null) {
       userData = LoginResponseModel.fromJson(jsonDecode(
-          MySharedPreferences.mySharedPreferences.getString('user_data')!));
+          UserPreferences.prefs.getString('user_data')!));
       _loginState = true;
     }
 

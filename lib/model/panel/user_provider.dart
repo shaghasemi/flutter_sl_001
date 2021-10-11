@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/foundation.dart';
 import 'package:jada/domain/user.dart';
 
@@ -11,3 +12,4 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+*/

@@ -1,18 +1,14 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
-import 'package:flutter_sl_001/screen/main/cart_screen_provider.dart';
-import 'package:flutter_sl_001/screen/main/home_screen.dart';
 import 'package:flutter_sl_001/screen/panel/message_list_screen.dart';
 import 'package:flutter_sl_001/screen/panel/password_change_screen.dart';
 import 'package:flutter_sl_001/screen/panel/user_info_screen_editable.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
 import 'profile_settings_screen.dart';
-import 'user_info_screen.dart';
 import 'widget/user_info_main_widget.dart';
 
 class ProfileScreenContent extends StatefulWidget {
@@ -29,7 +25,7 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
   Widget build(BuildContext context) {
     userInfo = LoginResponseModel.fromJson(
       jsonDecode(
-        MySharedPreferences.mySharedPreferences.getString("user_data")!,
+        UserPreferences.prefs.getString("user_data")!,
       ),
     );
     return Scaffold(

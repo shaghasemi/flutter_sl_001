@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/app_home.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/main.dart';
 import 'package:flutter_sl_001/screen/main/profile_screen.dart';
 import 'package:flutter_sl_001/screen/panel/login_screen.dart';
@@ -21,7 +21,7 @@ class _LogoutGlobalScreenState extends State<LogoutGlobalScreen> {
           onPressed: () {
             setState(
               () {
-                MySharedPreferences.mySharedPreferences.clear();
+                UserPreferences.prefs.clear();
                 // Here we need to handle events that rely on login status
                 // Cart Screen should be refreshed
                 // AppHome.build

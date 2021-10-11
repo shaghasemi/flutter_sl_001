@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/app_home.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/screen/panel/forgot_code_screen.dart';
 import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
 import 'package:flutter_sl_001/screen/panel/signup_screen.dart';
@@ -20,11 +19,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Check if form is valid
-  //TODO
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-
-  late LoginRequestModel loginRequestModel; //late
+  late LoginRequestModel loginRequestModel;
+  late LoginData user;
   bool _isApiCallProcess = false;
 
   @override
@@ -91,31 +88,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       loginRequestModel.password = input;
                     },
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: () async {
-                      // var response = {};
-                      setState(
-                        () {
-                          _isApiCallProcess = true;
-                        },
-                      );
+                      setState(() {
+                        _isApiCallProcess = true;
+                      });
                       APIService apiService = APIService();
                       try {
                         apiService.login(loginRequestModel).then(
                           (value) {
                             if (value.status == 200) {
-                              MySharedPreferences.mySharedPreferences.setString(
+                              UserPreferences.prefs.setString(
                                 "token",
                                 value.data!.token.toString(),
                               );
-                              MySharedPreferences.mySharedPreferences.setString(
+                              UserPreferences.prefs.setString(
                                 "user_data",
                                 jsonEncode(value),
                               );
-                              print(jsonEncode(value));
+                              UserPreferences().saveUser(user);
                               setState(
                                 () {
                                   Navigator.pop(context);
@@ -125,31 +117,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                         builder: (context) =>
                                             const ProfileScreenContent()),
                                   );
-                                  /*Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const AppHome(),
-                                    ),
-                                    (route) => false,
-                                  );*/
                                 },
                               );
                             } else {
-                              // throw Exception('Login Failed!');
                               Fluttertoast.showToast(
                                 msg: value.message.toString(),
                                 toastLength: Toast.LENGTH_LONG,
                                 gravity: ToastGravity.CENTER,
-                                // timeInSecForIosWeb: 1,
-                                // backgroundColor: Colors.red,
-                                // textColor: Colors.white,
                                 fontSize: 16.0,
                               );
                             }
                           },
-                          onError: (err) {
-                            // print("Error1" + err);
-                          },
+                          onError: (err) {},
                         ).whenComplete(
                           () {
                             print("Complete");
@@ -160,9 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           },
                         );
-                      } catch (myError) {
-                        // print("My Error");
-                      }
+                      } catch (myError) {}
                     },
                     child: const Padding(
                       padding: EdgeInsets.symmetric(

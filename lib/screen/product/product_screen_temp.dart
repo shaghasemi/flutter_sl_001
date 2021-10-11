@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_product.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/cart/cart_product_list.dart';
 import 'package:flutter_sl_001/model/product/product_all_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
@@ -19,7 +19,7 @@ class _ProductScreenTempState extends State<ProductScreenTemp> {
   late List<Data> productAllInfo;
   bool _isApiCallProcess = false;
   String token =
-      MySharedPreferences.mySharedPreferences.getString("token") ?? "No Token";
+      UserPreferences.prefs.getString("token") ?? "No Token";
 
   @override
   void initState() {

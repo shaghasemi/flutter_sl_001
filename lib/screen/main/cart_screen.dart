@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/order/order_all_model.dart';
 import 'package:flutter_sl_001/screen/cart/cart_content_main.dart';
 import 'package:flutter_sl_001/screen/cart/cart_content_provider.dart';
@@ -17,7 +17,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   bool loginState = false;
-  String? token = MySharedPreferences.mySharedPreferences.getString("token");
+  String? token = UserPreferences.prefs.getString("token");
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _CartScreenState extends State<CartScreen> {
     // orderListInfo = [];
     // token = MySharedPreferences.mySharedPreferences.getString("token");
     setState(() {
-      token = MySharedPreferences.mySharedPreferences.getString("token");
+      token = UserPreferences.prefs.getString("token");
     });
 
     // loginState = token != null;

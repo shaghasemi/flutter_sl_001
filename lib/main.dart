@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/provider_test/cart_model.dart';
 import 'package:provider/provider.dart';
 import 'app_home.dart';
-import 'data/local/my_shared_pref.dart';
+import 'data/local/shared_pref.dart';
 import 'model/cart/cart_product_list.dart';
 
 void main() async {
-  await MySharedPreferences.init(); // Initializing Shared Prefs throughout app
+  await UserPreferences.init(); // Initializing Shared Prefs throughout app
   runApp(const MyApp());
   /*runApp(
     ChangeNotifierProvider(

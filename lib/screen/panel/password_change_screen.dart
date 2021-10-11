@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/change_password_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_send_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_validate_model.dart';
@@ -56,7 +56,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   Widget _uiSetup(BuildContext context) {
     var userDataRaw = json.decode(
-      MySharedPreferences.mySharedPreferences.getString("user_data")!,
+      UserPreferences.prefs.getString("user_data")!,
     );
     // changePasswordRequestModel.token = userDataRaw.data!.token!;
     changePasswordRequestModel.token = userDataRaw['data']['token'];

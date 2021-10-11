@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
-import 'package:flutter_sl_001/data/local/my_shared_pref.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/cart/cart_product_list.dart';
 import 'package:flutter_sl_001/model/category/category_all_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
@@ -29,7 +29,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   late List<List<Data>> categorySubOne;
   late List<Data> categorySubTwoAll;
   late List<List<List<Data>>> categorySubTwo;
-  String? token = MySharedPreferences.mySharedPreferences.getString("token");
+  String? token = UserPreferences.prefs.getString("token");
 
   @override
   void initState() {
@@ -182,7 +182,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
                 .toList();
           }
         }
-        MySharedPreferences.mySharedPreferences.setString(
+        UserPreferences.prefs.setString(
           "category_data",
           value.data!.toString(),
         );
