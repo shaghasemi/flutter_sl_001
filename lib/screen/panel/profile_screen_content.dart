@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
+import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
 import 'package:flutter_sl_001/screen/panel/message_list_screen.dart';
 import 'package:flutter_sl_001/screen/panel/password_change_screen.dart';
 import 'package:flutter_sl_001/screen/panel/user_info_screen_editable.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
+import 'package:provider/provider.dart';
 import 'profile_settings_screen.dart';
 import 'widget/user_info_main_widget.dart';
 
@@ -23,11 +25,11 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
 
   @override
   Widget build(BuildContext context) {
-    userInfo = LoginResponseModel.fromJson(
+    /*userInfo = LoginResponseModel.fromJson(
       jsonDecode(
         UserPreferences.prefs.getString("user_data")!,
       ),
-    );
+    );*/
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
@@ -67,10 +69,25 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
             // Title for profile section.
             // This could also work in the way that the widget itself gets it's
             // information from shared pref
-            UserInfoMainWidget(
-              userName: userInfo.data!.userId!.name.toString(),
+            /* UserInfoMainWidget(
+              // userName: userInfo.data!.userId!.name.toString(),
+              */ /*userName: Consumer<UserProvider>(
+              builder: (context, value) {
+                return value.user.token.toString();
+              },
+            )*/ /*
+              // userPhone: userInfo.data!.mobile.toString(),
               userPhone: userInfo.data!.mobile.toString(),
+            ),*/
+            SizedBox(
+              height: 50,
+              child: Consumer<UserProvider>(
+                builder: (context, value, child) {
+                  return Text(value.user.token.toString());
+                },
+              ),
             ),
+
             // Column for orders, with row for different status
             const SizedBox(height: 20),
             const OrderByStatusWidget(),

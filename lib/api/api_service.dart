@@ -6,13 +6,14 @@ import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/model/panel/resend_code_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
+import 'package:flutter_sl_001/model/panel/temp.dart';
 import 'package:flutter_sl_001/model/panel/user_info_edit.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-// const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
-const String baseURLV1 = "https://newapi.sivanland.com/api/";
+const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
+// const String baseURLV1 = "https://newapi.sivanland.com/api/";
 const String userRole = "customer/";
 
 class APIService {

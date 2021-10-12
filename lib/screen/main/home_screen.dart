@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
+import 'package:flutter_sl_001/screen/main/profile_screen.dart';
 import 'package:flutter_sl_001/screen/product/product_screen_temp.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -41,7 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
             floating: true,
           ),
         ],
-        body: ProductScreenTemp(),
+        // body: ProductScreenTemp(),
+        body: ProfileScreen(),
         /*body: Column(
           children:[
             // Image Slider - Advertisement

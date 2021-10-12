@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
 import 'package:flutter_sl_001/data/local/shared_pref.dart';
-import 'package:flutter_sl_001/model/cart/cart_product_list.dart';
+import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
 import 'package:flutter_sl_001/model/category/category_all_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
 import 'package:flutter_sl_001/screen/category/widget/product_list_by_category.dart';
