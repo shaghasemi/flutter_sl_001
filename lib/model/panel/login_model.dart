@@ -45,7 +45,7 @@ class LoginData {
   int? tracking_code;
   String? type;
   String? updatedAt;
-  UserId? user_id;
+  UserData? user_id;
 
   LoginData({
     this.v,
@@ -76,7 +76,7 @@ class LoginData {
       type: json['type'],
       updatedAt: json['updatedAt'],
       user_id:
-          json['user_id'] != null ? UserId.fromJson(json['user_id']) : null,
+          json['user_id'] != null ? UserData.fromJson(json['user_id']) : null,
     );
   }
 
@@ -101,9 +101,9 @@ class LoginData {
   }
 }
 
-class UserId {
+class UserData {
   int? v2;
-  String? id_2;
+  String id_2;
   int? active;
   List<String>? address_list;
   String? birthday;
@@ -129,9 +129,9 @@ class UserId {
   int? tracking_code;
   String? updatedAt;
 
-  UserId(
+  UserData(
       {this.v2,
-      this.id_2,
+      required this.id_2,
       this.active,
       this.address_list,
       this.birthday,
@@ -157,8 +157,8 @@ class UserId {
       this.tracking_code,
       this.updatedAt});
 
-  factory UserId.fromJson(Map<String, dynamic> json) {
-    return UserId(
+  factory UserData.fromJson(Map<String, dynamic> json) {
+    return UserData(
       v2: json['__v'],
       id_2: json['_id'],
       active: json['active'],

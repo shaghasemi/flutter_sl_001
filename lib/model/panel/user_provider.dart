@@ -1,15 +1,13 @@
-/*
 import 'package:flutter/foundation.dart';
-import 'package:jada/domain/user.dart';
+import 'package:flutter_sl_001/model/panel/login_model.dart';
 
 class UserProvider with ChangeNotifier {
-  User _user = new User();
+  LoginData _user = new LoginData();
 
-  User get user => _user;
+  LoginData get user => _user;
 
-  void setUser(User user) {
+  void setUser(LoginData user) {
     _user = user;
     notifyListeners();
   }
 }
-*/

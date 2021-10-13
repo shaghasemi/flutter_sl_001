@@ -24,13 +24,18 @@ class UserPreferences {
       newPrefs.setStringList('address_list', user.userId!.addressList!);
       newPrefs.setString('national_code', user.userId!.nationalCode!);
       newPrefs.setString('type', user.type!);*/
-    newPrefs.setString('token', user.token!);
+    newPrefs.setString('token', user.token);
     // newPrefs.setString('token_mobile', user.token!);
   }
 
+  /*Future<void> saveUserData(UserData userData) async {
+    final SharedPreferences newPrefs = await SharedPreferences.getInstance();
+    newPrefs.setString('id', userData.id_2);
+  }*/
+
   Future<LoginData> getUser() async {
     final SharedPreferences newPrefs = await SharedPreferences.getInstance();
-    String? id = newPrefs.getString('user_id');
+    String? id = newPrefs.getString('id');
     String? mobile = newPrefs.getString('mobile');
     /*String? name = newPrefs.getString('name');
       String? family = newPrefs.getString('family');
@@ -40,7 +45,7 @@ class UserPreferences {
       List<String>? address_list = newPrefs.getStringList('address_list');
       String? national_code = newPrefs.getString('national_code');
       String? type = newPrefs.getString('type');*/
-    String? token = newPrefs.getString('token');
+    String token = newPrefs.getString('token')!;
     // String? token_mobile = newPrefs.getString('token_mobile');
     return LoginData(
       id: id,
@@ -65,9 +70,9 @@ class UserPreferences {
     newPrefs.remove('token');
   }
 
-  Future<String?> getToken() async {
+  Future<String> getToken() async {
     final SharedPreferences newPrefs = await SharedPreferences.getInstance();
     String? token = newPrefs.getString('token');
-    return token;
+    return token!;
   }
 }
