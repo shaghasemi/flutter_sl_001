@@ -103,7 +103,7 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
                       return Column(
                         children: [
                           // Text(jsonDecode(json.encode(snapshot.data))['token']),
-                          Text(jsonDecode(json.encode(snapshot.data))['mobile']),
+                          // Text(jsonDecode(json.encode(snapshot.data))['mobile']),
                         ],
                       );
                     },

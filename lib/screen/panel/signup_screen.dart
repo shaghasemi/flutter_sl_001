@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/api/api_service.dart';
+import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/model/panel/resend_code_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
@@ -95,7 +95,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           isApiCallProcess = true;
                         },
                       );
-                      APIService apiService = APIService();
+                      APIServicePanel apiService = APIServicePanel();
                       try {
                         apiService.signup(signupRequestModel).then(
                           (value) {
@@ -158,7 +158,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           isApiCallProcess = true;
                         },
                       );
-                      APIService apiService = APIService();
+                      APIServicePanel apiService = APIServicePanel();
                       try {
                         apiService.resendCode(resendCodeRequestModel).then(
                           (value) {
@@ -231,7 +231,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           isApiCallProcess = true;
                         },
                       );
-                      APIService validateApiService = APIService();
+                      APIServicePanel validateApiService = APIServicePanel();
                       try {
                         validateApiService
                             .validateSignup(validateSignupRequestModel)

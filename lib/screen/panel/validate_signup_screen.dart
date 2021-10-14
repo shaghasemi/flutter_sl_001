@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/api/api_service.dart';
+import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
@@ -88,7 +88,7 @@ class _ValidateSignupScreenState extends State<ValidateSignupScreen> {
                           isApiCallProcess = true;
                         },
                       );
-                      APIService apiService = APIService();
+                      APIServicePanel apiService = APIServicePanel();
                       try {
                         apiService
                             .validateSignup(validateSignupRequestModel)

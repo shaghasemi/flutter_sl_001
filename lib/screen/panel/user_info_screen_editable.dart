@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/api/api_service.dart';
+import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/user_info_edit.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
@@ -19,7 +19,7 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
   late UserInfoRequestModel userInfoRequestModel; //late
   late UserInfoEditRequestModel userInfoEditRequestModel; //late
   late Data userInfo;
-  APIService apiService = APIService();
+  APIServicePanel apiService = APIServicePanel();
   bool _isApiCallProcess = true;
 
   @override

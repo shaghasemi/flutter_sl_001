@@ -6,7 +6,7 @@ import 'package:flutter_sl_001/screen/panel/forgot_code_screen.dart';
 import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
 import 'package:flutter_sl_001/screen/panel/signup_screen.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
-import 'package:flutter_sl_001/api/api_service.dart';
+import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -103,8 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                             setState(() {
                                               _isApiCallProcess = true;
                                             });
-                                            APIService apiService =
-                                                APIService();
+                                            APIServicePanel apiService =
+                                                APIServicePanel();
                                             try {
                                               apiService
                                                   .login(loginRequestModel)
@@ -113,11 +113,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   if (value.status == 200) {
                                                     print(value.message);
                                                     user = value.data!;
+                                                    UserPreferences.prefs
+                                                        .setString(
+                                                      "token",
+                                                      value.data!.token
+                                                          .toString(),
+                                                    );
+                                                    Provider.of<UserProvider>(context, listen:false).setUser(user);
                                                     /*UserPreferences.prefs.setString(
-                                                "token",
-                                                value.data!.token.toString(),
-                                              );
-                                              UserPreferences.prefs.setString(
                                                 "user_data",
                                                 jsonEncode(value),
                                               );*/

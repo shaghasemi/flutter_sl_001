@@ -7,7 +7,7 @@ import 'package:flutter_sl_001/screen/panel/login_screen.dart';
 import 'package:flutter_sl_001/screen/panel/profile_screen_content.dart';
 import 'package:flutter_sl_001/screen/panel/signup_screen.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
-import 'package:flutter_sl_001/api/api_service.dart';
+import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -102,7 +102,7 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
                           isApiCallProcess = true;
                         },
                       );
-                      APIService apiService = APIService();
+                      APIServicePanel apiService = APIServicePanel();
                       try {
                         apiService
                             .forgetCodeSend(forgetCodeSendRequestModel)
@@ -209,7 +209,7 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
                           isApiCallProcess = true;
                         },
                       );
-                      APIService apiService = APIService();
+                      APIServicePanel apiService = APIServicePanel();
                       try {
                         apiService
                             .forgetCodeValidate(forgetCodeValidateRequestModel)

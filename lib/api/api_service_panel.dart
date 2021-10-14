@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/model/order/order_all_model.dart';
 import 'package:flutter_sl_001/model/panel/change_password_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_send_model.dart';
@@ -9,14 +10,42 @@ import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
 import 'package:flutter_sl_001/model/panel/temp.dart';
 import 'package:flutter_sl_001/model/panel/user_info_edit.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
+import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:provider/provider.dart';
+
+enum Status {
+  notLoggedIn,
+  notRegistered,
+  loggedIn,
+  registered,
+  authenticating,
+  registering,
+  loggedOut
+}
 
 const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
 // const String baseURLV1 = "https://newapi.sivanland.com/api/";
 const String userRole = "customer/";
 
-class APIService {
+class APIServicePanel extends ChangeNotifier {
+  Status _registeredStatus = Status.notRegistered;
+  Status _loggedInStatus = Status.notLoggedIn;
+
+  Status get loggedInStatus => _loggedInStatus;
+
+  set loggedInStatus(Status value) {
+    _loggedInStatus = value;
+  }
+
+  Status get registeredStatus => _registeredStatus;
+
+  set registeredStatus(Status value) {
+    _registeredStatus = value;
+  }
+
   // Signup
   Future<SignupResponseModel> signup(
       SignupRequestModel signupRequestModel) async {
@@ -61,6 +90,20 @@ class APIService {
       Uri.parse(url),
       body: loginRequestModel.toJson(),
     );
+    if (response.statusCode == 200) {
+      var userData = LoginData.fromJson((json.decode(response.body))['data']);
+      print(userData);
+      print("userData.mobile");
+      print(userData.mobile);
+      // Provider.of<UserProvider>(context, listen:false).setUser(userData);
+      _loggedInStatus = Status.loggedIn;
+      notifyListeners();
+      return LoginResponseModel.fromJson(json.decode(response.body));
+    } else {
+      _loggedInStatus = Status.notLoggedIn;
+      notifyListeners();
+      throw Exception('Failed to Login');
+    }
     /* if (response.statusCode == 200 || response.statusCode == 400) {
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {

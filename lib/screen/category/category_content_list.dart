@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
 import 'package:flutter_sl_001/data/local/shared_pref.dart';
+import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
 import 'package:flutter_sl_001/model/category/category_all_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
+import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:flutter_sl_001/screen/category/widget/product_list_by_category.dart';
 import 'package:flutter_sl_001/screen/product/product_screen_temp.dart';
 import 'package:provider/provider.dart';
@@ -16,11 +18,15 @@ class CategoryContentScreen extends StatefulWidget {
 }
 
 class _CategoryContentScreenState extends State<CategoryContentScreen> {
+  // LoginData user = Provider.of<UserProvider>(context).user;
+
   ApiServiceCategory apiServiceCategory = ApiServiceCategory();
   late CategoryAllRequestModel categoryAllRequestModel; //late
   bool loginState = false;
   bool _isApiCallProcess = true;
   late List<Data> categoryListInfo;
+
+  // late String? token;
 
   // late Iterable<Data>> categoryListMainIterable;
   late Iterable<Data> categoryListMainIterable;
@@ -29,11 +35,19 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   late List<List<Data>> categorySubOne;
   late List<Data> categorySubTwoAll;
   late List<List<List<Data>>> categorySubTwo;
+
   String? token = UserPreferences.prefs.getString("token");
 
   @override
   void initState() {
+    /*LoginData user = Provider.of<UserProvider>(context).user;
+    token = user.token;*/
+    /*print("token initstate:");
+    print(token);*/
+
     super.initState();
+    print("token sharedpref init");
+    print(token);
     categoryAllRequestModel = CategoryAllRequestModel(token: token!);
     categoryListInfo = [];
     categoryListMainIterable = [];
@@ -47,6 +61,21 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    /*LoginData user = Provider.of<UserProvider>(context).user;
+    String? token_provider = user.token;
+    print("token build:");
+    print(token_provider);*/
+    /*return Consumer<UserProvider>(
+      builder: (context, value, child) {
+        print("value:");
+        print(value.user.mobile);
+        return ProgressHUD(
+          child: _uiSetup(context),
+          isAsyncCall: _isApiCallProcess,
+          opacity: 0.3,
+        );
+      },
+    );*/
     return ProgressHUD(
       child: _uiSetup(context),
       isAsyncCall: _isApiCallProcess,
@@ -55,6 +84,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   }
 
   Widget _uiSetup(BuildContext context) {
+    // String? token = user.token;
     return SingleChildScrollView(
       child: ExpansionTile(
         title: Text("همه دسته بندی ها"),

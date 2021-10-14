@@ -24,7 +24,7 @@ class UserPreferences {
       newPrefs.setStringList('address_list', user.userId!.addressList!);
       newPrefs.setString('national_code', user.userId!.nationalCode!);
       newPrefs.setString('type', user.type!);*/
-    newPrefs.setString('token', user.token);
+    newPrefs.setString('token', user.token!);
     // newPrefs.setString('token_mobile', user.token!);
   }
 
