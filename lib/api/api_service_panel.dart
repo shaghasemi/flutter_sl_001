@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/order/order_all_model.dart';
 import 'package:flutter_sl_001/model/panel/change_password_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_send_model.dart';
@@ -92,10 +93,11 @@ class APIServicePanel extends ChangeNotifier {
     );
     if (response.statusCode == 200) {
       var userData = LoginData.fromJson((json.decode(response.body))['data']);
+      print("userData:");
       print(userData);
-      print("userData.mobile");
-      print(userData.mobile);
-      // Provider.of<UserProvider>(context, listen:false).setUser(userData);
+      print(userData.token);
+      UserPreferences().saveUser(userData);
+      print("Saved user data on login.");
       _loggedInStatus = Status.loggedIn;
       notifyListeners();
       return LoginResponseModel.fromJson(json.decode(response.body));

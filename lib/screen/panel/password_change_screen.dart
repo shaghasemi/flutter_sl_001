@@ -56,7 +56,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   Widget _uiSetup(BuildContext context) {
     var userDataRaw = json.decode(
-      UserPreferences.prefs.getString("user_data")!,
+      UserPreferences.newPrefs.getString("user_data")!,
     );
     // changePasswordRequestModel.token = userDataRaw.data!.token!;
     changePasswordRequestModel.token = userDataRaw['data']['token'];

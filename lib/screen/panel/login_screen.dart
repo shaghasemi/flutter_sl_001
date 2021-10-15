@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   if (value.status == 200) {
                                                     print(value.message);
                                                     user = value.data!;
-                                                    UserPreferences.prefs
+                                                    UserPreferences.newPrefs
                                                         .setString(
                                                       "token",
                                                       value.data!.token

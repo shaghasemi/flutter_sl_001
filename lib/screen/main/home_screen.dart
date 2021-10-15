@@ -18,10 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
     bool _loginState = false;
     var userData;
     var rawData =
-        UserPreferences.prefs.getString('user_data');
+        UserPreferences.newPrefs.getString('user_data');
     if (rawData != null) {
       userData = LoginResponseModel.fromJson(jsonDecode(
-          UserPreferences.prefs.getString('user_data')!));
+          UserPreferences.newPrefs.getString('user_data')!));
       _loginState = true;
     }
 

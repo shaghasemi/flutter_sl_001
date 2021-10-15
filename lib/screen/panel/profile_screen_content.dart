@@ -34,6 +34,7 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
     );*/
     return Scaffold(
       body: NestedScrollView(
+        scrollDirection: Axis.vertical,
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
             leading: IconButton(
@@ -81,35 +82,31 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
               // userPhone: userInfo.data!.mobile.toString(),
               userPhone: userInfo.data!.mobile.toString(),
             ),*/
-            SizedBox(
-              height: 200,
-              width: double.infinity,
-              child: Column(
-                children: [
-                  /*Consumer<UserProvider>(
-                    builder: (context, value, child) {
-                      return Text(value.user.token.toString());
-                    },
-                  ),*/
-                  FutureBuilder(
-                    future: getTokenString(),
-                    builder: (context, snapshot) {
-                      return Text(snapshot.data.toString());
-                    },
-                  ),
-                  FutureBuilder(
-                    future: getUserData(),
-                    builder: (context, snapshot) {
-                      return Column(
-                        children: [
-                          // Text(jsonDecode(json.encode(snapshot.data))['token']),
-                          // Text(jsonDecode(json.encode(snapshot.data))['mobile']),
-                        ],
-                      );
-                    },
-                  )
-                ],
-              ),
+            Column(
+              children: [
+                /*Consumer<UserProvider>(
+                  builder: (context, value, child) {
+                    return Text(value.user.token.toString());
+                  },
+                ),*/
+                FutureBuilder(
+                  future: getTokenString(),
+                  builder: (context, snapshot) {
+                    return Text(snapshot.data.toString());
+                  },
+                ),
+                FutureBuilder(
+                  future: getUserData(),
+                  builder: (context, snapshot) {
+                    return Column(
+                      children: [
+                        // Text(jsonDecode(json.encode(snapshot.data))['token']),
+                        // Text(jsonDecode(json.encode(snapshot.data))['mobile']),
+                      ],
+                    );
+                  },
+                )
+              ],
             ),
 
             // Column for orders, with row for different status

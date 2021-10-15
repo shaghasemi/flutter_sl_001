@@ -19,7 +19,7 @@ class _ProductScreenTempState extends State<ProductScreenTemp> {
   late List<Data> productAllInfo;
   bool _isApiCallProcess = false;
   String token =
-      UserPreferences.prefs.getString("token") ?? "No Token";
+      UserPreferences.newPrefs.getString("token") ?? "No Token";
 
   @override
   void initState() {

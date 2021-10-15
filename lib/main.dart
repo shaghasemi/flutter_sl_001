@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_model.dart';
 import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<LoginData> getUserData() => UserPreferences().getUser();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       /*theme: ThemeData(

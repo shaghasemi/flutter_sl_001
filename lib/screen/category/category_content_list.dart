@@ -36,7 +36,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   late List<Data> categorySubTwoAll;
   late List<List<List<Data>>> categorySubTwo;
 
-  String? token = UserPreferences.prefs.getString("token");
+  String? token = UserPreferences.newPrefs.getString("token");
 
   @override
   void initState() {
@@ -46,8 +46,6 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
     print(token);*/
 
     super.initState();
-    print("token sharedpref init");
-    print(token);
     categoryAllRequestModel = CategoryAllRequestModel(token: token!);
     categoryListInfo = [];
     categoryListMainIterable = [];
@@ -61,14 +59,24 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    /*LoginData user = Provider.of<UserProvider>(context).user;
-    String? token_provider = user.token;
-    print("token build:");
-    print(token_provider);*/
-    /*return Consumer<UserProvider>(
+    return Consumer<UserProvider>(
       builder: (context, value, child) {
         print("value:");
-        print(value.user.mobile);
+        print(value.getUser.mobile);
+        print(value.toString());
+        return ProgressHUD(
+          child: _uiSetup(context),
+          isAsyncCall: _isApiCallProcess,
+          opacity: 0.3,
+        );
+      },
+    );
+    /*return Consumer<CartProductList>(
+      builder: (context, value, child) {
+        print("value:");
+        print(value.productList);
+        print(value.productList.length);
+        print(value.toString());
         return ProgressHUD(
           child: _uiSetup(context),
           isAsyncCall: _isApiCallProcess,
@@ -76,11 +84,12 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
         );
       },
     );*/
-    return ProgressHUD(
+
+    /*return ProgressHUD(
       child: _uiSetup(context),
       isAsyncCall: _isApiCallProcess,
       opacity: 0.3,
-    );
+    );*/
   }
 
   Widget _uiSetup(BuildContext context) {
@@ -173,52 +182,63 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   }
 
   void fetchCategoryData() {
-    apiServiceCategory.categoryAll(categoryAllRequestModel).then((value) {
-      setState(() {
-        _isApiCallProcess = false;
-      });
-      if (value.status == 200) {
-        categoryListInfo = value.data!;
+    apiServiceCategory.categoryAll(categoryAllRequestModel).then(
+      (value) {
+        setState(() {
+          _isApiCallProcess = false;
+        });
+        if (value.status == 200) {
+          categoryListInfo = value.data!;
 
-        categoryListMain =
-            categoryListInfo.where((element) => element.lvl == 0).toList();
-        categorySubOneAll =
-            categoryListInfo.where((element) => element.lvl == 1).toList();
-        categorySubTwoAll =
-            categoryListInfo.where((element) => element.lvl == 2).toList();
+          categoryListMain =
+              categoryListInfo.where((element) => element.lvl == 0).toList();
+          categorySubOneAll =
+              categoryListInfo.where((element) => element.lvl == 1).toList();
+          categorySubTwoAll =
+              categoryListInfo.where((element) => element.lvl == 2).toList();
 
-        for (int counter1 = 0; counter1 < categoryListMain.length; counter1++) {
-          categorySubOne.add([]);
-          categorySubTwo.add([]);
-        }
-        for (int x = 0; x < categoryListMain.length; x++) {
-          categorySubOne[x] = categorySubOneAll
-              .where(
-                (element) =>
-                    element.parentId ==
-                    categoryListMain.map((e) => e.id).elementAt(x),
-              )
-              .toList();
-          for (int counter2 = 0;
-              counter2 < categorySubOne[x].length;
-              counter2++) {
-            categorySubTwo[x].add([]);
+          for (int counter1 = 0;
+              counter1 < categoryListMain.length;
+              counter1++) {
+            categorySubOne.add([]);
+            categorySubTwo.add([]);
           }
-          for (var y = 0; y < categorySubOne[x].length; y++) {
-            categorySubTwo[x][y] = categorySubTwoAll
-                .where((element) =>
-                    element.parentId ==
-                    categorySubOne[x].map((e) => e.id).elementAt(y))
+          for (int x = 0; x < categoryListMain.length; x++) {
+            categorySubOne[x] = categorySubOneAll
+                .where(
+                  (element) =>
+                      element.parentId ==
+                      categoryListMain.map((e) => e.id).elementAt(x),
+                )
                 .toList();
+            for (int counter2 = 0;
+                counter2 < categorySubOne[x].length;
+                counter2++) {
+              categorySubTwo[x].add([]);
+            }
+            for (var y = 0; y < categorySubOne[x].length; y++) {
+              categorySubTwo[x][y] = categorySubTwoAll
+                  .where((element) =>
+                      element.parentId ==
+                      categorySubOne[x].map((e) => e.id).elementAt(y))
+                  .toList();
+            }
           }
+          UserPreferences.newPrefs.setString(
+            "category_data",
+            value.data!.toString(),
+          );
         }
-        UserPreferences.prefs.setString(
-          "category_data",
-          value.data!.toString(),
-        );
-      }
-    }).whenComplete(
-      () => _isApiCallProcess = false,
+      },
+      onError: (err, stackTrace) {
+        print("err:");
+        print(err);
+      },
+    ).whenComplete(
+      () {
+        print("complete:");
+        () => _isApiCallProcess = false;
+      },
     );
   }
 }

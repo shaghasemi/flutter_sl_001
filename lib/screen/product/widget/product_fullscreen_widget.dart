@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_product.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
+import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
+import 'package:provider/provider.dart';
 
 class ProductFullScreenWidget extends StatefulWidget {
   final String token;
@@ -26,6 +28,7 @@ class _ProductFullScreenWidgetState extends State<ProductFullScreenWidget> {
   @override
   void initState() {
     super.initState();
+    productInfo = ProductSingleData();
     fetchProductById();
   }
 
@@ -66,6 +69,15 @@ class _ProductFullScreenWidgetState extends State<ProductFullScreenWidget> {
             Text(productInfo.likes.toString()),
             Text(productInfo.supporting.toString()),
             Text(productInfo.unit.toString()),
+            ElevatedButton(
+              onPressed: () =>
+                  Provider.of<CartProductList>(context, listen: false)
+                      .addProductToCart(
+                // id: productInfo.id.toString(),
+                id: "Some id",
+              ),
+              child: Text("Add to Cart"),
+            ),
           ],
         ),
       ),
@@ -89,5 +101,5 @@ class _ProductFullScreenWidgetState extends State<ProductFullScreenWidget> {
     );
   }
 
-  void addToCart(){}
+  void addToCart() {}
 }

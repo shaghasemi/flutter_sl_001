@@ -27,7 +27,7 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
     super.initState();
     userInfo = Data();
     String token =
-        UserPreferences.prefs.getString("token") ?? "aaa";
+        UserPreferences.newPrefs.getString("token") ?? "aaa";
     userInfoRequestModel = UserInfoRequestModel(token: token);
     userInfoEditRequestModel = UserInfoEditRequestModel(token: token);
     fetchUserInfo();

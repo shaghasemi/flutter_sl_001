@@ -25,8 +25,8 @@ class _CartContentState extends State<CartContent> {
         return ListView.builder(
           itemCount: value.productList.length,
           itemBuilder: (context, index) {
-            // return Text(value.productList[index].id!);
-            return ProductListOrderWidget(
+            return Text(value.productList[index].id!);
+            /*return ProductListOrderWidget(
               price_original:
                   value.productList[index].price ?? 'Price (PlaceHolder)',
               // price_original: '',
@@ -42,7 +42,7 @@ class _CartContentState extends State<CartContent> {
               title: value.productList[index].titleFa ?? 'Title (PlaceHolder)',
               delivery_date: value.productList[index].createdAt ??
                   'Delivery Date (PlaceHolder)',
-            );
+            );*/
           },
         );
       },

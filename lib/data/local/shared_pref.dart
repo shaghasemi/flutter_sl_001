@@ -3,17 +3,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 
 class UserPreferences {
-  static late SharedPreferences prefs;
+  static late SharedPreferences newPrefs;
+  // static late SharedPreferences newPrefs;
+  // final SharedPreferences newPrefs = await SharedPreferences.getInstance();
 
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
     // await Future.delayed(const Duration(seconds: 2));
-    prefs = await SharedPreferences.getInstance();
+    newPrefs = await SharedPreferences.getInstance();
   }
 
   // New Stuff
   Future<void> saveUser(LoginData user) async {
-    final SharedPreferences newPrefs = await SharedPreferences.getInstance();
+    // final SharedPreferences newPrefs = await SharedPreferences.getInstance();
     newPrefs.setString('id', user.id!);
     newPrefs.setString('mobile', user.mobile!);
     /*newPrefs.setString('name', user.userId!.name!);
@@ -34,7 +36,7 @@ class UserPreferences {
   }*/
 
   Future<LoginData> getUser() async {
-    final SharedPreferences newPrefs = await SharedPreferences.getInstance();
+    // final SharedPreferences newPrefs = await SharedPreferences.getInstance();
     String? id = newPrefs.getString('id');
     String? mobile = newPrefs.getString('mobile');
     /*String? name = newPrefs.getString('name');
@@ -64,14 +66,14 @@ class UserPreferences {
   }
 
   void removeUser() async {
-    final SharedPreferences newPrefs = await SharedPreferences.getInstance();
-    newPrefs.remove('user_id');
+    // final SharedPreferences newPrefs = await SharedPreferences.getInstance();
+    newPrefs.remove('id');
     newPrefs.remove('mobile');
     newPrefs.remove('token');
   }
 
   Future<String> getToken() async {
-    final SharedPreferences newPrefs = await SharedPreferences.getInstance();
+    // final SharedPreferences newPrefs = await SharedPreferences.getInstance();
     String? token = newPrefs.getString('token');
     return token!;
   }

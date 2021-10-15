@@ -21,7 +21,7 @@ class _LogoutGlobalScreenState extends State<LogoutGlobalScreen> {
           onPressed: () {
             setState(
               () {
-                UserPreferences.prefs.clear();
+                UserPreferences.newPrefs.clear();
                 UserPreferences().removeUser();
                 // Here we need to handle events that rely on login status
                 // Cart Screen should be refreshed

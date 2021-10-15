@@ -1,12 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/order/order_all_model.dart';
+import 'package:flutter_sl_001/model/panel/login_model.dart';
+import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:flutter_sl_001/screen/cart/cart_content_main.dart';
 import 'package:flutter_sl_001/screen/cart/cart_content_provider.dart';
 import 'package:flutter_sl_001/screen/helper/request_login.dart';
 import 'package:flutter_sl_001/screen/helper/under_construction.dart';
 import 'package:flutter_sl_001/screen/product/widget/product_order_list_widget.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -17,7 +22,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   bool loginState = false;
-  String? token = UserPreferences.prefs.getString("token");
+  String? token = UserPreferences.newPrefs.getString("token");
 
   @override
   void initState() {
@@ -29,8 +34,9 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     // orderListInfo = [];
     // token = MySharedPreferences.mySharedPreferences.getString("token");
+    LoginData user = Provider.of<UserProvider>(context).getUser;
     setState(() {
-      token = UserPreferences.prefs.getString("token");
+      token = UserPreferences.newPrefs.getString("token");
     });
 
     // loginState = token != null;
@@ -53,6 +59,12 @@ class _CartScreenState extends State<CartScreen> {
             actions: [
               IconButton(
                   onPressed: () {
+                    print("Refresh: ");
+                    /*Consumer<UserProvider>(
+                      builder: (context, value, child) {
+                        print("value:");
+                      },
+                    );*/
                     setState(() {
                       loginState = token != null;
                     });
@@ -61,10 +73,57 @@ class _CartScreenState extends State<CartScreen> {
             ],
           ),
         ],
-        body: loginState == false
+        /*body: loginState == false
             ? const RequestLoginScreen()
             // : CartContent(token: token.toString()),
-            : CartContent(),
+            : CartContent(),*/
+        body: Column(
+          children: [
+            Text("Consumer"),
+            Consumer<UserProvider>(
+              builder: (context, value, child) {
+                return Column(
+                  children: [
+                    Text(value.getUser.mobile.toString()),
+                    Text(jsonEncode(value.getUser)),
+                  ],
+                );
+              },
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Text("Provider Of"),
+            Text(user.toString()),
+            Text(jsonEncode(user)),
+            Text(user.mobile.toString()),
+            SizedBox(
+              height: 50,
+            ),
+            Text("Shared Pref Get User"),
+            FutureBuilder(
+              future: UserPreferences().getUser(),
+              builder: (context, snapshot) {
+                return Column(
+                  children: [
+                    Text(UserPreferences().getUser().toString()),
+                    Text(LoginData.fromJson(
+                            jsonDecode(jsonEncode(snapshot.data)))
+                        .mobile!),
+                    // Text(snapshot.data<LoginData>),
+                    // Text(LoginData.fromJson(snapshot.data as Map<String,dynamic>).mobile!),
+                    // Text(jsonEncode(UserPreferences().getUser())),
+                  ],
+                );
+              },
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            Text("Shared Pref Original"),
+            Text(UserPreferences.newPrefs.getString("token").toString())
+          ],
+        ),
       ),
     );
   }
