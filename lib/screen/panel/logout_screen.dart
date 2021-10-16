@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/app_home.dart';
 import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/main.dart';
+import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:flutter_sl_001/screen/main/profile_screen.dart';
 import 'package:flutter_sl_001/screen/panel/login_screen.dart';
+import 'package:provider/provider.dart';
 
 class LogoutGlobalScreen extends StatefulWidget {
   const LogoutGlobalScreen({Key? key}) : super(key: key);
@@ -23,6 +25,8 @@ class _LogoutGlobalScreenState extends State<LogoutGlobalScreen> {
               () {
                 UserPreferences.newPrefs.clear();
                 UserPreferences().removeUser();
+                Provider.of<UserProvider>(context, listen: false)
+                    .removeUser(); // UserPreferences().removeUser();
                 // Here we need to handle events that rely on login status
                 // Cart Screen should be refreshed
                 // AppHome.build

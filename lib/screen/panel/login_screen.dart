@@ -119,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                                       value.data!.token
                                                           .toString(),
                                                     );
-                                                    Provider.of<UserProvider>(context, listen:false).setUser(user);
                                                     /*UserPreferences.prefs.setString(
                                                 "user_data",
                                                 jsonEncode(value),
@@ -127,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     // Create shared preferences and save user info
                                                     UserPreferences()
                                                         .saveUser(user);
+
                                                     Provider.of<UserProvider>(
                                                             context,
                                                             listen: false)

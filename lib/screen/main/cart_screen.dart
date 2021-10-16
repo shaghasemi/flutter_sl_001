@@ -77,52 +77,57 @@ class _CartScreenState extends State<CartScreen> {
             ? const RequestLoginScreen()
             // : CartContent(token: token.toString()),
             : CartContent(),*/
-        body: Column(
-          children: [
-            Text("Consumer"),
-            Consumer<UserProvider>(
-              builder: (context, value, child) {
-                return Column(
-                  children: [
-                    Text(value.getUser.mobile.toString()),
-                    Text(jsonEncode(value.getUser)),
-                  ],
-                );
-              },
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text("Consumer"),
+                Consumer<UserProvider>(
+                  builder: (context, value, child) {
+                    return Column(
+                      children: [
+                        Text(value.getUser.mobile.toString()),
+                        Text(jsonEncode(value.getUser)),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                Text("Provider Of"),
+                Text(user.toString()),
+                Text(jsonEncode(user)),
+                Text(user.mobile.toString()),
+                SizedBox(
+                  height: 50,
+                ),
+                Text("Shared Pref Get User"),
+                FutureBuilder(
+                  future: UserPreferences().getUser(),
+                  builder: (context, snapshot) {
+                    return Column(
+                      children: [
+                        // Text(UserPreferences().getUser().toString() ?? "Get User 1"),
+                        /*Text(LoginData.fromJson(
+                                    jsonDecode(jsonEncode(snapshot.data)))
+                                .mobile ??
+                            "Snapshot Data"),*/
+                        // Text(snapshot.data<LoginData>),
+                        // Text(LoginData.fromJson(snapshot.data as Map<String,dynamic>).mobile!),
+                        // Text(jsonEncode(UserPreferences().getUser())),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                Text("Shared Pref Original"),
+                Text(UserPreferences.newPrefs.getString("token").toString() ?? "Get User 2")
+              ],
             ),
-            SizedBox(
-              height: 50,
-            ),
-            Text("Provider Of"),
-            Text(user.toString()),
-            Text(jsonEncode(user)),
-            Text(user.mobile.toString()),
-            SizedBox(
-              height: 50,
-            ),
-            Text("Shared Pref Get User"),
-            FutureBuilder(
-              future: UserPreferences().getUser(),
-              builder: (context, snapshot) {
-                return Column(
-                  children: [
-                    Text(UserPreferences().getUser().toString()),
-                    Text(LoginData.fromJson(
-                            jsonDecode(jsonEncode(snapshot.data)))
-                        .mobile!),
-                    // Text(snapshot.data<LoginData>),
-                    // Text(LoginData.fromJson(snapshot.data as Map<String,dynamic>).mobile!),
-                    // Text(jsonEncode(UserPreferences().getUser())),
-                  ],
-                );
-              },
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Text("Shared Pref Original"),
-            Text(UserPreferences.newPrefs.getString("token").toString())
-          ],
+          ),
         ),
       ),
     );
