@@ -66,9 +66,11 @@ class ApiServiceProduct {
         "cat_id=${productLatestRequestModel.cat_id}&"
         "page=${productLatestRequestModel.page!}&"
         "limit=${productLatestRequestModel.limit!}";
+    print("BEfore calling Latest products:");
     final response = await http.get(
       Uri.parse(url),
     );
+    print(response.statusCode);
     /* if (response.statusCode == 200 || response.statusCode == 400) {
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {

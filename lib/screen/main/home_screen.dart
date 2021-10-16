@@ -4,6 +4,7 @@ import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/screen/home/banner_ad_top_widget.dart';
 import 'package:flutter_sl_001/screen/home/banner_shop_h_widget.dart';
+import 'package:flutter_sl_001/screen/home/latest_products_widget.dart';
 import 'package:flutter_sl_001/screen/home/search_widget.dart';
 import 'package:flutter_sl_001/screen/main/profile_screen.dart';
 import 'package:flutter_sl_001/screen/product/product_screen_temp.dart';
@@ -59,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // Latest Products
                 Text("جدیدترین محصولات"),
+                LatestProductsWidget(),
 
 
                 // Weekly Special

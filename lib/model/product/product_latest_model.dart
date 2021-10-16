@@ -302,8 +302,8 @@ class ProductLatestRequestModel {
 
   ProductLatestRequestModel({
     required this.num,
-    required this.page,
-    required this.limit,
+    this.page,
+    this.limit,
     required this.cat_id,
   });
 
