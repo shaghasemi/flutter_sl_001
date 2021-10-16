@@ -73,8 +73,8 @@ class _ProductListByCategoryWidgetState
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProductFullScreenWidget(
-                          product_id: productByCategoryListInfo[index].id!,
-                          token: widget.token,
+                          product_id: productByCategoryListInfo[index].shop_id!.id!,
+                          // token: widget.token,
                         ),
                       ),
                     );
@@ -82,11 +82,11 @@ class _ProductListByCategoryWidgetState
                   child: Card(
                     child: Column(
                       children: [
-                        Image.asset("assets/images/awaiting_payment.png"),
-                        Text(productByCategoryListInfo[index].titleFa ??
-                            "Product Title"),
-                        Text(productByCategoryListInfo[index].shopId ??
-                            "Seller"),
+                        // Image.asset("assets/images/awaiting_payment.png"),
+                        Text(productByCategoryListInfo[index].title_fa ??
+                            "Product Title Fa"),
+                        Text(productByCategoryListInfo[index].shop_id!.id ??
+                            "Shop Id"),
                         Text(productByCategoryListInfo[index].price ??
                             "Price Maybe"),
                       ],
@@ -101,6 +101,7 @@ class _ProductListByCategoryWidgetState
     );
   }
 
+  // TODO: Product Properties are commented due to model error
   void fetchProductByCategory() {
     ApiServiceCategory apiServiceCategory = ApiServiceCategory();
     productListByCategoryRequestModel = ProductListByCategoryRequestModel(
@@ -109,14 +110,18 @@ class _ProductListByCategoryWidgetState
     );
     apiServiceCategory
         .productByCategory(productListByCategoryRequestModel)
-        .then((value) {
-      setState(() {
-        _isApiCallProcess = false;
-      });
-      if (value.status == 200) {
-        productByCategoryListInfo = value.data!;
-      }
-    }).whenComplete(
+        .then(
+      (value) {
+        setState(
+          () {
+            _isApiCallProcess = false;
+          },
+        );
+        if (value.status == 200) {
+          productByCategoryListInfo = value.data!;
+        }
+      },
+    ).whenComplete(
       () => _isApiCallProcess = false,
     );
   }

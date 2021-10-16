@@ -3,9 +3,10 @@ import 'package:flutter_sl_001/model/product/product_single_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
-// const String baseURLV1 = "https://newapi.sivanland.com/api/";
-const String userRole = "customer/";
+// const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
+const String baseURLV1 = "https://newapi.sivanland.com/api/";
+// const String userRole = "customer/";
+const String userRole = "guest/";
 
 class ApiServiceProduct {
   // Get a Single Product by id
@@ -18,7 +19,7 @@ class ApiServiceProduct {
       Uri.parse(url),
       // body: userInfoRequestModel.toJson(),
       headers: {
-        'x-access-token': productSingleRequestModel.token,
+        // 'x-access-token': productSingleRequestModel.token,
       },
     );
     /* if (response.statusCode == 200 || response.statusCode == 400) {

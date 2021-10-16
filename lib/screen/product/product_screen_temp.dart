@@ -18,8 +18,7 @@ class _ProductScreenTempState extends State<ProductScreenTemp> {
   late ProductAllRequestModel productAllRequestModel;
   late List<Data> productAllInfo;
   bool _isApiCallProcess = false;
-  String token =
-      UserPreferences.newPrefs.getString("token") ?? "No Token";
+  String token = UserPreferences.newPrefs.getString("token") ?? "No Token";
 
   @override
   void initState() {
@@ -56,17 +55,19 @@ class _ProductScreenTempState extends State<ProductScreenTemp> {
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: productAllInfo.length,
-                itemBuilder: (context, index) => Row(
-                  children: [
-                    Text(productAllInfo[index].titleFa!),
-                    ElevatedButton(
-                      onPressed: () =>
-                          Provider.of<CartProductList>(context, listen: false)
-                              .addProductToCart(id: "Some id"),
-                      child: Text("Add to Cart"),
+                itemBuilder: (context, index) =>
+                    Row(
+                      children: [
+                        Text(productAllInfo[index].titleFa!),
+                        ElevatedButton(
+                          onPressed: () =>
+                              Provider.of<CartProductList>(
+                                  context, listen: false)
+                                  .addProductToCart(id: "Some id"),
+                          child: Text("Add to Cart"),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
               ),
             ),
           ],
@@ -78,15 +79,23 @@ class _ProductScreenTempState extends State<ProductScreenTemp> {
   void fetchProductAll() {
     ApiServiceProduct apiServiceProduct = ApiServiceProduct();
     productAllRequestModel = ProductAllRequestModel(token: token);
-    apiServiceProduct.productAll(productAllRequestModel).then((value) {
-      setState(() {
-        _isApiCallProcess = false;
-      });
-      if (value.status == 200) {
-        productAllInfo = value.data!;
-      }
-    }).whenComplete(
-      () => _isApiCallProcess = false,
+    apiServiceProduct.productAll(productAllRequestModel).then(
+          (value) {
+        setState(() {
+          _isApiCallProcess = false;
+        });
+        if (value.status == 200) {
+          productAllInfo = value.data!;
+          print("Product fetchewd successfully");
+
+        }
+      },
+      onError: (err) {
+        print("err:");
+        print(err);
+      },
+    ).whenComplete(
+          () => _isApiCallProcess = false,
     );
   }
 }

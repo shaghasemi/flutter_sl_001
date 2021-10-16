@@ -1,21 +1,14 @@
-class ProductListByCategoryResponseModel {
+class asdaszxv {
   List<Data>? data;
   bool? error;
   String? message;
   int? status;
   bool? success;
 
-  ProductListByCategoryResponseModel({
-    this.data,
-    this.error,
-    this.message,
-    this.status,
-    this.success,
-  });
+  asdaszxv({this.data, this.error, this.message, this.status, this.success});
 
-  factory ProductListByCategoryResponseModel.fromJson(
-      Map<String, dynamic> json) {
-    return ProductListByCategoryResponseModel(
+  factory asdaszxv.fromJson(Map<String, dynamic> json) {
+    return asdaszxv(
       data: json['data'] != null
           ? (json['data'] as List).map((i) => Data.fromJson(i)).toList()
           : null,
@@ -56,7 +49,7 @@ class Data {
   List<String>? pack_list;
   String? price;
   List<PriceRatioRange>? price_ratio_range_list;
-  // List<Property>? property_list;
+  List<Property>? property_list;
   bool? returning;
   String? seller_id;
   List<String>? seo_keywords;
@@ -88,7 +81,7 @@ class Data {
       this.pack_list,
       this.price,
       this.price_ratio_range_list,
-      // this.property_list,
+      this.property_list,
       this.returning,
       this.seller_id,
       this.seo_keywords,
@@ -133,11 +126,11 @@ class Data {
               .map((i) => PriceRatioRange.fromJson(i))
               .toList()
           : null,
-      /*property_list: json['property_list'] != null
+      property_list: json['property_list'] != null
           ? (json['property_list'] as List)
               .map((i) => Property.fromJson(i))
               .toList()
-          : null,*/
+          : null,
       returning: json['returning'],
       seller_id: json['seller_id'],
       seo_keywords: json['seo_keywords'] != null
@@ -197,10 +190,10 @@ class Data {
       data['price_ratio_range_list'] =
           this.price_ratio_range_list!.map((v) => v.toJson()).toList();
     }
-    /*if (this.property_list != null) {
+    if (this.property_list != null) {
       data['property_list'] =
           this.property_list!.map((v) => v.toJson()).toList();
-    }*/
+    }
     if (this.seo_keywords != null) {
       data['seo_keywords'] = this.seo_keywords;
     }
@@ -304,7 +297,7 @@ class Image {
   }
 }
 
-/*class Property {
+class Property {
   String? id;
   int? code;
   int? index;
@@ -325,11 +318,11 @@ class Image {
       id: json['_id'],
       code: json['code'],
       index: json['index'],
-      *//*select_list: json['select_list'] != null
+      /*select_list: json['select_list'] != null
           ? (json['select_list'] as List)
               .map((i) => String.fromJson(i))
               .toList()
-          : null,*//*
+          : null,*/
       select_list: json['select_list'] != null
           ? new List<String>.from(json['select_list'])
           : null,
@@ -361,7 +354,7 @@ class Image {
     }
     return data;
   }
-}*/
+}
 
 class SelectRatio {
   String? id;
@@ -400,23 +393,4 @@ class SelectRatio {
     data['name'] = this.name;
     return data;
   }
-}
-
-class ProductListByCategoryRequestModel {
-  String token;
-  String categoryId;
-
-  ProductListByCategoryRequestModel({
-    required this.token,
-    required this.categoryId,
-  });
-
-  ProductListByCategoryRequestModel.fromJson(Map<String, dynamic> json)
-      : token = json['x-access-token'],
-        categoryId = json['category_id'];
-
-  Map<String, dynamic> toJson() => {
-        "x-access-token": token.trim(),
-        "category_id": categoryId.trim(),
-      };
 }

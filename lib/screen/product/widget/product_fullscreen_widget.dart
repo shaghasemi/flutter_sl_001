@@ -6,13 +6,13 @@ import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
 import 'package:provider/provider.dart';
 
 class ProductFullScreenWidget extends StatefulWidget {
-  final String token;
+  // final String token;
   final String product_id;
 
   const ProductFullScreenWidget({
     Key? key,
     required this.product_id,
-    required this.token,
+    // required this.token,
   }) : super(key: key);
 
   @override
@@ -65,10 +65,10 @@ class _ProductFullScreenWidgetState extends State<ProductFullScreenWidget> {
           children: [
             Image.asset("assets/images/awaiting_payment.png"),
             Text("Product Page"),
-            Text(productInfo.titleFa!),
-            Text(productInfo.likes.toString()),
-            Text(productInfo.supporting.toString()),
-            Text(productInfo.unit.toString()),
+            // Text(productInfo.titleFa!),
+            // Text(productInfo.likes.toString()),
+            // Text(productInfo.supporting.toString()),
+            // Text(productInfo.unit.toString()),
             ElevatedButton(
               onPressed: () =>
                   Provider.of<CartProductList>(context, listen: false)
@@ -86,8 +86,10 @@ class _ProductFullScreenWidgetState extends State<ProductFullScreenWidget> {
 
   void fetchProductById() {
     ApiServiceProduct apiServiceCategory = ApiServiceProduct();
-    productSingleRequestModel =
-        ProductSingleRequestModel(token: widget.token, id: widget.product_id);
+    productSingleRequestModel = ProductSingleRequestModel(
+      // token: widget.token,
+      id: widget.product_id,
+    );
     apiServiceCategory.productSingle(productSingleRequestModel).then((value) {
       setState(() {
         _isApiCallProcess = false;

@@ -8,44 +8,37 @@ import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/model/panel/resend_code_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
-import 'package:flutter_sl_001/model/panel/temp.dart';
 import 'package:flutter_sl_001/model/panel/user_info_edit.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
-import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import 'package:provider/provider.dart';
 
 enum Status {
   notLoggedIn,
   notRegistered,
+  notValidated,
   loggedIn,
   registered,
+  validated,
   authenticating,
   registering,
   loggedOut
 }
 
-const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
-// const String baseURLV1 = "https://newapi.sivanland.com/api/";
+// const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
+const String baseURLV1 = "https://newapi.sivanland.com/api/";
 const String userRole = "customer/";
 
 class APIServicePanel extends ChangeNotifier {
   Status _registeredStatus = Status.notRegistered;
   Status _loggedInStatus = Status.notLoggedIn;
+  Status _validatedStatus = Status.notValidated;
 
   Status get loggedInStatus => _loggedInStatus;
 
-  set loggedInStatus(Status value) {
-    _loggedInStatus = value;
-  }
-
   Status get registeredStatus => _registeredStatus;
 
-  set registeredStatus(Status value) {
-    _registeredStatus = value;
-  }
+  Status get validatedStatus => _validatedStatus;
 
   // Signup
   Future<SignupResponseModel> signup(
@@ -55,14 +48,14 @@ class APIServicePanel extends ChangeNotifier {
       Uri.parse(url),
       body: signupRequestModel.toJson(),
     );
-    if (response.statusCode == 200 || response.statusCode == 400) {
+    if (response.statusCode == 200) {
+      _registeredStatus = Status.registered;
       var signupResponse =
           SignupResponseModel.fromJson(json.decode(response.body));
-      // if (signupResponse.status == 200){}
       return signupResponse;
     } else {
-      print("Error from API Service");
-      throw Exception('Failed to load data');
+      _registeredStatus = Status.registered;
+      throw Exception('Failed to Register');
     }
   }
 
@@ -75,42 +68,45 @@ class APIServicePanel extends ChangeNotifier {
       body: validateSignupRequestModel.toJson(),
     );
     if (response.statusCode == 200 || response.statusCode == 400) {
+      _validatedStatus = Status.validated;
       var validateSignupResponse =
           ValidateSignupResponseModel.fromJson(json.decode(response.body));
       return validateSignupResponse;
     } else {
-      print("Error from API Service");
-      throw Exception('Failed to load data');
+      _validatedStatus = Status.notValidated;
+      throw Exception('Failed to Validate');
     }
   }
 
   // Login
   Future<LoginResponseModel> login(LoginRequestModel loginRequestModel) async {
     String url = "${baseURLV1}${userRole}signin";
+    print(loginRequestModel);
+    print(loginRequestModel.phone);
+    print(loginRequestModel.password);
     final response = await http.post(
       Uri.parse(url),
+      /*headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },*/
       body: loginRequestModel.toJson(),
+      // encoding: Encoding.getByName("utf-8"),
     );
-    if (response.statusCode == 200) {
-      var userData = LoginData.fromJson((json.decode(response.body))['data']);
-      print("userData:");
-      print(userData);
-      print(userData.token);
-      UserPreferences().saveUser(userData);
-      print("Saved user data on login.");
+    print("json.decode(response.body)");
+    print(response.statusCode);
+    // print(json.decode(response.body));
+    // print(LoginResponseModel.fromJson(json.decode(response.body)));
+    /*if (response.statusCode == 200) {
       _loggedInStatus = Status.loggedIn;
+      LoginData userData =
+          LoginData.fromJson((json.decode(response.body))['data']);
+      UserPreferences().saveUser(userData);
       notifyListeners();
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {
       _loggedInStatus = Status.notLoggedIn;
       notifyListeners();
-      throw Exception('Failed to Login');
-    }
-    /* if (response.statusCode == 200 || response.statusCode == 400) {
-      return LoginResponseModel.fromJson(json.decode(response.body));
-    } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
       throw Exception('Failed to Login');
     }*/
     return LoginResponseModel.fromJson(json.decode(response.body));

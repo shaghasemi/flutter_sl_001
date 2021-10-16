@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_model.dart';
@@ -9,6 +11,7 @@ import 'provider_test/cart_product_list.dart';
 
 void main() async {
   await UserPreferences.init(); // Initializing Shared Prefs throughout app
+  HttpOverrides.global = new MyHttpOverrides();
   runApp(const MyApp());
   /*runApp(
     ChangeNotifierProvider(
@@ -49,5 +52,14 @@ class MyApp extends StatelessWidget {
         child: AppHome(),
       ),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

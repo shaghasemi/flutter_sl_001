@@ -38,37 +38,34 @@ class LoginData {
   int? v;
   String? id;
   String? createdAt;
-  List<String>? favorite_product;
+  String? crm_id;
   String? mobile;
   int? status;
   String? token;
   int? tracking_code;
   String? type;
   String? updatedAt;
-  UserData? user_id;
+  UserId? user_id;
 
-  LoginData({
-    this.v,
-    this.id,
-    this.createdAt,
-    this.favorite_product,
-    this.mobile,
-    this.status,
-    this.token,
-    this.tracking_code,
-    this.type,
-    this.updatedAt,
-    this.user_id,
-  });
+  LoginData(
+      {this.v,
+      this.id,
+      this.createdAt,
+      this.crm_id,
+      this.mobile,
+      this.status,
+      this.token,
+      this.tracking_code,
+      this.type,
+      this.updatedAt,
+      this.user_id});
 
   factory LoginData.fromJson(Map<String, dynamic> json) {
     return LoginData(
       v: json['__v'],
       id: json['_id'],
       createdAt: json['createdAt'],
-      favorite_product: json['favorite_product'] != null
-          ? new List<String>.from(json['favorite_product'])
-          : null,
+      crm_id: json['crm_id'],
       mobile: json['mobile'],
       status: json['status'],
       token: json['token'],
@@ -76,7 +73,7 @@ class LoginData {
       type: json['type'],
       updatedAt: json['updatedAt'],
       user_id:
-          json['user_id'] != null ? UserData.fromJson(json['user_id']) : null,
+          json['user_id'] != null ? UserId.fromJson(json['user_id']) : null,
     );
   }
 
@@ -85,15 +82,13 @@ class LoginData {
     data['__v'] = this.v;
     data['_id'] = this.id;
     data['createdAt'] = this.createdAt;
+    data['crm_id'] = this.crm_id;
     data['mobile'] = this.mobile;
     data['status'] = this.status;
     data['token'] = this.token;
     data['tracking_code'] = this.tracking_code;
     data['type'] = this.type;
     data['updatedAt'] = this.updatedAt;
-    if (this.favorite_product != null) {
-      data['favorite_product'] = this.favorite_product;
-    }
     if (this.user_id != null) {
       data['user_id'] = this.user_id!.toJson();
     }
@@ -101,87 +96,89 @@ class LoginData {
   }
 }
 
-class UserData {
-  int? v2;
-  String id_2;
-  int? active;
+class UserId {
+  int? v;
+  String? id;
   List<String>? address_list;
   String? birthday;
-  String? company_code;
-  String? company_name;
+  String? city;
+  Company? company;
   String? createdAt;
-  String? economic_code;
   String? email;
   String? family;
   String? foreign_national;
   int? gender;
-  String? image;
+  List<String>? images;
+  String? lat;
+  String? lon;
   String? main_address;
   String? mobile;
   String? name;
   String? national_code;
-  String? national_id;
   bool? personal;
   String? postal_code;
+  String? province;
   String? sosPhone;
   int? status;
   String? telephone;
   int? tracking_code;
   String? updatedAt;
 
-  UserData(
-      {this.v2,
-      required this.id_2,
-      this.active,
+  UserId(
+      {this.v,
+      this.id,
       this.address_list,
       this.birthday,
-      this.company_code,
-      this.company_name,
+      this.city,
+      this.company,
       this.createdAt,
-      this.economic_code,
       this.email,
       this.family,
       this.foreign_national,
       this.gender,
-      this.image,
+      this.images,
+      this.lat,
+      this.lon,
       this.main_address,
       this.mobile,
       this.name,
       this.national_code,
-      this.national_id,
       this.personal,
       this.postal_code,
+      this.province,
       this.sosPhone,
       this.status,
       this.telephone,
       this.tracking_code,
       this.updatedAt});
 
-  factory UserData.fromJson(Map<String, dynamic> json) {
-    return UserData(
-      v2: json['__v'],
-      id_2: json['_id'],
-      active: json['active'],
+  factory UserId.fromJson(Map<String, dynamic> json) {
+    return UserId(
+      v: json['__v'],
+      id: json['_id'],
       address_list: json['address_list'] != null
           ? new List<String>.from(json['address_list'])
           : null,
       birthday: json['birthday'],
-      company_code: json['company_code'],
-      company_name: json['company_name'],
+      city: json['city'],
+      company:
+          json['company'] != null ? Company.fromJson(json['company']) : null,
       createdAt: json['createdAt'],
-      economic_code: json['economic_code'],
       email: json['email'],
       family: json['family'],
       foreign_national: json['foreign_national'],
       gender: json['gender'],
-      image: json['image'],
+      images:
+          json['images'] != null ? new List<String>.from(json['images']) : null,
+      lat: json['lat'],
+      lon: json['lon'],
       main_address: json['main_address'],
       mobile: json['mobile'],
       name: json['name'],
       national_code: json['national_code'],
-      national_id: json['national_id'],
       personal: json['personal'],
       postal_code: json['postal_code'],
+      province: json['province'],
       sosPhone: json['sosPhone'],
       status: json['status'],
       telephone: json['telephone'],
@@ -192,26 +189,24 @@ class UserData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['__v'] = this.v2;
-    data['_id'] = this.id_2;
-    data['active'] = this.active;
+    data['__v'] = this.v;
+    data['_id'] = this.id;
     data['birthday'] = this.birthday;
-    data['company_code'] = this.company_code;
-    data['company_name'] = this.company_name;
+    data['city'] = this.city;
     data['createdAt'] = this.createdAt;
-    data['economic_code'] = this.economic_code;
     data['email'] = this.email;
     data['family'] = this.family;
     data['foreign_national'] = this.foreign_national;
     data['gender'] = this.gender;
-    data['image'] = this.image;
+    data['lat'] = this.lat;
+    data['lon'] = this.lon;
     data['main_address'] = this.main_address;
     data['mobile'] = this.mobile;
     data['name'] = this.name;
     data['national_code'] = this.national_code;
-    data['national_id'] = this.national_id;
     data['personal'] = this.personal;
     data['postal_code'] = this.postal_code;
+    data['province'] = this.province;
     data['sosPhone'] = this.sosPhone;
     data['status'] = this.status;
     data['telephone'] = this.telephone;
@@ -220,6 +215,55 @@ class UserData {
     if (this.address_list != null) {
       data['address_list'] = this.address_list;
     }
+    if (this.company != null) {
+      data['company'] = this.company!.toJson();
+    }
+    if (this.images != null) {
+      data['images'] = this.images;
+    }
+    return data;
+  }
+}
+
+class Company {
+  String? address;
+  String? economic_code;
+  String? name;
+  String? national_id;
+  String? postal_code;
+  String? registration_code;
+  String? telephone;
+
+  Company(
+      {this.address,
+      this.economic_code,
+      this.name,
+      this.national_id,
+      this.postal_code,
+      this.registration_code,
+      this.telephone});
+
+  factory Company.fromJson(Map<String, dynamic> json) {
+    return Company(
+      address: json['address'],
+      economic_code: json['economic_code'],
+      name: json['name'],
+      national_id: json['national_id'],
+      postal_code: json['postal_code'],
+      registration_code: json['registration_code'],
+      telephone: json['telephone'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['address'] = this.address;
+    data['economic_code'] = this.economic_code;
+    data['name'] = this.name;
+    data['national_id'] = this.national_id;
+    data['postal_code'] = this.postal_code;
+    data['registration_code'] = this.registration_code;
+    data['telephone'] = this.telephone;
     return data;
   }
 }

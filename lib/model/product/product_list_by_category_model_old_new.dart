@@ -1,6 +1,6 @@
-class ProductSingleResponseModel {
-  ProductSingleResponseModel({
-    ProductSingleData? data,
+class ProductListByCategoryResponseModel {
+  ProductListByCategoryResponseModel({
+    List<Data>? data,
     String? message,
     bool? success,
     int? status,
@@ -11,19 +11,24 @@ class ProductSingleResponseModel {
     _status = status;
   }
 
-  ProductSingleResponseModel.fromJson(dynamic json) {
-    _data = json['data'] != null ? ProductSingleData.fromJson(json['data']) : null;
+  ProductListByCategoryResponseModel.fromJson(dynamic json) {
+    if (json['data'] != null) {
+      _data = [];
+      json['data'].forEach((v) {
+        _data?.add(Data.fromJson(v));
+      });
+    }
     _message = json['message'];
     _success = json['success'];
     _status = json['status'];
   }
 
-  ProductSingleData? _data;
+  List<Data>? _data;
   String? _message;
   bool? _success;
   int? _status;
 
-  ProductSingleData? get data => _data;
+  List<Data>? get data => _data;
 
   String? get message => _message;
 
@@ -34,7 +39,7 @@ class ProductSingleResponseModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (_data != null) {
-      map['data'] = _data?.toJson();
+      map['data'] = _data?.map((v) => v.toJson()).toList();
     }
     map['message'] = _message;
     map['success'] = _success;
@@ -43,8 +48,8 @@ class ProductSingleResponseModel {
   }
 }
 
-class ProductSingleData {
-  ProductSingleData({
+class Data {
+  Data({
     int? status,
     List<String>? categoryIdList,
     List<String>? colorRange,
@@ -98,7 +103,7 @@ class ProductSingleData {
     _rules = rules;
   }
 
-  ProductSingleData.fromJson(dynamic json) {
+  Data.fromJson(dynamic json) {
     _status = json['status'];
     _categoryIdList = json['category_id_list'] != null
         ? json['category_id_list'].cast<String>()
@@ -239,21 +244,21 @@ class ProductSingleData {
   }
 }
 
-class ProductSingleRequestModel {
-  // String token;
-  String id;
+class ProductListByCategoryRequestModel {
+  String token;
+  String categoryId;
 
-  ProductSingleRequestModel({
-    // required this.token,
-    required this.id,
+  ProductListByCategoryRequestModel({
+    required this.token,
+    required this.categoryId,
   });
 
-  ProductSingleRequestModel.fromJson(Map<String, dynamic> json)
-      : /*token = json['x-access-token']*/
-        id = json['id'];
+  ProductListByCategoryRequestModel.fromJson(Map<String, dynamic> json)
+      : token = json['x-access-token'],
+        categoryId = json['category_id'];
 
   Map<String, dynamic> toJson() => {
-        // "x-access-token": token.trim(),
-        "id": id.trim(),
+        "x-access-token": token.trim(),
+        "category_id": categoryId.trim(),
       };
 }

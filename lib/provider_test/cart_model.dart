@@ -6,7 +6,10 @@ class CartModel extends ChangeNotifier {
 
   addProductToList() {
     ProductSingleRequestModel productSingleRequestModel =
-        ProductSingleRequestModel(token: 'token crap 1', id: 'id crap 1');
+        ProductSingleRequestModel(
+      // token: 'token crap 1',
+      id: 'id crap 1',
+    );
     productList.add(productSingleRequestModel);
 
     notifyListeners();

@@ -21,23 +21,23 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  bool loginState = false;
-  String? token = UserPreferences.newPrefs.getString("token");
+  // bool loginState = false;
+  // String? token = UserPreferences.newPrefs.getString("token");
 
-  @override
+  /*@override
   void initState() {
     super.initState();
     loginState = checkLoginState(token);
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     // orderListInfo = [];
     // token = MySharedPreferences.mySharedPreferences.getString("token");
     LoginData user = Provider.of<UserProvider>(context).getUser;
-    setState(() {
+    /*setState(() {
       token = UserPreferences.newPrefs.getString("token");
-    });
+    });*/
 
     // loginState = token != null;
 
@@ -65,9 +65,9 @@ class _CartScreenState extends State<CartScreen> {
                         print("value:");
                       },
                     );*/
-                    setState(() {
+                    /*setState(() {
                       loginState = token != null;
-                    });
+                    });*/
                   },
                   icon: const Icon(Icons.refresh))
             ],
@@ -124,7 +124,7 @@ class _CartScreenState extends State<CartScreen> {
                   height: 50,
                 ),
                 Text("Shared Pref Original"),
-                Text(UserPreferences.newPrefs.getString("token").toString() ?? "Get User 2")
+                Text(UserPreferences.newPrefs.getString("token").toString())
               ],
             ),
           ),
@@ -134,10 +134,10 @@ class _CartScreenState extends State<CartScreen> {
   }
 }
 
-checkLoginState(String? token) {
+/*checkLoginState(String? token) {
   if (token != null) {
     return true;
   } else {
     return false;
   }
-}
+}*/
