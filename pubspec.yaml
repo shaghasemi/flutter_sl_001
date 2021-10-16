@@ -72,6 +72,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/images/home/
+    - assets/images/home/banner_shop/
+    - assets/images/home/top_ad/
+    - assets/images/home/top_ad/slider/
 #    - assets/images/awaiting_payment.png
 #    - assets/images/processing.png
   #    - fonts/times.ttf
