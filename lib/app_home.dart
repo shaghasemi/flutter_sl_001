@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '/data/local/shared_pref.dart';
 import '/tab_navigator.dart';
 
 class AppHome extends StatefulWidget {

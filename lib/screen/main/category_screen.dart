@@ -16,22 +16,6 @@ class CategoryScreen extends StatefulWidget {
 class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
-    /*bool _loginState = false;
-    String _loginStringState = "Default";
-    var token = MySharedPreferences.mySharedPreferences.getString('token');
-    _loginState = token == null;
-    _loginState
-        ? _loginStringState = "Not Logged In"
-        : _loginStringState = "Logged In";
-    updateLoginState() {
-      setState(() {
-        _loginState = token == null;
-        _loginState
-            ? _loginStringState = "Not Logged In"
-            : _loginStringState = "Logged In";
-      });
-      return _loginStringState;
-    }*/
 
     return Scaffold(
       appBar: AppBar(

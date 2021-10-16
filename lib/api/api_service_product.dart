@@ -1,4 +1,5 @@
 import 'package:flutter_sl_001/model/product/product_all_model.dart';
+import 'package:flutter_sl_001/model/product/product_latest_model.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -54,5 +55,28 @@ class ApiServiceProduct {
     }*/
     // print(UserInfoResponseModel.fromJson(json.decode(response.body)));
     return ProductAllResponseModel.fromJson(json.decode(response.body));
+  }
+
+  // Get Latest Products
+  Future<ProductLatestResponseModel> productLatest(
+      ProductLatestRequestModel productLatestRequestModel,
+      ) async {
+    String url = "$baseURLV1${userRole}product/latest"
+        "num=${productLatestRequestModel.num}&"
+        "cat_id=${productLatestRequestModel.cat_id}&"
+        "page=${productLatestRequestModel.page!}&"
+        "limit=${productLatestRequestModel.limit!}";
+    final response = await http.get(
+      Uri.parse(url),
+    );
+    /* if (response.statusCode == 200 || response.statusCode == 400) {
+      return LoginResponseModel.fromJson(json.decode(response.body));
+    } else {
+      print("Error from API Service");
+      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
+      throw Exception('Failed to Login');
+    }*/
+    // print(UserInfoResponseModel.fromJson(json.decode(response.body)));
+    return ProductLatestResponseModel.fromJson(json.decode(response.body));
   }
 }

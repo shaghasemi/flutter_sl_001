@@ -56,6 +56,7 @@ class Data {
   List<String>? pack_list;
   String? price;
   List<PriceRatioRange>? price_ratio_range_list;
+
   // List<Property>? property_list;
   bool? returning;
   String? seller_id;
@@ -325,11 +326,11 @@ class Image {
       id: json['_id'],
       code: json['code'],
       index: json['index'],
-      *//*select_list: json['select_list'] != null
+      */ /*select_list: json['select_list'] != null
           ? (json['select_list'] as List)
               .map((i) => String.fromJson(i))
               .toList()
-          : null,*//*
+          : null,*/ /*
       select_list: json['select_list'] != null
           ? new List<String>.from(json['select_list'])
           : null,
@@ -403,20 +404,16 @@ class SelectRatio {
 }
 
 class ProductListByCategoryRequestModel {
-  String token;
   String categoryId;
 
   ProductListByCategoryRequestModel({
-    required this.token,
     required this.categoryId,
   });
 
   ProductListByCategoryRequestModel.fromJson(Map<String, dynamic> json)
-      : token = json['x-access-token'],
-        categoryId = json['category_id'];
+      : categoryId = json['category_id'];
 
   Map<String, dynamic> toJson() => {
-        "x-access-token": token.trim(),
         "category_id": categoryId.trim(),
       };
 }

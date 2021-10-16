@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/order/order_all_model.dart';
 import 'package:flutter_sl_001/model/panel/change_password_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_send_model.dart';
@@ -81,9 +80,6 @@ class APIServicePanel extends ChangeNotifier {
   // Login
   Future<LoginResponseModel> login(LoginRequestModel loginRequestModel) async {
     String url = "${baseURLV1}${userRole}signin";
-    print(loginRequestModel);
-    print(loginRequestModel.phone);
-    print(loginRequestModel.password);
     final response = await http.post(
       Uri.parse(url),
       /*headers: {
@@ -93,8 +89,6 @@ class APIServicePanel extends ChangeNotifier {
       body: loginRequestModel.toJson(),
       // encoding: Encoding.getByName("utf-8"),
     );
-    print("json.decode(response.body)");
-    print(response.statusCode);
     // print(json.decode(response.body));
     // print(LoginResponseModel.fromJson(json.decode(response.body)));
     /*if (response.statusCode == 200) {

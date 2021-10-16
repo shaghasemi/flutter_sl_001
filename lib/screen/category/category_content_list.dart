@@ -18,35 +18,22 @@ class CategoryContentScreen extends StatefulWidget {
 }
 
 class _CategoryContentScreenState extends State<CategoryContentScreen> {
-  // LoginData user = Provider.of<UserProvider>(context).user;
-
   ApiServiceCategory apiServiceCategory = ApiServiceCategory();
+  bool _isApiCallProcess = false;
+
   late CategoryAllRequestModel categoryAllRequestModel; //late
-  bool loginState = false;
-  bool _isApiCallProcess = true;
-  late List<Data> categoryListInfo;
-
-  // late String? token;
-
-  // late Iterable<Data>> categoryListMainIterable;
-  late Iterable<Data> categoryListMainIterable;
-  late List<Data> categoryListMain;
-  late List<Data> categorySubOneAll;
-  late List<List<Data>> categorySubOne;
-  late List<Data> categorySubTwoAll;
-  late List<List<List<Data>>> categorySubTwo;
-
-  String? token = UserPreferences.newPrefs.getString("token");
+  late List<CategoryAllData> categoryListInfo;
+  late Iterable<CategoryAllData> categoryListMainIterable;
+  late List<CategoryAllData> categoryListMain;
+  late List<CategoryAllData> categorySubOneAll;
+  late List<List<CategoryAllData>> categorySubOne;
+  late List<CategoryAllData> categorySubTwoAll;
+  late List<List<List<CategoryAllData>>> categorySubTwo;
 
   @override
   void initState() {
-    /*LoginData user = Provider.of<UserProvider>(context).user;
-    token = user.token;*/
-    /*print("token initstate:");
-    print(token);*/
-
     super.initState();
-    categoryAllRequestModel = CategoryAllRequestModel(token: token!);
+    categoryAllRequestModel = CategoryAllRequestModel();
     categoryListInfo = [];
     categoryListMainIterable = [];
     categoryListMain = [];
@@ -158,8 +145,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
                                         builder: (context) =>
                                             ProductListByCategoryWidget(
                                           categoryId:
-                                              categorySubTwo[i][j][k].id!,
-                                          token: token!,
+                                              categorySubTwo[i][j][k].id!
                                         ),
                                       ),
                                     );
@@ -207,7 +193,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
             categorySubOne[x] = categorySubOneAll
                 .where(
                   (element) =>
-                      element.parentId ==
+                      element.parent_id ==
                       categoryListMain.map((e) => e.id).elementAt(x),
                 )
                 .toList();
@@ -219,7 +205,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
             for (var y = 0; y < categorySubOne[x].length; y++) {
               categorySubTwo[x][y] = categorySubTwoAll
                   .where((element) =>
-                      element.parentId ==
+                      element.parent_id ==
                       categorySubOne[x].map((e) => e.id).elementAt(y))
                   .toList();
             }

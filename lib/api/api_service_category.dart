@@ -19,10 +19,6 @@ class ApiServiceCategory {
     String url = "$baseURLV1${userRole}category/all/list";
     final response = await http.get(
       Uri.parse(url),
-      // body: userInfoRequestModel.toJson(),
-      headers: {
-        'x-access-token': categoryAllRequestModel.token,
-      },
     );
     /* if (response.statusCode == 200 || response.statusCode == 400) {
       return LoginResponseModel.fromJson(json.decode(response.body));

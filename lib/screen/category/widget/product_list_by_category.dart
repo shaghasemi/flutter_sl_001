@@ -5,11 +5,10 @@ import 'package:flutter_sl_001/progress_hud.dart';
 import 'package:flutter_sl_001/screen/product/widget/product_fullscreen_widget.dart';
 
 class ProductListByCategoryWidget extends StatefulWidget {
-  final String token;
   final String categoryId;
 
   const ProductListByCategoryWidget(
-      {Key? key, required this.token, required this.categoryId})
+      {Key? key, required this.categoryId})
       : super(key: key);
 
   @override
@@ -74,7 +73,6 @@ class _ProductListByCategoryWidgetState
                       MaterialPageRoute(
                         builder: (context) => ProductFullScreenWidget(
                           product_id: productByCategoryListInfo[index].shop_id!.id!,
-                          // token: widget.token,
                         ),
                       ),
                     );
@@ -105,7 +103,6 @@ class _ProductListByCategoryWidgetState
   void fetchProductByCategory() {
     ApiServiceCategory apiServiceCategory = ApiServiceCategory();
     productListByCategoryRequestModel = ProductListByCategoryRequestModel(
-      token: widget.token,
       categoryId: widget.categoryId,
     );
     apiServiceCategory
