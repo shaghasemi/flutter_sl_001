@@ -59,9 +59,9 @@ class ApiServiceProduct {
 
   // Get Latest Products
   Future<ProductLatestResponseModel> productLatest(
-      ProductLatestRequestModel productLatestRequestModel,
-      ) async {
-    String url = "$baseURLV1${userRole}product/latest"
+    ProductLatestRequestModel productLatestRequestModel,
+  ) async {
+    String url = "$baseURLV1${userRole}product/latest?"
         "num=${productLatestRequestModel.num}&"
         "cat_id=${productLatestRequestModel.cat_id}&"
         "page=${productLatestRequestModel.page!}&"
@@ -71,6 +71,8 @@ class ApiServiceProduct {
       Uri.parse(url),
     );
     print(response.statusCode);
+    print("response.body:");
+    print(jsonDecode(response.body));
     /* if (response.statusCode == 200 || response.statusCode == 400) {
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -80,5 +82,25 @@ class ApiServiceProduct {
     }*/
     // print(UserInfoResponseModel.fromJson(json.decode(response.body)));
     return ProductLatestResponseModel.fromJson(json.decode(response.body));
+  }
+
+  // Get Latest Products - Just Data
+  Future<ProductLatestData> productLatestData(
+    ProductLatestRequestModel productLatestRequestModel,
+  ) async {
+    String url = "$baseURLV1${userRole}product/latest?"
+        "num=${productLatestRequestModel.num}&"
+        "cat_id=${productLatestRequestModel.cat_id}&"
+        "page=${productLatestRequestModel.page!}&"
+        "limit=${productLatestRequestModel.limit!}";
+    print("BEfore calling Latest products: Data");
+    final response = await http.get(
+      Uri.parse(url),
+    );
+    if (response.statusCode == 200) {
+      return ProductLatestData.fromJson((jsonDecode(response.body))['data']);
+    } else {
+      throw Exception('Failed to Fetch Latest Products');
+    }
   }
 }

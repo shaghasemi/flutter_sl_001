@@ -47,7 +47,7 @@ class Data {
   String? createdAt;
   String? discount_end_date;
   String? discount_percent;
-  List<Image>? images;
+  List<ImageProduct>? images;
   int? inventory;
   String? item_id;
   String? marketer_commission;
@@ -118,7 +118,7 @@ class Data {
       discount_end_date: json['discount_end_date'],
       discount_percent: json['discount_percent'],
       images: json['images'] != null
-          ? (json['images'] as List).map((i) => Image.fromJson(i)).toList()
+          ? (json['images'] as List).map((i) => ImageProduct.fromJson(i)).toList()
           : null,
       inventory: json['inventory'],
       item_id: json['item_id'],
@@ -281,15 +281,15 @@ class PriceRatioRange {
   }
 }
 
-class Image {
+class ImageProduct {
   String? id;
   String? type;
   String? url;
 
-  Image({this.id, this.type, this.url});
+  ImageProduct({this.id, this.type, this.url});
 
-  factory Image.fromJson(Map<String, dynamic> json) {
-    return Image(
+  factory ImageProduct.fromJson(Map<String, dynamic> json) {
+    return ImageProduct(
       id: json['_id'],
       type: json['type'],
       url: json['url'],

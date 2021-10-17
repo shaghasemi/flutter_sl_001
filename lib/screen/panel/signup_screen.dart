@@ -63,7 +63,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       hintText: "شماره تلفن",
                       prefixIcon: Icon(Icons.phone),
                     ),
-                    autofocus: true,
+                    autofocus: false,
                     onChanged: (input) {
                       signupRequestModel.phone = input;
                       validateSignupRequestModel.phone = input;
@@ -215,7 +215,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       hintText: "کد احراز هویت دریافت شده با تلفن همراه",
                       prefixIcon: Icon(Icons.code),
                     ),
-                    autofocus: true,
+                    autofocus: false,
                     onChanged: (input) {
                       validateSignupRequestModel.code = input;
                     },

@@ -25,7 +25,7 @@ class SearchWidget extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Icon(Icons.search),
+              child: Icon(Icons.search, color: Colors.black,),
             ),
             Text('در'),
             SizedBox(

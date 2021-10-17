@@ -80,6 +80,7 @@ class _ProductListByCategoryWidgetState
                   child: Card(
                     child: Column(
                       children: [
+                        Image.asset('assets/images/awaiting_payment.png'),
                         // Image.asset("assets/images/awaiting_payment.png"),
                         Text(productByCategoryListInfo[index].title_fa ??
                             "Product Title Fa"),

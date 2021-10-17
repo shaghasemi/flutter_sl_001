@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Vazir',
-        primaryColor: const Color(0xff222222),
+        primaryColor: const Color(0xff5fd961),
       ),
       title: 'سیوان لند',
       home: MultiProvider(

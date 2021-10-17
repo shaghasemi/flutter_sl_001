@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class BannerAdTopWidget extends StatelessWidget {
-  const BannerAdTopWidget({
+class BannerAdTopSliderWidget extends StatelessWidget {
+  const BannerAdTopSliderWidget({
     Key? key,
   }) : super(key: key);
 
@@ -36,7 +36,7 @@ class CardShop extends StatelessWidget {
     return Card(
       elevation: 8,
       child: Container(
-        width: MediaQuery.of(context).size.width*.85,
+        width: MediaQuery.of(context).size.width * .85,
         child: Image.asset(
           imageAsset,
           // fit: BoxFit.fill,

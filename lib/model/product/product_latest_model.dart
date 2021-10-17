@@ -5,8 +5,13 @@ class ProductLatestResponseModel {
   int? status;
   bool? success;
 
-  ProductLatestResponseModel(
-      {this.data, this.error, this.message, this.status, this.success});
+  ProductLatestResponseModel({
+    this.data,
+    this.error,
+    this.message,
+    this.status,
+    this.success,
+  });
 
   factory ProductLatestResponseModel.fromJson(Map<String, dynamic> json) {
     return ProductLatestResponseModel(
@@ -45,17 +50,18 @@ class ProductLatestData {
   int? totalDocs;
   int? totalPages;
 
-  ProductLatestData(
-      {this.docs,
-      this.hasNextPage,
-      this.hasPrevPage,
-      this.limit,
-      this.nextPage,
-      this.page,
-      this.pagingCounter,
-      this.prevPage,
-      this.totalDocs,
-      this.totalPages});
+  ProductLatestData({
+    this.docs,
+    this.hasNextPage,
+    this.hasPrevPage,
+    this.limit,
+    this.nextPage,
+    this.page,
+    this.pagingCounter,
+    this.prevPage,
+    this.totalDocs,
+    this.totalPages,
+  });
 
   factory ProductLatestData.fromJson(Map<String, dynamic> json) {
     return ProductLatestData(
@@ -97,7 +103,7 @@ class Doc {
   String? id;
   BranchId? branch_id;
   List<String>? category_id_list;
-  List<Image>? images;
+  List<ImageProductLatest>? images;
   int? inventory;
   String? item_id;
   int? max_order;
@@ -145,7 +151,7 @@ class Doc {
           ? new List<String>.from(json['category_id_list'])
           : null,
       images: json['images'] != null
-          ? (json['images'] as List).map((i) => Image.fromJson(i)).toList()
+          ? (json['images'] as List).map((i) => ImageProductLatest.fromJson(i)).toList()
           : null,
       inventory: json['inventory'],
       item_id: json['item_id'],
@@ -270,15 +276,15 @@ class ShopId {
   }
 }
 
-class Image {
+class ImageProductLatest {
   String? id;
   String? type;
   String? url;
 
-  Image({this.id, this.type, this.url});
+  ImageProductLatest({this.id, this.type, this.url});
 
-  factory Image.fromJson(Map<String, dynamic> json) {
-    return Image(
+  factory ImageProductLatest.fromJson(Map<String, dynamic> json) {
+    return ImageProductLatest(
       id: json['_id'],
       type: json['type'],
       url: json['url'],
