@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_product.dart';
 import 'package:flutter_sl_001/model/product/product_latest_model.dart';
+import 'package:flutter_sl_001/screen/product/product_single_screen.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -16,7 +17,6 @@ class LatestProductsWidget extends StatefulWidget {
 
 class _LatestProductsWidgetState extends State<LatestProductsWidget> {
   ApiServiceProduct apiServiceProduct = ApiServiceProduct();
-
   late Future<ProductLatestData> latestProducts;
   late ProductLatestRequestModel productLatestRequestModel;
   late ProductLatestData latestProductData;
@@ -24,7 +24,6 @@ class _LatestProductsWidgetState extends State<LatestProductsWidget> {
   @override
   void initState() {
     super.initState();
-    // latestProductInfo = ProductLatestData();
     latestProductData = ProductLatestData();
     productLatestRequestModel = ProductLatestRequestModel(
       num: 6,
@@ -32,8 +31,6 @@ class _LatestProductsWidgetState extends State<LatestProductsWidget> {
       limit: 6,
       page: 1,
     );
-    print("Going to fetch latest products");
-    // fetchLatestProductsData(productLatestRequestModel);
   }
 
   @override
@@ -54,35 +51,47 @@ class _LatestProductsWidgetState extends State<LatestProductsWidget> {
               shrinkWrap: true,
               itemCount: latestProductData.docs!.length,
               itemBuilder: (context, index) {
-                return Card(
-                  margin: EdgeInsets.all(4),
-                  elevation: 4,
-                  child: Container(
-                    height: 160,
-                    width: 160,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 140,
-                          width: 140,
-                          child: Image.network(
-                            "${AppUrl.imageBaseUrl}"
-                            "${latestProductData.docs![index].images![0].url!}",
-                          ),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductSingleScreen(
+                          product_id: latestProductData.docs![index].id!,
                         ),
-                        Text(latestProductData.docs![index].title_fa!),
-                        Text(latestProductData.docs![index].branch_id!.name!),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text((latestProductData.docs![index].price)!
-                                .toPersianDigit()
-                                .seRagham()),
-                            Text(' ریال')
-                          ],
-                        )
-                      ],
+                      ),
+                    );
+                  },
+                  child: Card(
+                    margin: EdgeInsets.all(4),
+                    elevation: 4,
+                    child: Container(
+                      height: 160,
+                      width: 160,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 140,
+                            width: 140,
+                            child: Image.network(
+                              "${AppUrl.imageBaseUrl}"
+                              "${latestProductData.docs![index].images![0].url!}",
+                            ),
+                          ),
+                          Text(latestProductData.docs![index].title_fa!),
+                          Text(latestProductData.docs![index].branch_id!.name!),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text((latestProductData.docs![index].price)!
+                                  .toPersianDigit()
+                                  .seRagham()),
+                              Text(' ریال')
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 );

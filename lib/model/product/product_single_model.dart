@@ -1,259 +1,334 @@
 class ProductSingleResponseModel {
+  final ProductSingleData? data;
+  final String? message;
+  final bool? error;
+  final bool? success;
+  final int? status;
+
   ProductSingleResponseModel({
-    ProductSingleData? data,
-    String? message,
-    bool? success,
-    int? status,
-  }) {
-    _data = data;
-    _message = message;
-    _success = success;
-    _status = status;
-  }
+    this.data,
+    this.message,
+    this.error,
+    this.success,
+    this.status,
+  });
 
-  ProductSingleResponseModel.fromJson(dynamic json) {
-    _data = json['data'] != null ? ProductSingleData.fromJson(json['data']) : null;
-    _message = json['message'];
-    _success = json['success'];
-    _status = json['status'];
-  }
+  ProductSingleResponseModel.fromJson(Map<String, dynamic> json)
+      : data = (json['data'] as Map<String, dynamic>?) != null
+            ? ProductSingleData.fromJson(json['data'] as Map<String, dynamic>)
+            : null,
+        message = json['message'] as String?,
+        error = json['error'] as bool?,
+        success = json['success'] as bool?,
+        status = json['status'] as int?;
 
-  ProductSingleData? _data;
-  String? _message;
-  bool? _success;
-  int? _status;
-
-  ProductSingleData? get data => _data;
-
-  String? get message => _message;
-
-  bool? get success => _success;
-
-  int? get status => _status;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (_data != null) {
-      map['data'] = _data?.toJson();
-    }
-    map['message'] = _message;
-    map['success'] = _success;
-    map['status'] = _status;
-    return map;
-  }
+  Map<String, dynamic> toJson() => {
+        'data': data?.toJson(),
+        'message': message,
+        'error': error,
+        'success': success,
+        'status': status
+      };
 }
 
 class ProductSingleData {
+  final int? status;
+  final List<String>? categoryIdList;
+  final String? titleEn;
+  final String? slugEn;
+  final List<String>? seoKeywords;
+  final bool? supporting;
+  final bool? returning;
+  final String? discountPercent;
+  final String? marketerCommission;
+  final String? id;
+  final int? trackingCode;
+  final String? sellerId;
+  final String? itemId;
+  final ShopId? shopId;
+  final BranchId? branchId;
+  final String? titleFa;
+  final String? slugFa;
+  final String? unit;
+  final List<PriceRatioRangeList>? priceRatioRangeList;
+  final List<PackList>? packList;
+  final String? price;
+  final String? discountEndDate;
+  final int? inventory;
+  final int? minOrder;
+  final int? maxOrder;
+  final String? description;
+  final String? rules;
+  final List<Images>? images;
+  final List<PropertyList>? propertyList;
+  final String? createdAt;
+  final String? updatedAt;
+  final int? v;
+
   ProductSingleData({
-    int? status,
-    List<String>? categoryIdList,
-    List<String>? colorRange,
-    bool? supporting,
-    bool? special,
-    List<String>? imageList,
-    int? likes,
-    String? id,
-    int? trackingCode,
-    String? itemId,
-    String? shopId,
-    String? branchId,
-    String? titleFa,
-    String? slugFa,
-    String? unit,
-    String? price,
-    int? inventory,
-    int? minOrder,
-    int? maxOrder,
-    List<String>? propertyList,
-    String? createdAt,
-    String? updatedAt,
-    int? v,
-    String? description,
-    String? rules,
-  }) {
-    _status = status;
-    _categoryIdList = categoryIdList;
-    _colorRange = colorRange;
-    _supporting = supporting;
-    _special = special;
-    _imageList = imageList;
-    _likes = likes;
-    _id = id;
-    _trackingCode = trackingCode;
-    _itemId = itemId;
-    _shopId = shopId;
-    _branchId = branchId;
-    _titleFa = titleFa;
-    _slugFa = slugFa;
-    _unit = unit;
-    _price = price;
-    _inventory = inventory;
-    _minOrder = minOrder;
-    _maxOrder = maxOrder;
-    _propertyList = propertyList;
-    _createdAt = createdAt;
-    _updatedAt = updatedAt;
-    _v = v;
-    _description = description;
-    _rules = rules;
-  }
+    this.status,
+    this.categoryIdList,
+    this.titleEn,
+    this.slugEn,
+    this.seoKeywords,
+    this.supporting,
+    this.returning,
+    this.discountPercent,
+    this.marketerCommission,
+    this.id,
+    this.trackingCode,
+    this.sellerId,
+    this.itemId,
+    this.shopId,
+    this.branchId,
+    this.titleFa,
+    this.slugFa,
+    this.unit,
+    this.priceRatioRangeList,
+    this.packList,
+    this.price,
+    this.discountEndDate,
+    this.inventory,
+    this.minOrder,
+    this.maxOrder,
+    this.description,
+    this.rules,
+    this.images,
+    this.propertyList,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+  });
 
-  ProductSingleData.fromJson(dynamic json) {
-    _status = json['status'];
-    _categoryIdList = json['category_id_list'] != null
-        ? json['category_id_list'].cast<String>()
-        : [];
-    _colorRange =
-        json['colorRange'] != null ? json['colorRange'].cast<String>() : [];
-    _supporting = json['supporting'];
-    _special = json['special'];
-    _imageList =
-        json['image_list'] != null ? json['image_list'].cast<String>() : [];
-    _likes = json['likes'];
-    _id = json['_id'];
-    _trackingCode = json['tracking_code'];
-    _itemId = json['item_id'];
-    _shopId = json['shop_id'];
-    _branchId = json['branch_id'];
-    _titleFa = json['title_fa'];
-    _slugFa = json['slug_fa'];
-    _unit = json['unit'];
-    _price = json['price'];
-    _inventory = json['inventory'];
-    _minOrder = json['min_order'];
-    _maxOrder = json['max_order'];
-    _propertyList = json['property_list'] != null
-        ? json['property_list'].cast<String>()
-        : [];
-    _createdAt = json['createdAt'];
-    _updatedAt = json['updatedAt'];
-    _v = json['__v'];
-    _description = json['description'];
-    _rules = json['rules'];
-  }
+  ProductSingleData.fromJson(Map<String, dynamic> json)
+      : status = json['status'] as int?,
+        categoryIdList = (json['category_id_list'] as List?)
+            ?.map((dynamic e) => e as String)
+            .toList(),
+        titleEn = json['title_en'] as String?,
+        slugEn = json['slug_en'] as String?,
+        seoKeywords = (json['seo_keywords'] as List?)
+            ?.map((dynamic e) => e as String)
+            .toList(),
+        supporting = json['supporting'] as bool?,
+        returning = json['returning'] as bool?,
+        discountPercent = json['discount_percent'] as String?,
+        marketerCommission = json['marketer_commission'] as String?,
+        id = json['_id'] as String?,
+        trackingCode = json['tracking_code'] as int?,
+        sellerId = json['seller_id'] as String?,
+        itemId = json['item_id'] as String?,
+        shopId = (json['shop_id'] as Map<String, dynamic>?) != null
+            ? ShopId.fromJson(json['shop_id'] as Map<String, dynamic>)
+            : null,
+        branchId = (json['branch_id'] as Map<String, dynamic>?) != null
+            ? BranchId.fromJson(json['branch_id'] as Map<String, dynamic>)
+            : null,
+        titleFa = json['title_fa'] as String?,
+        slugFa = json['slug_fa'] as String?,
+        unit = json['unit'] as String?,
+        priceRatioRangeList = (json['price_ratio_range_list'] as List?)
+            ?.map((dynamic e) =>
+                PriceRatioRangeList.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        packList = (json['pack_list'] as List?)
+            ?.map((dynamic e) => PackList.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        price = json['price'] as String?,
+        discountEndDate = json['discount_end_date'] as String?,
+        inventory = json['inventory'] as int?,
+        minOrder = json['min_order'] as int?,
+        maxOrder = json['max_order'] as int?,
+        description = json['description'] as String?,
+        rules = json['rules'] as String?,
+        images = (json['images'] as List?)
+            ?.map((dynamic e) => Images.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        propertyList = (json['property_list'] as List?)
+            ?.map(
+                (dynamic e) => PropertyList.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        createdAt = json['createdAt'] as String?,
+        updatedAt = json['updatedAt'] as String?,
+        v = json['__v'] as int?;
 
-  int? _status;
-  List<String>? _categoryIdList;
-  List<String>? _colorRange;
-  bool? _supporting;
-  bool? _special;
-  List<String>? _imageList;
-  int? _likes;
-  String? _id;
-  int? _trackingCode;
-  String? _itemId;
-  String? _shopId;
-  String? _branchId;
-  String? _titleFa;
-  String? _slugFa;
-  String? _unit;
-  String? _price;
-  int? _inventory;
-  int? _minOrder;
-  int? _maxOrder;
-  List<String>? _propertyList;
-  String? _createdAt;
-  String? _updatedAt;
-  int? _v;
-  String? _description;
-  String? _rules;
+  Map<String, dynamic> toJson() => {
+        'status': status,
+        'category_id_list': categoryIdList,
+        'title_en': titleEn,
+        'slug_en': slugEn,
+        'seo_keywords': seoKeywords,
+        'supporting': supporting,
+        'returning': returning,
+        'discount_percent': discountPercent,
+        'marketer_commission': marketerCommission,
+        '_id': id,
+        'tracking_code': trackingCode,
+        'seller_id': sellerId,
+        'item_id': itemId,
+        'shop_id': shopId?.toJson(),
+        'branch_id': branchId?.toJson(),
+        'title_fa': titleFa,
+        'slug_fa': slugFa,
+        'unit': unit,
+        'price_ratio_range_list':
+            priceRatioRangeList?.map((e) => e.toJson()).toList(),
+        'pack_list': packList?.map((e) => e.toJson()).toList(),
+        'price': price,
+        'discount_end_date': discountEndDate,
+        'inventory': inventory,
+        'min_order': minOrder,
+        'max_order': maxOrder,
+        'description': description,
+        'rules': rules,
+        'images': images?.map((e) => e.toJson()).toList(),
+        'property_list': propertyList?.map((e) => e.toJson()).toList(),
+        'createdAt': createdAt,
+        'updatedAt': updatedAt,
+        '__v': v
+      };
+}
 
-  int? get status => _status;
+class ShopId {
+  final int? status;
+  final String? id;
 
-  List<String>? get categoryIdList => _categoryIdList;
+  ShopId({
+    this.status,
+    this.id,
+  });
 
-  List<String>? get colorRange => _colorRange;
+  ShopId.fromJson(Map<String, dynamic> json)
+      : status = json['status'] as int?,
+        id = json['_id'] as String?;
 
-  bool? get supporting => _supporting;
+  Map<String, dynamic> toJson() => {'status': status, '_id': id};
+}
 
-  bool? get special => _special;
+class BranchId {
+  final int? status;
+  final String? id;
 
-  List<String>? get imageList => _imageList;
+  BranchId({
+    this.status,
+    this.id,
+  });
 
-  int? get likes => _likes;
+  BranchId.fromJson(Map<String, dynamic> json)
+      : status = json['status'] as int?,
+        id = json['_id'] as String?;
 
-  String? get id => _id;
+  Map<String, dynamic> toJson() => {'status': status, '_id': id};
+}
 
-  int? get trackingCode => _trackingCode;
+class PriceRatioRangeList {
+  final String? id;
+  final int? start;
+  final int? end;
+  final String? ratioPrice;
 
-  String? get itemId => _itemId;
+  PriceRatioRangeList({
+    this.id,
+    this.start,
+    this.end,
+    this.ratioPrice,
+  });
 
-  String? get shopId => _shopId;
+  PriceRatioRangeList.fromJson(Map<String, dynamic> json)
+      : id = json['_id'] as String?,
+        start = json['start'] as int?,
+        end = json['end'] as int?,
+        ratioPrice = json['ratio_price'] as String?;
 
-  String? get branchId => _branchId;
+  Map<String, dynamic> toJson() =>
+      {'_id': id, 'start': start, 'end': end, 'ratio_price': ratioPrice};
+}
 
-  String? get titleFa => _titleFa;
+class PackList {
+  final String? id;
+  final String? name;
+  final String? ratioUnit;
 
-  String? get slugFa => _slugFa;
+  PackList({
+    this.id,
+    this.name,
+    this.ratioUnit,
+  });
 
-  String? get unit => _unit;
+  PackList.fromJson(Map<String, dynamic> json)
+      : id = json['_id'] as String?,
+        name = json['name'] as String?,
+        ratioUnit = json['ratio_unit'] as String?;
 
-  String? get price => _price;
+  Map<String, dynamic> toJson() =>
+      {'_id': id, 'name': name, 'ratio_unit': ratioUnit};
+}
 
-  int? get inventory => _inventory;
+class Images {
+  final String? id;
+  final String? type;
+  final String? url;
 
-  int? get minOrder => _minOrder;
+  Images({
+    this.id,
+    this.type,
+    this.url,
+  });
 
-  int? get maxOrder => _maxOrder;
+  Images.fromJson(Map<String, dynamic> json)
+      : id = json['_id'] as String?,
+        type = json['type'] as String?,
+        url = json['url'] as String?;
 
-  List<String>? get propertyList => _propertyList;
+  Map<String, dynamic> toJson() => {'_id': id, 'type': type, 'url': url};
+}
 
-  String? get createdAt => _createdAt;
+class PropertyList {
+  final List<dynamic>? selectList;
+  final String? id;
+  final int? code;
+  final int? index;
+  final List<dynamic>? selectRatioList;
+  final List<dynamic>? uploadList;
 
-  String? get updatedAt => _updatedAt;
+  PropertyList({
+    this.selectList,
+    this.id,
+    this.code,
+    this.index,
+    this.selectRatioList,
+    this.uploadList,
+  });
 
-  int? get v => _v;
+  PropertyList.fromJson(Map<String, dynamic> json)
+      : selectList = json['select_list'] as List?,
+        id = json['_id'] as String?,
+        code = json['code'] as int?,
+        index = json['index'] as int?,
+        selectRatioList = json['select_ratio_list'] as List?,
+        uploadList = json['upload_list'] as List?;
 
-  String? get description => _description;
-
-  String? get rules => _rules;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['status'] = _status;
-    map['category_id_list'] = _categoryIdList;
-    map['colorRange'] = _colorRange;
-    map['supporting'] = _supporting;
-    map['special'] = _special;
-    map['image_list'] = _imageList;
-    map['likes'] = _likes;
-    map['_id'] = _id;
-    map['tracking_code'] = _trackingCode;
-    map['item_id'] = _itemId;
-    map['shop_id'] = _shopId;
-    map['branch_id'] = _branchId;
-    map['title_fa'] = _titleFa;
-    map['slug_fa'] = _slugFa;
-    map['unit'] = _unit;
-    map['price'] = _price;
-    map['inventory'] = _inventory;
-    map['min_order'] = _minOrder;
-    map['max_order'] = _maxOrder;
-    map['property_list'] = _propertyList;
-    map['createdAt'] = _createdAt;
-    map['updatedAt'] = _updatedAt;
-    map['__v'] = _v;
-    map['description'] = _description;
-    map['rules'] = _rules;
-    return map;
-  }
+  Map<String, dynamic> toJson() => {
+        'select_list': selectList,
+        '_id': id,
+        'code': code,
+        'index': index,
+        'select_ratio_list': selectRatioList,
+        'upload_list': uploadList
+      };
 }
 
 class ProductSingleRequestModel {
-  // String token;
   String id;
 
   ProductSingleRequestModel({
-    // required this.token,
     required this.id,
   });
 
   ProductSingleRequestModel.fromJson(Map<String, dynamic> json)
-      : /*token = json['x-access-token']*/
-        id = json['id'];
+      : id = json['id'];
 
   Map<String, dynamic> toJson() => {
-        // "x-access-token": token.trim(),
         "id": id.trim(),
       };
 }

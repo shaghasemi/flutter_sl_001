@@ -11,27 +11,19 @@ const String userRole = "guest/";
 
 class ApiServiceProduct {
   // Get a Single Product by id
-  Future<ProductSingleResponseModel> productSingle(
+  Future<ProductSingleData> productSingle(
     ProductSingleRequestModel productSingleRequestModel,
   ) async {
     String url = "$baseURLV1${userRole}product/find/one"
         "?product_id=${productSingleRequestModel.id}";
     final response = await http.get(
       Uri.parse(url),
-      // body: userInfoRequestModel.toJson(),
-      headers: {
-        // 'x-access-token': productSingleRequestModel.token,
-      },
     );
-    /* if (response.statusCode == 200 || response.statusCode == 400) {
-      return LoginResponseModel.fromJson(json.decode(response.body));
+    if (response.statusCode == 200) {
+      return ProductSingleData.fromJson(json.decode(response.body)['data']);
     } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
-      throw Exception('Failed to Login');
-    }*/
-    // print(UserInfoResponseModel.fromJson(json.decode(response.body)));
-    return ProductSingleResponseModel.fromJson(json.decode(response.body));
+      throw Exception('Failed to Retrieve Product Info');
+    }
   }
 
   // Get All Products

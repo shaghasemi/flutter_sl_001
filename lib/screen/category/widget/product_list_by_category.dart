@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
 import 'package:flutter_sl_001/model/product/product_list_by_category_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
+import 'package:flutter_sl_001/screen/product/product_single_screen.dart';
 import 'package:flutter_sl_001/screen/product/widget/product_fullscreen_widget.dart';
 
 class ProductListByCategoryWidget extends StatefulWidget {
@@ -71,7 +72,7 @@ class _ProductListByCategoryWidgetState
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProductFullScreenWidget(
+                        builder: (context) => ProductSingleScreen(
                           product_id: productByCategoryListInfo[index].shop_id!.id!,
                         ),
                       ),

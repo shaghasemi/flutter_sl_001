@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_product.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
@@ -105,3 +106,4 @@ class _ProductFullScreenWidgetState extends State<ProductFullScreenWidget> {
 
   void addToCart() {}
 }
+*/
