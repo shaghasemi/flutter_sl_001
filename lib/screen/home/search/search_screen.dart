@@ -1,8 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_search.dart';
-import 'package:flutter_sl_001/model/product/product_search.dart';
+import 'package:flutter_sl_001/model/search/product_search.dart';
 import 'package:flutter_sl_001/provider_test/search_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -15,10 +14,10 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   ApiServiceSearch apiServiceSearch = ApiServiceSearch();
-  late Future<ProductSearchData> searchedProducts;
+  // late Future<ProductSearchData> searchedProducts;
   ProductSearchRequestModel productSearchRequestModel =
       ProductSearchRequestModel(page: 1, limit: 1000, cat: '', br: '',str: 'بتن');
-  late ProductSearchData searchedProductData;
+  // late ProductSearchData searchedProductData;
 
   @override
   void initState() {
@@ -44,29 +43,16 @@ class _SearchScreenState extends State<SearchScreen> {
                   color: Colors.black,
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    // setState(() {
                     print('call for search');
                     apiServiceSearch
-                        .productSearchFull(productSearchRequestModel)
+                        .productSearchData(productSearchRequestModel)
                         .then((value) {
                       print("search value");
-                      print(value);
-                      print(jsonEncode(value));
-                      /*return Provider.of<SearchProvider>(context, listen: false)
-                          .setData(value);*/
+                      return Provider.of<SearchProvider>(context, listen: false)
+                          .setData(value);
                     }, onError: (err) {
                       print("Api Call Error: $err");
                     });
-                    // });
-                    /*apiServiceSearch
-                        .productSearchData(productSearchRequestModel)
-                        .then(
-                          (value) {
-                        return Provider.of<SearchProvider>(context,
-                            listen: false)
-                            .setData(value);
-                      },
-                    );*/
                   },
                 ),
               ),
@@ -102,31 +88,32 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
 
         // Search Result Section
-       /* Container(
+        Container(
           height: 400,
           width: MediaQuery.of(context).size.width,
           child: Consumer<SearchProvider>(
             builder: (context, value, child) {
-              return Text(value.getData.total.toString());
-              *//*if (value.getData.total == 0) {
+              if (/*value.getData.total!.notnull! &&*/ value.getData.total == 0) {
                 return Text('محصولی با این مشخصات پیدا نشد.');
               } else {
-                return ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: value.getData.docs!.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      width: 200,
-                      height: 50,
-                      // child: Text(value.getData.docs![index].id!),
-                      child: Text('Search Result'),
-                    );
-                  },
+                return SafeArea(
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: value.getData.docs!.length,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        width: 200,
+                        height: 50,
+                        child: Text(value.getData.docs![index].titleFa!),
+                        // child: Text('Search Result'),
+                      );
+                    },
+                  ),
                 );
-              }*//*
+              }
             },
           ),
-        ),*/
+        ),
       ],
     );
   }

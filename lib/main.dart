@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
-        Locale("fa", "IR"), // OR Locale('ar', 'AE') OR Other RTL locales
+        Locale("fa", "IR"),
       ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

@@ -1,6 +1,6 @@
 import 'package:flutter_sl_001/model/product/product_all_model.dart';
 import 'package:flutter_sl_001/model/product/product_latest_model.dart';
-import 'package:flutter_sl_001/model/product/product_search.dart';
+import 'package:flutter_sl_001/model/search/product_search.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -25,17 +25,14 @@ class ApiServiceSearch {
       Uri.parse(url),
     );
     if (response.statusCode == 200) {
-      print("After");
-      // print(jsonDecode(response.body)['data']);
-      print(ProductSearchData.fromJson(jsonDecode(response.body)['data']));
       return ProductSearchData.fromJson(jsonDecode(response.body)['data']);
     } else {
       throw Exception('Failed to Fetch Search Products');
     }
   }
 
-  // Get Latest Products
-  Future<ProductSearchResponseModel> productSearchFull(
+// Get Latest Products
+/*Future<ProductSearchResponseModel> productSearchFull(
       ProductSearchRequestModel productSearchRequestModel,
       ) async {
     String url = "$baseURLV1${userRole}search/product/paginate?"
@@ -52,5 +49,5 @@ class ApiServiceSearch {
     print(jsonDecode(response.body));
 
     return ProductSearchResponseModel.fromJson(json.decode(response.body));
-  }
+  }*/
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/model/product/product_search.dart';
+import 'package:flutter_sl_001/model/search/product_search.dart';
 
 class SearchProvider extends ChangeNotifier {
   ProductSearchData _data = new ProductSearchData();

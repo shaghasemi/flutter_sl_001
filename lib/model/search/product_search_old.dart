@@ -1,3 +1,4 @@
+/*
 class ProductSearchResponseModel {
   ProductSearchResponseModel({
     ProductSearchData? data,
@@ -110,7 +111,7 @@ class ProductSearchData {
 
 class Docs {
   Docs({
-    String? id,
+    // String? id,
     int? status,
     int? trackingCode,
     String? titleFa,
@@ -127,7 +128,7 @@ class Docs {
     Shop_id? shopId,
     Seller_id? sellerId,
   }) {
-    _id = id;
+    // _id = id;
     _status = status;
     _trackingCode = trackingCode;
     _titleFa = titleFa;
@@ -146,7 +147,7 @@ class Docs {
   }
 
   Docs.fromJson(dynamic json) {
-    _id = json['_id'];
+    // _id = json['_id'];
     _status = json['status'];
     _trackingCode = json['tracking_code'];
     _titleFa = json['title_fa'];
@@ -176,7 +177,7 @@ class Docs {
         json['seller_id'] != null ? Seller_id.fromJson(json['sellerId']) : null;
   }
 
-  String? _id;
+  // String? _id;
   int? _status;
   int? _trackingCode;
   String? _titleFa;
@@ -193,7 +194,7 @@ class Docs {
   Shop_id? _shopId;
   Seller_id? _sellerId;
 
-  String? get id => _id;
+  // String? get id => _id;
 
   int? get status => _status;
 
@@ -227,7 +228,7 @@ class Docs {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['_id'] = _id;
+    // map['_id'] = _id;
     map['status'] = _status;
     map['tracking_code'] = _trackingCode;
     map['title_fa'] = _titleFa;
@@ -499,3 +500,4 @@ class ProductSearchRequestModel {
         "limit": limit,
       };
 }
+*/
