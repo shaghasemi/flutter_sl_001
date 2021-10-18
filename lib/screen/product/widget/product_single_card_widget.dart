@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:persian_number_utility/src/extensions.dart';
 
-class ProductSingleSmallWidget extends StatelessWidget {
+class ProductSingleCardWidget extends StatelessWidget {
   final String id;
   final String title;
   final String image_logo;
@@ -18,7 +18,7 @@ class ProductSingleSmallWidget extends StatelessWidget {
   // final String delivery_address;
   // final String delivery_date;
 
-  const ProductSingleSmallWidget({
+  const ProductSingleCardWidget({
     Key? key,
     required this.id,
     required this.title,
@@ -35,37 +35,35 @@ class ProductSingleSmallWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 140,
-          width: 140,
-          child: Image.network(
-            "${AppUrl.imageBaseUrl}"
-            "$image_logo",
-          ),
-        ),
-        Text(title),
-        Text(seller_main),
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
+    return Card(
+      margin: EdgeInsets.all(4),
+      elevation: 4,
+      child: Container(
+        // height: 200,
+        width: 160,
+        child: Column(
           children: [
-            Text(price_original.toPersianDigit().seRagham()),
-            Text(' ریال')
+            SizedBox(
+              height: 140,
+              width: 140,
+              child: Image.network(
+                "${AppUrl.imageBaseUrl}"
+                "${image_logo}",
+              ),
+            ),
+            Text(title),
+            Text(seller_main),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(price_original.toPersianDigit().seRagham()),
+                Text(' ریال')
+              ],
+            )
           ],
         ),
-        discount_percent != null
-            ? Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(discount_percent.toString()),
-                  Text(' ریال'),
-                ],
-              )
-            : Row()
-      ],
+      ),
     );
   }
 }

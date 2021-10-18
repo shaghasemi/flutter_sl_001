@@ -95,16 +95,4 @@ class _LatestProductsWidgetState extends State<LatestProductsWidget> {
       },
     );
   }
-
-/*void fetchLatestProductsData(requestModelData) {
-    apiServiceProduct.productLatestData(requestModelData).then((value) {
-      latestProductInfo = value;
-    }, onError: (err) {
-      print("On Error: $err");
-    }).whenComplete(
-          () {
-        print("Complete APi Call Latest products.");
-      },
-    );
-  }*/
 }
