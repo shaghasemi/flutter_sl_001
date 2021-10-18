@@ -17,7 +17,6 @@ class LatestProductsWidget extends StatefulWidget {
 class _LatestProductsWidgetState extends State<LatestProductsWidget> {
   ApiServiceProduct apiServiceProduct = ApiServiceProduct();
 
-  // late ProductLatestData latestProductInfo;
   late Future<ProductLatestData> latestProducts;
   late ProductLatestRequestModel productLatestRequestModel;
   late ProductLatestData latestProductData;

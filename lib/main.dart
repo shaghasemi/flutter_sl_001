@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
+import 'package:flutter_sl_001/provider_test/search_provider.dart';
 import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'app_home.dart';
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => CartProductList()),
-          ChangeNotifierProvider(create: (_) => UserProvider())
+          ChangeNotifierProvider(create: (_) => UserProvider()),
+          ChangeNotifierProvider(create: (_) => SearchProvider())
         ],
         child: AppHome(),
       ),

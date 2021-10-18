@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/screen/home/search_screen.dart';
+import 'package:flutter_sl_001/screen/home/search/search_screen.dart';
 
 class SearchWidget extends StatelessWidget {
   const SearchWidget({
