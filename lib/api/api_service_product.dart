@@ -14,7 +14,7 @@ class ApiServiceProduct {
   Future<ProductSingleData> productSingle(
     ProductSingleRequestModel productSingleRequestModel,
   ) async {
-    String url = "$baseURLV1${userRole}product/find/one"
+    String url = "$baseURLV1${userRole}product/info"
         "?product_id=${productSingleRequestModel.id}";
     final response = await http.get(
       Uri.parse(url),
