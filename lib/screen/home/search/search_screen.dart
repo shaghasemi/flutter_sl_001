@@ -47,7 +47,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   icon: Icon(Icons.search),
                   onPressed: () {
                     setState(() {
-
                     apiServiceSearch
                         .productSearchData(productSearchRequestModel)
                         .then((value) {

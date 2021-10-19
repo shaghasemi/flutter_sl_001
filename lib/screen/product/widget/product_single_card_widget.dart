@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/screen/product/product_single_screen.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:persian_number_utility/src/extensions.dart';
 
@@ -35,33 +36,43 @@ class ProductSingleCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(4),
-      elevation: 4,
-      child: Container(
-        // height: 200,
-        width: 160,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 140,
-              width: 140,
-              child: Image.network(
-                "${AppUrl.imageBaseUrl}"
-                "${image_logo}",
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductSingleScreen(product_id: id),
+          ),
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.all(4),
+        elevation: 4,
+        child: Container(
+          // height: 200,
+          width: 160,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 140,
+                width: 140,
+                child: Image.network(
+                  "${AppUrl.imageBaseUrl}"
+                  "${image_logo}",
+                ),
               ),
-            ),
-            Text(title),
-            Text(seller_main),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(price_original.toPersianDigit().seRagham()),
-                Text(' ریال')
-              ],
-            )
-          ],
+              Text(title),
+              Text(seller_main),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(price_original.toPersianDigit().seRagham()),
+                  Text(' ریال')
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

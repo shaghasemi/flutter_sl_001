@@ -24,6 +24,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   ApiServiceProduct apiServiceProduct = ApiServiceProduct();
   late ProductSingleRequestModel productSingleRequestModel;
   ProductSingleData productSingleData = ProductSingleData();
+  String dropdownValue = 'One';
+  int ratioUnit = 1;
 
   @override
   void initState() {
@@ -44,11 +46,43 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
           return NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScroller) => [
               SliverAppBar(
-                title: Text(
-                  productSingleData.titleFa!,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontFamily: 'Vazir'),
-                ),
+                elevation: 24,
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.favorite),
+                    onPressed: () {},
+                  ),
+                  PopupMenuButton<int>(
+                    onSelected: (item) => handleClick(item),
+                    itemBuilder: (context) => [
+                      PopupMenuItem<int>(
+                        value: 0,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.compare,
+                              color: Colors.black,
+                            ),
+                            Text('مقایسه'),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem<int>(
+                        height: 30,
+                        value: 1,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.share,
+                              color: Colors.black,
+                            ),
+                            Text('به اشتراک گذاری'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
                 backgroundColor: Color(0xff28a745),
                 snap: true,
                 centerTitle: true,
@@ -71,13 +105,80 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                               "${AppUrl.imageBaseUrl}${productSingleData.images![index].url}");
                         }),
                   ),
-                  /*Image.network(
-                      "${AppUrl.imageBaseUrl}${productSingleData.images![0].url}"),*/
-                  Text("Product Page"),
-                  // Text(productInfo.titleFa!),
-                  // Text(productInfo.likes.toString()),
-                  // Text(productInfo.supporting.toString()),
-                  // Text(productInfo.unit.toString()),
+                  Text(productSingleData.titleFa!),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Row(
+                        children: [
+                          Text('حداقل سفارش:'),
+                          Text(productSingleData.minOrder.toString()),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text('حداکثر سفارش:'),
+                          Text(productSingleData.maxOrder.toString()),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+
+                  // Select Packing if available
+                  productSingleData.packList!.length > 0
+                      ? DropdownButton<String>(
+                          items: productSingleData.packList!
+                              .map<DropdownMenuItem<String>>((PackList object) {
+                            return DropdownMenuItem<String>(
+                              value: object.ratioUnit,
+                              child: Text(object.name!),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                        )
+                      : SizedBox(),
+
+                  // Discount based on order quantity
+                  SizedBox(height: 20),
+                  Column(
+                    children: [
+                      Text('درصد تخفیف به ازای بازه ی خرید'),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:
+                            productSingleData.priceRatioRangeList!.length,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              Text('از '),
+                              Text(productSingleData
+                                  .priceRatioRangeList![index].start
+                                  .toString()),
+                              Text(' تا '),
+                              Text(productSingleData
+                                  .priceRatioRangeList![index].end
+                                  .toString()),
+                              Text(productSingleData.unit.toString()),
+                              Text(productSingleData
+                                  .priceRatioRangeList![index].ratioPrice
+                                  .toString()),
+                              Text(' درصد'),
+                            ],
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Text(productSingleData.titleFa!),
+                  SizedBox(height: 20),
+                  Text(productSingleData.titleFa!),
+                  SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () =>
                         Provider.of<CartProductList>(context, listen: false)
@@ -85,18 +186,33 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                       // id: productInfo.id.toString(),
                       id: productSingleData.id!,
                     ),
-                    child: Text("اضافه کردن به سبد خرید"),
+                    child: Text("افزودن به سبد خرید"),
                   ),
                 ],
               ),
             ),
           );
         } else {
-          return CircularProgressIndicator();
+          return Container(
+            height: 180,
+            width: 180,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
       },
     );
   }
 
   void addToCart() {}
+}
+
+void handleClick(int item) {
+  switch (item) {
+    case 0:
+      break;
+    case 1:
+      break;
+  }
 }
