@@ -23,8 +23,8 @@ class ProductSingleScreen extends StatefulWidget {
 class _ProductSingleScreenState extends State<ProductSingleScreen> {
   ApiServiceProduct apiServiceProduct = ApiServiceProduct();
   late ProductSingleRequestModel productSingleRequestModel;
-  ProcessingRequestModel processingRequestModel = ProcessingRequestModel(
-      orderList: []);
+  ProcessingRequestModel processingRequestModel =
+      ProcessingRequestModel(orderList: []);
   ProductSingleData productSingleData = ProductSingleData();
   String dropdownValue = 'One';
   int ratioUnit = 1;
@@ -48,7 +48,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
           productSingleData =
               ProductSingleData.fromJson(jsonDecode(jsonEncode(snapshot.data)));
           if (productSingleData.packList!.length == 0) {
-            if (productSingleData.itemId!.propertyList![0].calculating != true) {
+            if (productSingleData.itemId!.propertyList![0].calculating !=
+                true) {
               // Case 11: Number of Order
               case_property = 11;
             } else {
@@ -56,7 +57,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               case_property = 12;
             }
           } else {
-            if (productSingleData.itemId!.propertyList![0].calculating != true) {
+            if (productSingleData.itemId!.propertyList![0].calculating !=
+                true) {
               // Case 21: Number of Order & Packing List
               case_property = 21;
             } else {
@@ -66,8 +68,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
           }
           return NestedScrollView(
             scrollDirection: Axis.vertical,
-            headerSliverBuilder: (context, innerBoxIsScroller) =>
-            [
+            headerSliverBuilder: (context, innerBoxIsScroller) => [
               SliverAppBar(
                 elevation: 24,
                 actions: [
@@ -77,8 +78,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   ),
                   PopupMenuButton<int>(
                     onSelected: (item) => handleClick(item),
-                    itemBuilder: (context) =>
-                    [
+                    itemBuilder: (context) => [
                       PopupMenuItem<int>(
                         value: 0,
                         child: Row(
@@ -117,31 +117,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               child: Column(
                 children: [
                   // Image Slider
-                  Container(
-                    height: 300,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
-                    child: Center(
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: productSingleData.images!.length,
-                        itemBuilder: (context, index) {
-                          return Image.network(
-                            "${AppUrl.imageBaseUrl}${productSingleData
-                                .images![index].url}",
-                            // height: 240,
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * .8,
-                          );
-                        },
-                      ),
-                    ),
-                  ),
+                  ImageSliderProduct(context),
+                  SizedBox(height: vertical_distance),
 
                   // Product Title
                   Text(productSingleData.titleFa!),
@@ -156,133 +133,19 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
                   // Price per Item
                   Text(
-                    'قیمت هر ${productSingleData.unit}: ${productSingleData
-                        .price!}',
-                    // style: TextStyle(fontSize: 10),
+                    'قیمت هر ${productSingleData.unit}: ${productSingleData.price!}',
                   ),
                   SizedBox(height: vertical_distance),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        children: [
-                          Text('حداقل سفارش: '),
-                          Text(productSingleData.minOrder.toString()),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('حداکثر سفارش: '),
-                          Text(productSingleData.maxOrder.toString()),
-                        ],
-                      ),
-                    ],
-                  ),
+                  MinMaxOrder(),
                   SizedBox(height: vertical_distance),
 
                   // Discount based on order quantity
-                  Column(
-                    children: [
-                      Text('درصد تخفیف به ازای بازه ی خرید'),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount:
-                        productSingleData.priceRatioRangeList!.length,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            children: [
-                              Text('از '),
-                              Text(productSingleData
-                                  .priceRatioRangeList![index].start
-                                  .toString()),
-                              Text(' تا '),
-                              Text(productSingleData
-                                  .priceRatioRangeList![index].end
-                                  .toString()),
-                              Text(productSingleData.unit.toString()),
-                              Text(productSingleData
-                                  .priceRatioRangeList![index].ratioPrice
-                                  .toString()),
-                              Text(' درصد'),
-                            ],
-                          );
-                        },
-                      )
-                    ],
-                  ),
+                  DiscountConditional(),
                   SizedBox(height: vertical_distance),
 
                   // Order Options
-                  Card(
-                    child: Column(
-                      children: [
-                        Text('اطلاعات سفارش'),
-                        SizedBox(height: vertical_distance),
-
-                        // Select Packing if available
-                        productSingleData.packList!.length > 0
-                            ? DropdownButton<String>(
-                          hint: Opacity(
-                            opacity: 0.5,
-                            child: Text(
-                              'بسته بندی',
-                            ),
-                          ),
-                          items: productSingleData.packList!
-                              .map<DropdownMenuItem<String>>(
-                                  (PackList object) {
-                                return DropdownMenuItem<String>(
-                                  value: object.ratioUnit,
-                                  child: Text(object.name!),
-                                );
-                              }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                          },
-                        )
-                            : SizedBox(),
-
-                        // Select Packing if available
-                        productSingleData.itemId!.propertyList!.length > 0 &&
-                            productSingleData
-                                .itemId!.propertyList![0].calculating ==
-                                true
-                            ? DropdownButton<String>(
-                          hint: Opacity(
-                            opacity: 0.5,
-                            child: Text(productSingleData
-                                .itemId!.propertyList![0].nameFa!),
-                          ),
-                          items: productSingleData
-                              .itemId!.propertyList![0].selectList!
-                              .map<DropdownMenuItem<String>>(
-                                  (String object) {
-                                return DropdownMenuItem<String>(
-                                  value: object,
-                                  child: Text(object.toString()),
-                                );
-                              }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownValue = newValue!;
-                            });
-                          },
-                        )
-                            : SizedBox(),
-
-                        TextField(
-                          onChanged: (input) {
-                            processingRequestModel.orderList![0].number =
-                                int.parse(input);
-                          },
-                        )
-                      ],
-                    ),
-                  ),
+                  OrderOptions(),
 
                   // Geographical Information
                   // Card(),
@@ -295,9 +158,9 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                     onPressed: () =>
                         Provider.of<CartProductList>(context, listen: false)
                             .addProductToCart(
-                          // id: productInfo.id.toString(),
-                          id: productSingleData.id!,
-                        ),
+                      // id: productInfo.id.toString(),
+                      id: productSingleData.id!,
+                    ),
                     child: Text("افزودن به سبد خرید"),
                   ),
                   SizedBox(height: vertical_distance),
@@ -320,6 +183,141 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
           );
         }
       },
+    );
+  }
+
+  Card OrderOptions() {
+    return Card(
+      child: Column(
+        children: [
+          Text('اطلاعات سفارش'),
+          SizedBox(height: vertical_distance),
+
+          // Select Packing if available
+          productSingleData.packList!.length > 0
+              ? DropdownButton<String>(
+                  hint: Opacity(
+                    opacity: 0.5,
+                    child: Text(
+                      'بسته بندی',
+                    ),
+                  ),
+                  items: productSingleData.packList!
+                      .map<DropdownMenuItem<String>>((PackList object) {
+                    return DropdownMenuItem<String>(
+                      value: object.ratioUnit,
+                      child: Text(object.name!),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownValue = newValue!;
+                    });
+                  },
+                )
+              : SizedBox(),
+
+          // Select Packing if available
+          productSingleData.itemId!.propertyList!.length > 0 &&
+                  productSingleData.itemId!.propertyList![0].calculating == true
+              ? DropdownButton<String>(
+                  hint: Opacity(
+                    opacity: 0.5,
+                    child: Text(
+                        productSingleData.itemId!.propertyList![0].nameFa!),
+                  ),
+                  items: productSingleData.itemId!.propertyList![0].selectList!
+                      .map<DropdownMenuItem<String>>((String object) {
+                    return DropdownMenuItem<String>(
+                      value: object,
+                      child: Text(object.toString()),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownValue = newValue!;
+                    });
+                  },
+                )
+              : SizedBox(),
+
+          TextField(
+            onChanged: (input) {
+              processingRequestModel.orderList![0].number = int.parse(input);
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Column DiscountConditional() {
+    return Column(
+      children: [
+        Text('درصد تخفیف به ازای بازه ی خرید'),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: productSingleData.priceRatioRangeList!.length,
+          itemBuilder: (context, index) {
+            return Row(
+              children: [
+                Text('از '),
+                Text(productSingleData.priceRatioRangeList![index].start
+                    .toString()),
+                Text(' تا '),
+                Text(productSingleData.priceRatioRangeList![index].end
+                    .toString()),
+                Text(productSingleData.unit.toString()),
+                Text(productSingleData.priceRatioRangeList![index].ratioPrice
+                    .toString()),
+                Text(' درصد'),
+              ],
+            );
+          },
+        )
+      ],
+    );
+  }
+
+  Row MinMaxOrder() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Row(
+          children: [
+            Text('حداقل سفارش: '),
+            Text(productSingleData.minOrder.toString()),
+          ],
+        ),
+        Row(
+          children: [
+            Text('حداکثر سفارش: '),
+            Text(productSingleData.maxOrder.toString()),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Container ImageSliderProduct(BuildContext context) {
+    return Container(
+      height: 300,
+      width: MediaQuery.of(context).size.width,
+      child: Center(
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: productSingleData.images!.length,
+          itemBuilder: (context, index) {
+            return Image.network(
+              "${AppUrl.imageBaseUrl}${productSingleData.images![index].url}",
+              // height: 240,
+              width: MediaQuery.of(context).size.width * .8,
+            );
+          },
+        ),
+      ),
     );
   }
 
