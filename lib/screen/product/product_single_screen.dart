@@ -8,6 +8,14 @@ import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:provider/provider.dart';
 
+enum order_options {
+  blank,
+  number,
+  number_calculating,
+  number_packing,
+  number_calculating_packing
+}
+
 class ProductSingleScreen extends StatefulWidget {
   final String product_id;
 
@@ -28,8 +36,11 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   ProductSingleData productSingleData = ProductSingleData();
   String dropdownValue = 'One';
   int ratioUnit = 1;
-  int case_property = 0;
+  order_options case_property = order_options.blank;
   double vertical_distance = 20.0;
+
+  String dropDownPacking = 'انتخاب بسته بندی';
+  String dropDownCalculating = 'انتخاب مقدار';
 
   @override
   void initState() {
@@ -51,21 +62,23 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
             if (productSingleData.itemId!.propertyList![0].calculating !=
                 true) {
               // Case 11: Number of Order
-              case_property = 11;
+              case_property = order_options.number;
             } else {
               // Case 12: Number of Order & Calculating Property List
-              case_property = 12;
+              case_property = order_options.number_calculating;
             }
           } else {
             if (productSingleData.itemId!.propertyList![0].calculating !=
                 true) {
               // Case 21: Number of Order & Packing List
-              case_property = 21;
+              case_property = order_options.number_packing;
             } else {
               // Case 22: Number of Order & Packing List & Calculating Property List
-              case_property = 22;
+              case_property = order_options.number_calculating_packing;
             }
           }
+          print("case_property.toString()");
+          print(case_property.toString());
           return NestedScrollView(
             scrollDirection: Axis.vertical,
             headerSliverBuilder: (context, innerBoxIsScroller) => [
@@ -145,15 +158,17 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   SizedBox(height: vertical_distance),
 
                   // Order Options
-                  OrderOptions(),
+                  OrderOptions(case_property),
 
                   // Geographical Information
                   // Card(),
 
                   Text(productSingleData.titleFa!),
                   SizedBox(height: vertical_distance),
+
                   Text(productSingleData.titleFa!),
                   SizedBox(height: vertical_distance),
+
                   ElevatedButton(
                     onPressed: () =>
                         Provider.of<CartProductList>(context, listen: false)
@@ -186,7 +201,28 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     );
   }
 
-  Card OrderOptions() {
+  Container ImageSliderProduct(BuildContext context) {
+    return Container(
+      height: 300,
+      width: MediaQuery.of(context).size.width,
+      child: Center(
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: productSingleData.images!.length,
+          itemBuilder: (context, index) {
+            return Image.network(
+              "${AppUrl.imageBaseUrl}${productSingleData.images![index].url}",
+              // height: 240,
+              width: MediaQuery.of(context).size.width * .8,
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Card OrderOptions(case_property) {
     return Card(
       child: Column(
         children: [
@@ -194,54 +230,62 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
           SizedBox(height: vertical_distance),
 
           // Select Packing if available
-          productSingleData.packList!.length > 0
-              ? DropdownButton<String>(
-                  hint: Opacity(
-                    opacity: 0.5,
-                    child: Text(
-                      'بسته بندی',
-                    ),
-                  ),
-                  items: productSingleData.packList!
-                      .map<DropdownMenuItem<String>>((PackList object) {
-                    return DropdownMenuItem<String>(
-                      value: object.ratioUnit,
-                      child: Text(object.name!),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropdownValue = newValue!;
-                    });
-                  },
-                )
-              : SizedBox(),
+          if (case_property == order_options.number_packing ||
+              case_property == order_options.number_calculating_packing)
+            DropdownButton<String>(
+              hint: Opacity(
+                opacity: 0.5,
+                child: Text(
+                  'بسته بندی',
+                ),
+              ),
+              items: productSingleData.packList!
+                  .map<DropdownMenuItem<String>>((PackList object) {
+                return DropdownMenuItem<String>(
+                  value: object.ratioUnit,
+                  child: Text(object.name!),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+            ),
 
-          // Select Packing if available
-          productSingleData.itemId!.propertyList!.length > 0 &&
-                  productSingleData.itemId!.propertyList![0].calculating == true
-              ? DropdownButton<String>(
-                  hint: Opacity(
-                    opacity: 0.5,
-                    child: Text(
-                        productSingleData.itemId!.propertyList![0].nameFa!),
-                  ),
-                  items: productSingleData.itemId!.propertyList![0].selectList!
-                      .map<DropdownMenuItem<String>>((String object) {
-                    return DropdownMenuItem<String>(
-                      value: object,
-                      child: Text(object.toString()),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      dropdownValue = newValue!;
-                    });
-                  },
-                )
-              : SizedBox(),
+          // Select Calculating Property if available
+          if (case_property == order_options.number_calculating ||
+              case_property == order_options.number_calculating_packing)
+            DropdownButton<String>(
+              /*value: dropDownCalculating != ''
+                  ? productSingleData.itemId!.propertyList![0].selectList![0]
+                  : null,*/
+              // value: productSingleData.itemId!.propertyList![0].selectList![0],
+              // value: productSingleData.itemId!.propertyList![0].selectList![1],
+              value: productSingleData.itemId!.propertyList![0].nameFa,
+              // value: dropDownCalculating,
+              hint: Opacity(
+                opacity: 0.5,
+                child: Text(productSingleData.itemId!.propertyList![0].nameFa!),
+              ),
+              items: productSingleData.itemId!.propertyList![0].selectList!
+                  .map<DropdownMenuItem<String>>((String object) {
+                return DropdownMenuItem<String>(
+                  value: object,
+                  child: Text(object /*.toString()*/),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropDownCalculating = newValue!;
+                });
+              },
+            ),
 
+          // Available in all cases - Order Quantity
           TextField(
+            decoration: InputDecoration(hintText: 'تعداد'),
+            keyboardType: TextInputType.number,
             onChanged: (input) {
               processingRequestModel.orderList![0].number = int.parse(input);
             },
@@ -254,7 +298,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   Column DiscountConditional() {
     return Column(
       children: [
-        Text('درصد تخفیف به ازای بازه ی خرید'),
+        Text('درصد تخفیف به ازای تعداد سفارش'),
         ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -300,28 +344,35 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     );
   }
 
-  Container ImageSliderProduct(BuildContext context) {
-    return Container(
-      height: 300,
-      width: MediaQuery.of(context).size.width,
-      child: Center(
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemCount: productSingleData.images!.length,
-          itemBuilder: (context, index) {
-            return Image.network(
-              "${AppUrl.imageBaseUrl}${productSingleData.images![index].url}",
-              // height: 240,
-              width: MediaQuery.of(context).size.width * .8,
-            );
-          },
-        ),
-      ),
-    );
+  void addToCart() {
+    processingRequestModel.orderList![0].id = widget.product_id;
+    processingRequestModel.orderList![0].packId = widget.product_id;
   }
 
-  void addToCart() {}
+/*let data = {
+    order_list: [
+      {
+        _id: product_info_data.data._id,
+        pack_id: pack ? pack : null,
+        number: parseInt(count),
+        selected_property_id_list:
+        calculatingProperty.length > 0
+            ? [
+          {
+            property_name: calculatingProperty[0]?.name_fa,
+            part_id: property            property_id: TrueProperty[0]?._id,
+
+          }
+        ]
+            : null,
+        address: address,
+        lat: position ? position[0] : '',
+        lon: position ? position[1] : '',
+        province: province,
+        city: city
+      }
+    ]
+  }*/
 }
 
 void handleClick(int item) {
