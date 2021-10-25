@@ -2,7 +2,7 @@ class ProcessingRequestModel {
   List<ProcessingRequestOrderList>? orderList;
 
   ProcessingRequestModel({
-    required this.orderList,
+    this.orderList,
   });
 
   ProcessingRequestModel.fromJson(Map<String, dynamic> json)

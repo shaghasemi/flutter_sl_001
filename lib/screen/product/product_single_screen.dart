@@ -1,8 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/api/api_service_order.dart';
 import 'package:flutter_sl_001/api/api_service_product.dart';
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
+import 'package:flutter_sl_001/model/order/processing_response_model.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
@@ -30,23 +31,41 @@ class ProductSingleScreen extends StatefulWidget {
 
 class _ProductSingleScreenState extends State<ProductSingleScreen> {
   ApiServiceProduct apiServiceProduct = ApiServiceProduct();
+  ApiServiceOrder apiServiceOrder = ApiServiceOrder();
+
   late ProductSingleRequestModel productSingleRequestModel;
-  ProcessingRequestModel processingRequestModel =
-      ProcessingRequestModel(orderList: []);
+  late ProcessingRequestModel processingRequestModel;
+  late ProcessingRequestOrderList processingRequestOrderList;
+
+  TextEditingController textControllerQuantity = TextEditingController();
+  TextEditingController textControllerProvince = TextEditingController();
+  TextEditingController textControllerCity = TextEditingController();
+  TextEditingController textControllerAddress = TextEditingController();
   ProductSingleData productSingleData = ProductSingleData();
-  String dropdownValue = 'One';
+  ProcessingResponseData processingData = ProcessingResponseData();
+
+  int price = 0;
   int ratioUnit = 1;
   order_options case_property = order_options.blank;
   double vertical_distance = 20.0;
 
-  String dropDownPacking = 'انتخاب بسته بندی';
-  String dropDownCalculating = 'انتخاب مقدار';
+  var dropDownPacking;
+  var dropDownCalculating;
+
+  TextEditingController provinceController = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
     productSingleRequestModel =
         ProductSingleRequestModel(id: widget.product_id);
+    processingRequestModel = ProcessingRequestModel(orderList: []);
+    processingRequestOrderList = ProcessingRequestOrderList(
+      id: widget.product_id,
+      // These will change later and derive from map
+      lat: 29.597526011584144,
+      lon: 52.51078605651856,
+    );
   }
 
   Widget build(BuildContext context) {
@@ -77,8 +96,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               case_property = order_options.number_calculating_packing;
             }
           }
-          print("case_property.toString()");
-          print(case_property.toString());
+
           return NestedScrollView(
             scrollDirection: Axis.vertical,
             headerSliverBuilder: (context, innerBoxIsScroller) => [
@@ -161,28 +179,44 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   OrderOptions(case_property),
 
                   // Geographical Information
+                  Column(
+                    children: [
+                      Text('اطلاعات موقعیتی'),
+                      TextField(
+                        decoration: InputDecoration(hintText: 'تعداد'),
+                        keyboardType: TextInputType.number,
+                        onChanged: (input) {
+                          processingRequestModel.orderList![0].number =
+                              int.parse(input);
+                        },
+                      ),
+                      TextInputProductScreen(
+                          hint: 'استان',
+                          customController: textControllerProvince,
+                          receptor: processingRequestOrderList.province,
+                          // receptor: processingRequestOrderList.id,
+                          keyboardType: TextInputType.streetAddress,
+                          label: 'استان'),
+                    ],
+                  ),
                   // Card(),
 
                   Text(productSingleData.titleFa!),
                   SizedBox(height: vertical_distance),
 
-                  Text(productSingleData.titleFa!),
-                  SizedBox(height: vertical_distance),
-
+                  // Add to Cart Button
                   ElevatedButton(
-                    onPressed: () =>
-                        Provider.of<CartProductList>(context, listen: false)
-                            .addProductToCart(
-                      // id: productInfo.id.toString(),
-                      id: productSingleData.id!,
-                    ),
+                    onPressed: () {
+                      addToCart();
+                      return Provider.of<CartProductList>(context,
+                              listen: false)
+                          .addProductToCart(
+                        // id: productInfo.id.toString(),
+                        id: productSingleData.id!,
+                      );
+                    },
                     child: Text("افزودن به سبد خرید"),
                   ),
-                  SizedBox(height: vertical_distance),
-                  SizedBox(height: vertical_distance),
-                  SizedBox(height: vertical_distance),
-                  SizedBox(height: vertical_distance),
-                  SizedBox(height: vertical_distance),
                   SizedBox(height: vertical_distance),
                 ],
               ),
@@ -198,6 +232,27 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
           );
         }
       },
+    );
+  }
+
+  TextFormField TextInputProductScreen(
+      {required String hint,
+      String? label,
+      receptor,
+      keyboardType,
+      customController}) {
+    return TextFormField(
+      decoration: InputDecoration(
+        hintText: hint,
+        labelText: label,
+      ),
+      keyboardType: keyboardType,
+      controller: customController,
+
+      /*onChanged: (input) {
+        receptor = input;
+        processingRequestOrderList.city = input;
+      },*/
     );
   }
 
@@ -233,22 +288,23 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
           if (case_property == order_options.number_packing ||
               case_property == order_options.number_calculating_packing)
             DropdownButton<String>(
+              value: dropDownPacking,
               hint: Opacity(
                 opacity: 0.5,
                 child: Text(
                   'بسته بندی',
                 ),
               ),
-              items: productSingleData.packList!
-                  .map<DropdownMenuItem<String>>((PackList object) {
-                return DropdownMenuItem<String>(
+              items: productSingleData.packList!.map((object) {
+                return DropdownMenuItem(
                   value: object.ratioUnit,
                   child: Text(object.name!),
                 );
               }).toList(),
-              onChanged: (String? newValue) {
+              onChanged: (newValue) {
                 setState(() {
-                  dropdownValue = newValue!;
+                  dropDownPacking = newValue!;
+                  getPrice();
                 });
               },
             ),
@@ -257,13 +313,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
           if (case_property == order_options.number_calculating ||
               case_property == order_options.number_calculating_packing)
             DropdownButton<String>(
-              /*value: dropDownCalculating != ''
-                  ? productSingleData.itemId!.propertyList![0].selectList![0]
-                  : null,*/
-              // value: productSingleData.itemId!.propertyList![0].selectList![0],
-              // value: productSingleData.itemId!.propertyList![0].selectList![1],
-              value: productSingleData.itemId!.propertyList![0].nameFa,
-              // value: dropDownCalculating,
+              value: dropDownCalculating,
               hint: Opacity(
                 opacity: 0.5,
                 child: Text(productSingleData.itemId!.propertyList![0].nameFa!),
@@ -345,34 +395,28 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   void addToCart() {
-    processingRequestModel.orderList![0].id = widget.product_id;
-    processingRequestModel.orderList![0].packId = widget.product_id;
+    print("processingRequestOrderList.city");
+    print(textControllerProvince.text);
   }
 
-/*let data = {
-    order_list: [
-      {
-        _id: product_info_data.data._id,
-        pack_id: pack ? pack : null,
-        number: parseInt(count),
-        selected_property_id_list:
-        calculatingProperty.length > 0
-            ? [
-          {
-            property_name: calculatingProperty[0]?.name_fa,
-            part_id: property            property_id: TrueProperty[0]?._id,
-
-          }
-        ]
-            : null,
-        address: address,
-        lat: position ? position[0] : '',
-        lon: position ? position[1] : '',
-        province: province,
-        city: city
-      }
-    ]
-  }*/
+  FutureBuilder getPrice() {
+    Future<ProcessingResponseData> getProcessingData() =>
+        apiServiceOrder.processing(processingRequestModel);
+    return FutureBuilder(
+      future: getProcessingData(),
+      builder: (context, snapshot) {
+        print("before data");
+        if (snapshot.hasData) {
+          print("has data");
+          processingData = ProcessingResponseData.fromJson(
+              jsonDecode(jsonEncode(snapshot.data)));
+        }
+        print("processingData.calculated!.price.toString()");
+        print(processingData.calculated!.price.toString());
+        return Text(processingData.calculated!.price.toString());
+      },
+    );
+  }
 }
 
 void handleClick(int item) {

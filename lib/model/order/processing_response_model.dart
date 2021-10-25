@@ -14,19 +14,22 @@ class ProcessingResponseModel {
   });
 
   ProcessingResponseModel.fromJson(Map<String, dynamic> json)
-      : data = (json['data'] as List?)?.map((dynamic e) => ProcessingResponseData.fromJson(e as Map<String,dynamic>)).toList(),
+      : data = (json['data'] as List?)
+            ?.map((dynamic e) =>
+                ProcessingResponseData.fromJson(e as Map<String, dynamic>))
+            .toList(),
         message = json['message'] as String?,
         error = json['error'] as bool?,
         success = json['success'] as bool?,
         status = json['status'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'data' : data?.map((e) => e.toJson()).toList(),
-    'message' : message,
-    'error' : error,
-    'success' : success,
-    'status' : status
-  };
+        'data': data?.map((e) => e.toJson()).toList(),
+        'message': message,
+        'error': error,
+        'success': success,
+        'status': status
+      };
 }
 
 class ProcessingResponseData {
@@ -41,15 +44,24 @@ class ProcessingResponseData {
   });
 
   ProcessingResponseData.fromJson(Map<String, dynamic> json)
-      : order = (json['order'] as Map<String,dynamic>?) != null ? ProcessingResponseOrder.fromJson(json['order'] as Map<String,dynamic>) : null,
-        product = (json['product'] as Map<String,dynamic>?) != null ? ProcessingResponseProduct.fromJson(json['product'] as Map<String,dynamic>) : null,
-        calculated = (json['calculated'] as Map<String,dynamic>?) != null ? ProcessingResponseCalculated.fromJson(json['calculated'] as Map<String,dynamic>) : null;
+      : order = (json['order'] as Map<String, dynamic>?) != null
+            ? ProcessingResponseOrder.fromJson(
+                json['order'] as Map<String, dynamic>)
+            : null,
+        product = (json['product'] as Map<String, dynamic>?) != null
+            ? ProcessingResponseProduct.fromJson(
+                json['product'] as Map<String, dynamic>)
+            : null,
+        calculated = (json['calculated'] as Map<String, dynamic>?) != null
+            ? ProcessingResponseCalculated.fromJson(
+                json['calculated'] as Map<String, dynamic>)
+            : null;
 
   Map<String, dynamic> toJson() => {
-    'order' : order?.toJson(),
-    'product' : product?.toJson(),
-    'calculated' : calculated?.toJson()
-  };
+        'order': order?.toJson(),
+        'product': product?.toJson(),
+        'calculated': calculated?.toJson()
+      };
 }
 
 class ProcessingResponseOrder {
@@ -79,7 +91,11 @@ class ProcessingResponseOrder {
       : id = json['_id'] as String?,
         packId = json['pack_id'] as String?,
         number = json['number'] as int?,
-        selectedPropertyIdList = (json['selected_property_id_list'] as List?)?.map((dynamic e) => ProcessingResponseSelectedPropertyIdList.fromJson(e as Map<String,dynamic>)).toList(),
+        selectedPropertyIdList = (json['selected_property_id_list'] as List?)
+            ?.map((dynamic e) =>
+                ProcessingResponseSelectedPropertyIdList.fromJson(
+                    e as Map<String, dynamic>))
+            .toList(),
         address = json['address'] as String?,
         lat = json['lat'] as double?,
         lon = json['lon'] as double?,
@@ -87,16 +103,17 @@ class ProcessingResponseOrder {
         city = json['city'] as String?;
 
   Map<String, dynamic> toJson() => {
-    '_id' : id,
-    'pack_id' : packId,
-    'number' : number,
-    'selected_property_id_list' : selectedPropertyIdList?.map((e) => e.toJson()).toList(),
-    'address' : address,
-    'lat' : lat,
-    'lon' : lon,
-    'province' : province,
-    'city' : city
-  };
+        '_id': id,
+        'pack_id': packId,
+        'number': number,
+        'selected_property_id_list':
+            selectedPropertyIdList?.map((e) => e.toJson()).toList(),
+        'address': address,
+        'lat': lat,
+        'lon': lon,
+        'province': province,
+        'city': city
+      };
 }
 
 class ProcessingResponseSelectedPropertyIdList {
@@ -116,10 +133,10 @@ class ProcessingResponseSelectedPropertyIdList {
         partId = json['part_id'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'property_name' : propertyName,
-    'property_id' : propertyId,
-    'part_id' : partId
-  };
+        'property_name': propertyName,
+        'property_id': propertyId,
+        'part_id': partId
+      };
 }
 
 class ProcessingResponseProduct {
@@ -166,8 +183,14 @@ class ProcessingResponseProduct {
         returning = json['returning'] as bool?,
         marketerCommission = json['marketer_commission'] as String?,
         id = json['_id'] as String?,
-        shopId = (json['shop_id'] as Map<String,dynamic>?) != null ? ProcessingResponseShopId.fromJson(json['shop_id'] as Map<String,dynamic>) : null,
-        branchId = (json['branch_id'] as Map<String,dynamic>?) != null ? ProcessingResponseBranchId.fromJson(json['branch_id'] as Map<String,dynamic>) : null,
+        shopId = (json['shop_id'] as Map<String, dynamic>?) != null
+            ? ProcessingResponseShopId.fromJson(
+                json['shop_id'] as Map<String, dynamic>)
+            : null,
+        branchId = (json['branch_id'] as Map<String, dynamic>?) != null
+            ? ProcessingResponseBranchId.fromJson(
+                json['branch_id'] as Map<String, dynamic>)
+            : null,
         titleFa = json['title_fa'] as String?,
         unit = json['unit'] as String?,
         inventory = json['inventory'] as int?,
@@ -178,23 +201,23 @@ class ProcessingResponseProduct {
         images = json['images'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'status' : status,
-    'title_en' : titleEn,
-    'supporting' : supporting,
-    'returning' : returning,
-    'marketer_commission' : marketerCommission,
-    '_id' : id,
-    'shop_id' : shopId?.toJson(),
-    'branch_id' : branchId?.toJson(),
-    'title_fa' : titleFa,
-    'unit' : unit,
-    'inventory' : inventory,
-    'min_order' : minOrder,
-    'max_order' : maxOrder,
-    'description' : description,
-    'rules' : rules,
-    'images' : images
-  };
+        'status': status,
+        'title_en': titleEn,
+        'supporting': supporting,
+        'returning': returning,
+        'marketer_commission': marketerCommission,
+        '_id': id,
+        'shop_id': shopId?.toJson(),
+        'branch_id': branchId?.toJson(),
+        'title_fa': titleFa,
+        'unit': unit,
+        'inventory': inventory,
+        'min_order': minOrder,
+        'max_order': maxOrder,
+        'description': description,
+        'rules': rules,
+        'images': images
+      };
 }
 
 class ProcessingResponseShopId {
@@ -213,11 +236,8 @@ class ProcessingResponseShopId {
         id = json['_id'] as String?,
         status = json['status'] as int?;
 
-  Map<String, dynamic> toJson() => {
-    'commercial_name' : commercialName,
-    '_id' : id,
-    'status' : status
-  };
+  Map<String, dynamic> toJson() =>
+      {'commercial_name': commercialName, '_id': id, 'status': status};
 }
 
 class ProcessingResponseBranchId {
@@ -236,11 +256,7 @@ class ProcessingResponseBranchId {
         id = json['_id'] as String?,
         status = json['status'] as int?;
 
-  Map<String, dynamic> toJson() => {
-    'name' : name,
-    '_id' : id,
-    'status' : status
-  };
+  Map<String, dynamic> toJson() => {'name': name, '_id': id, 'status': status};
 }
 
 class ProcessingResponseCalculated {
@@ -277,9 +293,15 @@ class ProcessingResponseCalculated {
   });
 
   ProcessingResponseCalculated.fromJson(Map<String, dynamic> json)
-      : packInfo = (json['pack_info'] as Map<String,dynamic>?) != null ? ProcessingResponsePackInfo.fromJson(json['pack_info'] as Map<String,dynamic>) : null,
+      : packInfo = (json['pack_info'] as Map<String, dynamic>?) != null
+            ? ProcessingResponsePackInfo.fromJson(
+                json['pack_info'] as Map<String, dynamic>)
+            : null,
         rangePriceRatio = json['range_price_ratio'] as int?,
-        propertyListInfo = (json['property_list_info'] as List?)?.map((dynamic e) => ProcessingResponsePropertyListInfo.fromJson(e as Map<String,dynamic>)).toList(),
+        propertyListInfo = (json['property_list_info'] as List?)
+            ?.map((dynamic e) => ProcessingResponsePropertyListInfo.fromJson(
+                e as Map<String, dynamic>))
+            .toList(),
         propertyPriceRatio = json['property_price_ratio'] as int?,
         discountPriceRatio = json['discount_price_ratio'] as int?,
         priceRatioSum = json['price_ratio_sum'] as int?,
@@ -293,21 +315,21 @@ class ProcessingResponseCalculated {
         total = json['total'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'pack_info' : packInfo?.toJson(),
-    'range_price_ratio' : rangePriceRatio,
-    'property_list_info' : propertyListInfo?.map((e) => e.toJson()).toList(),
-    'property_price_ratio' : propertyPriceRatio,
-    'discount_price_ratio' : discountPriceRatio,
-    'price_ratio_sum' : priceRatioSum,
-    'price_ratio_number' : priceRatioNumber,
-    'price' : price,
-    'new_price' : newPrice,
-    'number' : number,
-    'ratio_unit_number' : ratioUnitNumber,
-    'current_price' : currentPrice,
-    'current_number' : currentNumber,
-    'total' : total
-  };
+        'pack_info': packInfo?.toJson(),
+        'range_price_ratio': rangePriceRatio,
+        'property_list_info': propertyListInfo?.map((e) => e.toJson()).toList(),
+        'property_price_ratio': propertyPriceRatio,
+        'discount_price_ratio': discountPriceRatio,
+        'price_ratio_sum': priceRatioSum,
+        'price_ratio_number': priceRatioNumber,
+        'price': price,
+        'new_price': newPrice,
+        'number': number,
+        'ratio_unit_number': ratioUnitNumber,
+        'current_price': currentPrice,
+        'current_number': currentNumber,
+        'total': total
+      };
 }
 
 class ProcessingResponsePackInfo {
@@ -323,10 +345,7 @@ class ProcessingResponsePackInfo {
       : name = json['name'] as String?,
         ratioUnit = json['ratio_unit'] as String?;
 
-  Map<String, dynamic> toJson() => {
-    'name' : name,
-    'ratio_unit' : ratioUnit
-  };
+  Map<String, dynamic> toJson() => {'name': name, 'ratio_unit': ratioUnit};
 }
 
 class ProcessingResponsePropertyListInfo {
@@ -361,13 +380,13 @@ class ProcessingResponsePropertyListInfo {
         propertyId = json['property_id'] as String?;
 
   Map<String, dynamic> toJson() => {
-    '_id' : id,
-    'name' : name,
-    'price' : price,
-    'inventory' : inventory,
-    'min_order' : minOrder,
-    'max_order' : maxOrder,
-    'property_name' : propertyName,
-    'property_id' : propertyId
-  };
+        '_id': id,
+        'name': name,
+        'price': price,
+        'inventory': inventory,
+        'min_order': minOrder,
+        'max_order': maxOrder,
+        'property_name': propertyName,
+        'property_id': propertyId
+      };
 }
