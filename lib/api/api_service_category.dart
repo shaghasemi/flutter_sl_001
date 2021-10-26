@@ -3,11 +3,13 @@ import 'package:flutter_sl_001/model/category/category_main.dart';
 import 'package:flutter_sl_001/model/category/category_sub_1.dart';
 import 'package:flutter_sl_001/model/category/category_sub_2.dart';
 import 'package:flutter_sl_001/model/product/product_list_by_category_model.dart';
+import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 // const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
-const String baseURLV1 = "https://newapi.sivanland.com/api/";
+// const String baseURLV1 = "https://newapi.sivanland.com/api/";
+const String baseURLV1 = AppUrl.baseUrl;
 // const String userRole = "customer/";
 const String userRole = "guest/";
 

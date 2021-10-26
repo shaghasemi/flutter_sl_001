@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
+import 'package:flutter_sl_001/model/order/temp1.dart';
+import 'package:flutter_sl_001/model/order/temp2.dart';
+import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-// const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
-const String baseURLV1 = "https://newapi.sivanland.com/api/";
+const String baseURLV1 = AppUrl.baseUrl;
 // const String userRole = "customer/";
 const String userRole = "guest/";
 
@@ -12,26 +16,23 @@ class ApiServiceOrder {
   // Send Product Information and User Input to Get Price
   Future<ProcessingResponseModel> processing(
     ProcessingRequestModel processingRequestModel,
-    // List<ProcessingRequestOrderList> processingRequestModel,
   ) async {
+    String processingBody = jsonEncode(processingRequestModel);
+
     String url = "$baseURLV1${userRole}order/processing";
-    // print(jsonEncode(processingRequestModel));
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Charset': 'utf-8',
+      'Accept': '*/*'
+    };
 
     final response = await http.post(
       Uri.parse(url),
-      // body: processingRequestModel.toJson(),
-      // body: {'order_list': jsonEncode(processingRequestModel)},
-      body: processingRequestModel.toJson(),
+      headers: headers,
+      body: processingBody,
     );
-    // print("processing Response:");
-    // print(jsonDecode(response.body));
-    // print(response.statusCode);
-    // print("json.decode(response.body)['data']");
-    // print(json.decode(response.body)['data']);
     if (response.statusCode == 200) {
-      return ProcessingResponseModel.fromJson(
-        json.decode(response.body),
-      );
+      return ProcessingResponseModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to Retrieve Processing Info');
     }

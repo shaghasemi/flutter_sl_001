@@ -1,11 +1,13 @@
 import 'package:flutter_sl_001/model/product/product_all_model.dart';
 import 'package:flutter_sl_001/model/product/product_latest_model.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
+import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 // const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
-const String baseURLV1 = "https://newapi.sivanland.com/api/";
+// const String baseURLV1 = "https://newapi.sivanland.com/api/";
+const String baseURLV1 = AppUrl.baseUrl;
 // const String userRole = "customer/";
 const String userRole = "guest/";
 

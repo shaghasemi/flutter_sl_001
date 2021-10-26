@@ -4,6 +4,7 @@ import 'package:flutter_sl_001/api/api_service_order.dart';
 import 'package:flutter_sl_001/api/api_service_product.dart';
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
+import 'package:flutter_sl_001/model/order/temp1.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
@@ -33,16 +34,17 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   ApiServiceProduct apiServiceProduct = ApiServiceProduct();
   ApiServiceOrder apiServiceOrder = ApiServiceOrder();
 
-  TextEditingController textControllerQuantity = TextEditingController();
   TextEditingController textControllerProvince = TextEditingController();
   TextEditingController textControllerCity = TextEditingController();
   TextEditingController textControllerAddress = TextEditingController();
 
   late ProductSingleRequestModel productSingleRequestModel;
-  late ProcessingRequestModel processingRequestModel;
 
-  // late ProcessingRequestModel myProcessingList;
+  // late ProcessingRequestModel processingRequestModel;
+  late ProcessingRequestModel processingRequestModel;
   late ProcessingRequestOrderList processingRequestOrderList;
+  late ProcessingRequestSelectedPropertyIdList
+      processingRequestSelectedPropertyIdList;
 
   ProductSingleData productSingleData = ProductSingleData();
   ProcessingResponseData processingData = ProcessingResponseData();
@@ -63,25 +65,21 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     super.initState();
     productSingleRequestModel =
         ProductSingleRequestModel(id: widget.product_id);
-    myProcessingList = [ProcessingRequestOrderList(id: '')];
-    processingRequestModel =
-        ProcessingRequestModel(orderList: myProcessingList);
-    // processingRequestModel = List<ProcessingRequestOrderList>;
-    processingRequestOrderList = ProcessingRequestOrderList(
-      id: widget.product_id,
-      // These will change later and derive from map
-      lat: 29.597526011584144,
-      lon: 52.51078605651856,
-    );
-    // myProcessingList = [ProcessingRequestOrderList(id: '')];
-    myProcessingList[0] = ProcessingRequestOrderList(
-      id: widget.product_id,
-      lat: 29.597526011584144,
-      lon: 52.51078605651856,
-      address: '',
-      city: '',
-      province: '',
-      number: 12,
+    processingRequestModel = ProcessingRequestModel(
+      orderList: [
+        ProcessingRequestOrderList(
+          // selectedPropertyIdList: [],
+          selectedPropertyIdList: null,
+          id: widget.product_id,
+          lat: 29.5,
+          lon: 52.9,
+          address: 'a',
+          city: 's',
+          province: 'd',
+          number: 10,
+          packId: '61654ab2e311de6928b890b3',
+        ),
+      ],
     );
   }
 
@@ -199,21 +197,21 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   Column(
                     children: [
                       Text('اطلاعات موقعیتی'),
-                      TextField(
-                        decoration: InputDecoration(hintText: 'تعداد'),
-                        keyboardType: TextInputType.number,
-                        onChanged: (input) {
-                          processingRequestModel.orderList![0].number =
-                              int.parse(input);
-                        },
-                      ),
                       TextInputProductScreen(
                           hint: 'استان',
                           customController: textControllerProvince,
-                          receptor: processingRequestOrderList.province,
-                          // receptor: processingRequestOrderList.id,
                           keyboardType: TextInputType.streetAddress,
                           label: 'استان'),
+                      TextInputProductScreen(
+                          hint: 'شهر',
+                          customController: textControllerCity,
+                          keyboardType: TextInputType.streetAddress,
+                          label: 'شهر'),
+                      TextInputProductScreen(
+                          hint: 'نشانی',
+                          customController: textControllerAddress,
+                          keyboardType: TextInputType.streetAddress,
+                          label: 'نشانی'),
                     ],
                   ),
                   // Card(),
@@ -253,11 +251,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   TextFormField TextInputProductScreen(
-      {required String hint,
-      String? label,
-      receptor,
-      keyboardType,
-      customController}) {
+      {required String hint, String? label, keyboardType, customController}) {
     return TextFormField(
       decoration: InputDecoration(
         hintText: hint,
@@ -265,11 +259,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
       ),
       keyboardType: keyboardType,
       controller: customController,
-
-      /*onChanged: (input) {
-        receptor = input;
-        processingRequestOrderList.city = input;
-      },*/
     );
   }
 
@@ -321,10 +310,9 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               onChanged: (newValue) {
                 setState(() {
                   dropDownPacking = newValue!;
-                  myProcessingList[0].packId = newValue;
-                  print("newValue Packing:");
-                  print(newValue);
-                  getPrice();
+                  processingRequestModel.orderList[0].packId = newValue;
+                  addToCart();
+                  // getPrice();
                 });
               },
             ),
@@ -348,6 +336,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropDownCalculating = newValue!;
+                  addToCart();
                 });
               },
             ),
@@ -357,9 +346,11 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
             decoration: InputDecoration(hintText: 'تعداد'),
             keyboardType: TextInputType.number,
             onChanged: (input) {
-              processingRequestModel.orderList![0].number = int.parse(input);
+              processingRequestModel.orderList[0].number = int.parse(input);
+              addToCart();
+// processingRequestModel.orderList![0].number = int.parse(input);
             },
-          )
+          ),
         ],
       ),
     );
@@ -415,24 +406,26 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   void addToCart() {
-    print("processingRequestOrderList.city");
-    print(textControllerProvince.text);
-    processingRequestModel.orderList = myProcessingList;
-    print("processingRequestModel:");
-    print(processingRequestModel);
+    processingRequestModel.orderList[0].province = textControllerProvince.text;
+    processingRequestModel.orderList[0].city = textControllerCity.text;
+    processingRequestModel.orderList[0].address = textControllerAddress.text;
     apiServiceOrder.processing(processingRequestModel).then((value) {
-      print(value.message);
-      return value.status;
+      print(value.data![0].calculated!.total);
+      // print(jsonEncode(value.data));
     });
   }
 
-  FutureBuilder getPrice() {
+  @override
+  void dispose() {
+    textControllerProvince.dispose();
+    textControllerCity.dispose();
+    textControllerAddress.dispose();
+    super.dispose();
+  }
+
+/*FutureBuilder getPrice() {
     print('Get Price Called!');
-    // print(myProcessingList);
-    processingRequestModel.orderList = myProcessingList;
-    // print(processingRequestModel);
-    Future<ProcessingResponseModel> getProcessingData() =>
-        // apiServiceOrder.processing(myProcessingList);
+    Future<ProcessingResponseData> getProcessingData() =>
         apiServiceOrder.processing(processingRequestModel);
     return FutureBuilder(
       future: getProcessingData(),
@@ -443,12 +436,10 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
           processingData = ProcessingResponseData.fromJson(
               jsonDecode(jsonEncode(snapshot.data)));
         }
-        print("processingData.calculated!.price.toString()");
-        print(processingData.calculated!.price.toString());
-        return Text(processingData.calculated!.price.toString());
+        return Text(processingData.calculated!.total.toString());
       },
     );
-  }
+  }*/
 }
 
 void handleClick(int item) {

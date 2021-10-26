@@ -1,8 +1,8 @@
 class ProcessingRequestModel {
-  List<ProcessingRequestOrderList>? orderList;
+  List<ProcessingRequestOrderList> orderList;
 
   ProcessingRequestModel({
-    this.orderList,
+    required this.orderList,
   });
 
   ProcessingRequestModel.fromJson(Map<String, dynamic> json)
@@ -12,7 +12,7 @@ class ProcessingRequestModel {
             .toList();
 
   Map<String, dynamic> toJson() =>
-      {'order_list': orderList?.map((e) => e.toJson()).toList()};
+      {'order_list': orderList.map((e) => e.toJson()).toList()};
 }
 
 class ProcessingRequestOrderList {

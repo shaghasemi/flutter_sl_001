@@ -9,6 +9,7 @@ import 'package:flutter_sl_001/model/panel/signup_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
 import 'package:flutter_sl_001/model/panel/user_info_edit.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
+import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -25,7 +26,8 @@ enum Status {
 }
 
 // const String baseURLV1 = "http://mobile.sivanland.com/api/mobile/v1/";
-const String baseURLV1 = "https://newapi.sivanland.com/api/";
+// const String baseURLV1 = "https://newapi.sivanland.com/api/";
+const String baseURLV1 = AppUrl.baseUrl;
 const String userRole = "customer/";
 
 class APIServicePanel extends ChangeNotifier {
@@ -82,28 +84,14 @@ class APIServicePanel extends ChangeNotifier {
     String url = "${baseURLV1}${userRole}signin";
     final response = await http.post(
       Uri.parse(url),
-      /*headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },*/
       body: loginRequestModel.toJson(),
-      // encoding: Encoding.getByName("utf-8"),
     );
-    // print(json.decode(response.body));
-    // print(LoginResponseModel.fromJson(json.decode(response.body)));
-    /*if (response.statusCode == 200) {
-      _loggedInStatus = Status.loggedIn;
-      LoginData userData =
-          LoginData.fromJson((json.decode(response.body))['data']);
-      UserPreferences().saveUser(userData);
-      notifyListeners();
+    print(json.decode(response.body));
+    if (response.statusCode == 200) {
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {
-      _loggedInStatus = Status.notLoggedIn;
-      notifyListeners();
       throw Exception('Failed to Login');
-    }*/
-    return LoginResponseModel.fromJson(json.decode(response.body));
+    }
   }
 
   // Resend Validation Code
