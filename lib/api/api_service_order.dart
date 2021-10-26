@@ -10,20 +10,27 @@ const String userRole = "guest/";
 
 class ApiServiceOrder {
   // Send Product Information and User Input to Get Price
-  Future<ProcessingResponseData> processing(
+  Future<ProcessingResponseModel> processing(
     ProcessingRequestModel processingRequestModel,
+    // List<ProcessingRequestOrderList> processingRequestModel,
   ) async {
     String url = "$baseURLV1${userRole}order/processing";
+    // print(jsonEncode(processingRequestModel));
 
     final response = await http.post(
       Uri.parse(url),
+      // body: processingRequestModel.toJson(),
+      // body: {'order_list': jsonEncode(processingRequestModel)},
       body: processingRequestModel.toJson(),
     );
-    print("processing Response:");
-    print(json.decode(response.body)['data']);
+    // print("processing Response:");
+    // print(jsonDecode(response.body));
+    // print(response.statusCode);
+    // print("json.decode(response.body)['data']");
+    // print(json.decode(response.body)['data']);
     if (response.statusCode == 200) {
-      return ProcessingResponseData.fromJson(
-        json.decode(response.body)['data'],
+      return ProcessingResponseModel.fromJson(
+        json.decode(response.body),
       );
     } else {
       throw Exception('Failed to Retrieve Processing Info');

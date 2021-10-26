@@ -33,16 +33,20 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   ApiServiceProduct apiServiceProduct = ApiServiceProduct();
   ApiServiceOrder apiServiceOrder = ApiServiceOrder();
 
-  late ProductSingleRequestModel productSingleRequestModel;
-  late ProcessingRequestModel processingRequestModel;
-  late ProcessingRequestOrderList processingRequestOrderList;
-
   TextEditingController textControllerQuantity = TextEditingController();
   TextEditingController textControllerProvince = TextEditingController();
   TextEditingController textControllerCity = TextEditingController();
   TextEditingController textControllerAddress = TextEditingController();
+
+  late ProductSingleRequestModel productSingleRequestModel;
+  late ProcessingRequestModel processingRequestModel;
+
+  // late ProcessingRequestModel myProcessingList;
+  late ProcessingRequestOrderList processingRequestOrderList;
+
   ProductSingleData productSingleData = ProductSingleData();
   ProcessingResponseData processingData = ProcessingResponseData();
+  late List<ProcessingRequestOrderList> myProcessingList;
 
   int price = 0;
   int ratioUnit = 1;
@@ -59,12 +63,25 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     super.initState();
     productSingleRequestModel =
         ProductSingleRequestModel(id: widget.product_id);
-    processingRequestModel = ProcessingRequestModel(orderList: []);
+    myProcessingList = [ProcessingRequestOrderList(id: '')];
+    processingRequestModel =
+        ProcessingRequestModel(orderList: myProcessingList);
+    // processingRequestModel = List<ProcessingRequestOrderList>;
     processingRequestOrderList = ProcessingRequestOrderList(
       id: widget.product_id,
       // These will change later and derive from map
       lat: 29.597526011584144,
       lon: 52.51078605651856,
+    );
+    // myProcessingList = [ProcessingRequestOrderList(id: '')];
+    myProcessingList[0] = ProcessingRequestOrderList(
+      id: widget.product_id,
+      lat: 29.597526011584144,
+      lon: 52.51078605651856,
+      address: '',
+      city: '',
+      province: '',
+      number: 12,
     );
   }
 
@@ -297,13 +314,16 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               ),
               items: productSingleData.packList!.map((object) {
                 return DropdownMenuItem(
-                  value: object.ratioUnit,
+                  value: object.id,
                   child: Text(object.name!),
                 );
               }).toList(),
               onChanged: (newValue) {
                 setState(() {
                   dropDownPacking = newValue!;
+                  myProcessingList[0].packId = newValue;
+                  print("newValue Packing:");
+                  print(newValue);
                   getPrice();
                 });
               },
@@ -397,10 +417,22 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   void addToCart() {
     print("processingRequestOrderList.city");
     print(textControllerProvince.text);
+    processingRequestModel.orderList = myProcessingList;
+    print("processingRequestModel:");
+    print(processingRequestModel);
+    apiServiceOrder.processing(processingRequestModel).then((value) {
+      print(value.message);
+      return value.status;
+    });
   }
 
   FutureBuilder getPrice() {
-    Future<ProcessingResponseData> getProcessingData() =>
+    print('Get Price Called!');
+    // print(myProcessingList);
+    processingRequestModel.orderList = myProcessingList;
+    // print(processingRequestModel);
+    Future<ProcessingResponseModel> getProcessingData() =>
+        // apiServiceOrder.processing(myProcessingList);
         apiServiceOrder.processing(processingRequestModel);
     return FutureBuilder(
       future: getProcessingData(),
