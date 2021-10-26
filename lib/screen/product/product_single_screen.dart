@@ -4,7 +4,6 @@ import 'package:flutter_sl_001/api/api_service_order.dart';
 import 'package:flutter_sl_001/api/api_service_product.dart';
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
-import 'package:flutter_sl_001/model/order/temp1.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
@@ -31,6 +30,8 @@ class ProductSingleScreen extends StatefulWidget {
 }
 
 class _ProductSingleScreenState extends State<ProductSingleScreen> {
+  GlobalKey<FormState> _formKeyProductSingle = GlobalKey<FormState>();
+
   ApiServiceProduct apiServiceProduct = ApiServiceProduct();
   ApiServiceOrder apiServiceOrder = ApiServiceOrder();
 
@@ -42,7 +43,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   int latestPrice = 0;
 
-  // late ProcessingRequestModel processingRequestModel;
   late ProcessingRequestModel processingRequestModel;
   late ProcessingRequestOrderList processingRequestOrderList;
   late ProcessingRequestSelectedPropertyIdList
@@ -50,7 +50,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   ProductSingleData productSingleData = ProductSingleData();
   ProcessingResponseData processingData = ProcessingResponseData();
-  late List<ProcessingRequestOrderList> myProcessingList;
 
   int price = 0;
   int ratioUnit = 1;
@@ -196,25 +195,70 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   OrderOptions(case_property),
 
                   // Geographical Information
-                  Column(
-                    children: [
-                      Text('اطلاعات موقعیتی'),
-                      TextInputProductScreen(
-                          hint: 'استان',
-                          customController: textControllerProvince,
+                  Form(
+                    key: _formKeyProductSingle,
+                    child: Column(
+                      children: [
+                        Text('اطلاعات موقعیتی'),
+
+                        // Get Province
+                        TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'استان',
+                            labelText: 'استان',
+                          ),
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return "الزامی";
+                            }
+                            if (val.length < 2) {
+                              return "نام استان حداقل دو حرف می باشد.";
+                            }
+                          },
                           keyboardType: TextInputType.streetAddress,
-                          label: 'استان'),
-                      TextInputProductScreen(
-                          hint: 'شهر',
-                          customController: textControllerCity,
+                          onChanged: (input) {
+                            processingRequestModel.orderList[0].province =
+                                input;
+                          },
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'شهر',
+                            labelText: 'شهر',
+                          ),
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return "الزامی";
+                            }
+                            if (val.length < 2) {
+                              return "نام شهر حداقل دو حرف می باشد.";
+                            }
+                          },
                           keyboardType: TextInputType.streetAddress,
-                          label: 'شهر'),
-                      TextInputProductScreen(
-                          hint: 'نشانی',
-                          customController: textControllerAddress,
+                          onChanged: (input) {
+                            processingRequestModel.orderList[0].city = input;
+                          },
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'نشانی',
+                            labelText: 'نشانی',
+                          ),
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return "الزامی";
+                            }
+                            if (val.length < 12) {
+                              return "نشانی حداقل دوازده حرف می باشد.";
+                            }
+                          },
                           keyboardType: TextInputType.streetAddress,
-                          label: 'نشانی'),
-                    ],
+                          onChanged: (input) {
+                            processingRequestModel.orderList[0].address = input;
+                          },
+                        )
+                      ],
+                    ),
                   ),
                   // Card(),
 
@@ -224,13 +268,23 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   // Add to Cart Button
                   ElevatedButton(
                     onPressed: () {
-                      getPrice();
+                      if (_formKeyProductSingle.currentState!.validate()) {
+                        print("Form Valid");
+                        getPrice();
+                        return Provider.of<CartProductList>(context,
+                                listen: false)
+                            .addProductToCart(
+                          // id: productInfo.id.toString(),
+                          id: productSingleData.id!,
+                        );
+                      }
+                      /*getPrice();
                       return Provider.of<CartProductList>(context,
                               listen: false)
                           .addProductToCart(
                         // id: productInfo.id.toString(),
                         id: productSingleData.id!,
-                      );
+                      );*/
                     },
                     child: Text("افزودن به سبد خرید"),
                   ),
@@ -249,18 +303,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
           );
         }
       },
-    );
-  }
-
-  TextFormField TextInputProductScreen(
-      {required String hint, String? label, keyboardType, customController}) {
-    return TextFormField(
-      decoration: InputDecoration(
-        hintText: hint,
-        labelText: label,
-      ),
-      keyboardType: keyboardType,
-      controller: customController,
     );
   }
 
@@ -336,9 +378,9 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                 );
               }).toList(),
               onChanged: (String? newValue) {
+                getPrice();
                 setState(() {
                   dropDownCalculating = newValue!;
-                  getPrice();
                 });
               },
             ),
@@ -349,16 +391,17 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
             keyboardType: TextInputType.number,
             onChanged: (input) {
               processingRequestModel.orderList[0].number = int.parse(input);
-              setState(() {
+              getPrice();
+              /*setState(() {
                 getPrice();
-              });
+              });*/
 // processingRequestModel.orderList![0].number = int.parse(input);
             },
           ),
           // Maybe this could show the price
           // It could use provider (it might help with next steps to add to cart
           Text('Price Updating'),
-          Text(latestPrice.toString() ?? '0'),
+          Text(latestPrice.toString()),
         ],
       ),
     );
@@ -414,15 +457,15 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   void getPrice() {
-    processingRequestModel.orderList[0].province = textControllerProvince.text;
-    processingRequestModel.orderList[0].city = textControllerCity.text;
-    processingRequestModel.orderList[0].address = textControllerAddress.text;
     apiServiceOrder.processing(processingRequestModel).then((value) {
-      latestPrice = value.data![0].calculated!.total!;
+      // latestPrice = value.data![0].calculated!.total!;
+      setState(() {
+        latestPrice = value.data![0].calculated!.total!;
+      });
     });
   }
 
-  void addToCart(){}
+  void addToCart() {}
 
   @override
   void dispose() {

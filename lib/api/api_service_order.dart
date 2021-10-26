@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
-import 'package:flutter_sl_001/model/order/temp1.dart';
-import 'package:flutter_sl_001/model/order/temp2.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
