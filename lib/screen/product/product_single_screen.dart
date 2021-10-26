@@ -40,6 +40,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   late ProductSingleRequestModel productSingleRequestModel;
 
+  int latestPrice = 0;
+
   // late ProcessingRequestModel processingRequestModel;
   late ProcessingRequestModel processingRequestModel;
   late ProcessingRequestOrderList processingRequestOrderList;
@@ -222,7 +224,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   // Add to Cart Button
                   ElevatedButton(
                     onPressed: () {
-                      addToCart();
+                      getPrice();
                       return Provider.of<CartProductList>(context,
                               listen: false)
                           .addProductToCart(
@@ -311,7 +313,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                 setState(() {
                   dropDownPacking = newValue!;
                   processingRequestModel.orderList[0].packId = newValue;
-                  addToCart();
+                  getPrice();
                   // getPrice();
                 });
               },
@@ -336,7 +338,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropDownCalculating = newValue!;
-                  addToCart();
+                  getPrice();
                 });
               },
             ),
@@ -347,10 +349,16 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
             keyboardType: TextInputType.number,
             onChanged: (input) {
               processingRequestModel.orderList[0].number = int.parse(input);
-              addToCart();
+              setState(() {
+                getPrice();
+              });
 // processingRequestModel.orderList![0].number = int.parse(input);
             },
           ),
+          // Maybe this could show the price
+          // It could use provider (it might help with next steps to add to cart
+          Text('Price Updating'),
+          Text(latestPrice.toString() ?? '0'),
         ],
       ),
     );
@@ -405,15 +413,16 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     );
   }
 
-  void addToCart() {
+  void getPrice() {
     processingRequestModel.orderList[0].province = textControllerProvince.text;
     processingRequestModel.orderList[0].city = textControllerCity.text;
     processingRequestModel.orderList[0].address = textControllerAddress.text;
     apiServiceOrder.processing(processingRequestModel).then((value) {
-      print(value.data![0].calculated!.total);
-      // print(jsonEncode(value.data));
+      latestPrice = value.data![0].calculated!.total!;
     });
   }
+
+  void addToCart(){}
 
   @override
   void dispose() {
@@ -422,24 +431,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     textControllerAddress.dispose();
     super.dispose();
   }
-
-/*FutureBuilder getPrice() {
-    print('Get Price Called!');
-    Future<ProcessingResponseData> getProcessingData() =>
-        apiServiceOrder.processing(processingRequestModel);
-    return FutureBuilder(
-      future: getProcessingData(),
-      builder: (context, snapshot) {
-        print("before data");
-        if (snapshot.hasData) {
-          print("has data");
-          processingData = ProcessingResponseData.fromJson(
-              jsonDecode(jsonEncode(snapshot.data)));
-        }
-        return Text(processingData.calculated!.total.toString());
-      },
-    );
-  }*/
 }
 
 void handleClick(int item) {
