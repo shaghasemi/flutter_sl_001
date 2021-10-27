@@ -58,7 +58,7 @@ class ProductSingleData {
   final int? minOrder;
   final int? maxOrder;
   final List<Images>? images;
-  final List<PropertyList>? propertyList;
+  final List<PropertyListProduct>? propertyList;
   final String? createdAt;
   final String? updatedAt;
   final int? v;
@@ -148,7 +148,7 @@ class ProductSingleData {
             .toList(),
         propertyList = (json['property_list'] as List?)
             ?.map(
-                (dynamic e) => PropertyList.fromJson(e as Map<String, dynamic>))
+                (dynamic e) => PropertyListProduct.fromJson(e as Map<String, dynamic>))
             .toList(),
         createdAt = json['createdAt'] as String?,
         updatedAt = json['updatedAt'] as String?,

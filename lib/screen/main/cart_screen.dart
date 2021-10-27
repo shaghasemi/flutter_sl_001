@@ -17,7 +17,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     // token = MySharedPreferences.mySharedPreferences.getString("token");
-    LoginData user = Provider.of<UserProvider>(context).getUser;
+    // LoginData user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
       body: NestedScrollView(
@@ -36,7 +36,6 @@ class _CartScreenState extends State<CartScreen> {
               IconButton(
                   onPressed: () {
                     // TODO: Remove This Button
-                    print("Refresh: ");
                   },
                   icon: const Icon(Icons.refresh))
             ],
@@ -59,36 +58,52 @@ class _CartScreenState extends State<CartScreen> {
                               shrinkWrap: true,
                               itemCount: value.processingList.length,
                               itemBuilder: (context, index) {
-                                // return Text(value.productList[index].id!);
                                 return OrderItemWidget(
                                   image: '',
-                                  productName: value
-                                      .processingList[index].product!.titleFa!,
+                                  productName: value.processingList[index]
+                                          .product!.titleFa ??
+                                      'Name',
                                   salesType: value.processingList[index]
                                       .product!.supporting!
                                       .toString(),
                                   shopName: value.processingList[index].product!
-                                      .shopId!.commercialName!,
+                                          .shopId!.commercialName ??
+                                      'Shop Name',
                                   branchName: value.processingList[index]
-                                      .product!.branchId!.name!,
-                                  unit: value
-                                      .processingList[index].product!.unit!,
-                                  packing: value.processingList[index]
-                                      .calculated!.packInfo!.name,
+                                          .product!.branchId!.name ??
+                                      'Branch Name',
+                                  unit: value.processingList[index].product!
+                                          .unit ??
+                                      'Unit',
+                                  packing: value.processingList[index].order!
+                                                  .packId !=
+                                              "" ||
+                                          value.processingList[index].order!
+                                                  .packId !=
+                                              null
+                                      ? value.processingList[index].calculated!
+                                          .packInfo!.name
+                                      : 'No Packing Info',
                                   calculatingProperty: value
-                                          .processingList[index]
-                                          .calculated!
-                                          .propertyListInfo![0]
-                                          .name ??
-                                      '',
+                                              .processingList[index]
+                                              .order!
+                                              .selectedPropertyIdList !=
+                                          null
+                                      ? value.processingList[index].calculated!
+                                          .propertyListInfo![0].name
+                                      : 'No Calculating Property',
                                   discountSum: value.processingList[index]
-                                      .calculated!.discountPriceRatio!,
-                                  payAmount: value
-                                      .processingList[index].calculated!.total!,
-                                  deliveryAddress: value
-                                      .processingList[index].order!.address!,
-                                  quantity: value
-                                      .processingList[index].order!.number!,
+                                          .calculated!.discountPriceRatio ??
+                                      12,
+                                  payAmount: value.processingList[index]
+                                          .calculated!.total ??
+                                      12,
+                                  deliveryAddress: value.processingList[index]
+                                          .order!.address ??
+                                      'Address',
+                                  quantity: value.processingList[index].order!
+                                          .number ??
+                                      12,
                                 );
                               },
                             ),

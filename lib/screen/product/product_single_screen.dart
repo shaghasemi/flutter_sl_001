@@ -51,7 +51,10 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   int latestPrice = 0;
   ProductSingleData productSingleData = ProductSingleData();
   ProcessingResponseData processingData = ProcessingResponseData();
+  PropertyListProduct productProperty = PropertyListProduct();
+  PropertyList? calculatingProperty = PropertyList(id: 'asd');
 
+  int calculatingCode = 0;
   int price = 0;
   int ratioUnit = 1;
   order_options case_property = order_options.blank;
@@ -71,15 +74,10 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
       orderList: [
         ProcessingRequestOrderList(
           // selectedPropertyIdList: [],
-          selectedPropertyIdList: null,
+          // selectedPropertyIdList: null,
           id: widget.product_id,
           lat: 29.5,
           lon: 52.9,
-          address: 'a',
-          city: 's',
-          province: 'd',
-          number: 10,
-          packId: '61654ab2e311de6928b890b3',
         ),
       ],
     );
@@ -94,9 +92,28 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
         if (snapshot.hasData) {
           productSingleData =
               ProductSingleData.fromJson(jsonDecode(jsonEncode(snapshot.data)));
+
+          // Get the code for calculating proper if available
+          calculatingCode = productSingleData.itemId!.propertyList!
+                  .firstWhere((element) => element.calculating == true,
+                      orElse: () => PropertyList())
+                  .code ??
+              0;
+          // Get a separate variable for calculating property
+          if (calculatingCode != 0) {
+            calculatingProperty = productSingleData.itemId!.propertyList!
+                .where((element) => element.code == calculatingCode)
+                .first;
+            productProperty = productSingleData.propertyList!.firstWhere(
+                (element) => element.code == calculatingCode,
+                orElse: () => PropertyListProduct());
+            processingRequestModel.orderList[0].selectedPropertyIdList = [
+              ProcessingRequestSelectedPropertyIdList()
+            ];
+          }
+
           if (productSingleData.packList!.length == 0) {
-            if (productSingleData.itemId!.propertyList![0].calculating !=
-                true) {
+            if (calculatingCode == 0) {
               // Case 11: Number of Order
               case_property = order_options.number;
             } else {
@@ -104,8 +121,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               case_property = order_options.number_calculating;
             }
           } else {
-            if (productSingleData.itemId!.propertyList![0].calculating !=
-                true) {
+            if (calculatingCode == 0) {
               // Case 21: Number of Order & Packing List
               case_property = order_options.number_packing;
             } else {
@@ -219,7 +235,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                           keyboardType: TextInputType.streetAddress,
                           onChanged: (input) {
                             processingRequestModel.orderList[0].province =
-                                input;
+                                input.trim();
                           },
                         ),
                         TextFormField(
@@ -237,7 +253,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                           },
                           keyboardType: TextInputType.streetAddress,
                           onChanged: (input) {
-                            processingRequestModel.orderList[0].city = input;
+                            processingRequestModel.orderList[0].city = input.trim();
                           },
                         ),
                         TextFormField(
@@ -255,7 +271,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                           },
                           keyboardType: TextInputType.streetAddress,
                           onChanged: (input) {
-                            processingRequestModel.orderList[0].address = input;
+                            processingRequestModel.orderList[0].address = input.trim();
                           },
                         )
                       ],
@@ -269,10 +285,10 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   // Add to Cart Button
                   ElevatedButton(
                     onPressed: () {
-                      // if (_formKeyProductSingle.currentState!.validate()) {
-                      print("Form Valid");
-                      // getPrice();
-                      addToCart();
+                      if (_formKeyProductSingle.currentState!.validate()) {
+                        // getPrice();
+                        addToCart();
+                      }
                     },
                     child: Text("افزودن به سبد خرید"),
                   ),
@@ -296,7 +312,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   Container ImageSliderProduct(BuildContext context) {
     return Container(
-      height: 300,
+      height: 200,
       width: MediaQuery.of(context).size.width,
       child: Center(
         child: ListView.builder(
@@ -356,19 +372,27 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               value: dropDownCalculating,
               hint: Opacity(
                 opacity: 0.5,
-                child: Text(productSingleData.itemId!.propertyList![0].nameFa!),
+                child: Text(calculatingProperty!.nameFa!),
               ),
-              items: productSingleData.itemId!.propertyList![0].selectList!
-                  .map<DropdownMenuItem<String>>((String object) {
+              items: productProperty.selectRatioList!
+                  .map<DropdownMenuItem<String>>((SelectRatioList object) {
+                processingRequestModel.orderList[0].selectedPropertyIdList![0]
+                    .propertyId = object.id;
+                processingRequestModel.orderList[0].selectedPropertyIdList![0]
+                    .propertyName = object.name;
+                processingRequestModel.orderList[0].selectedPropertyIdList![0]
+                    .partId = dropDownCalculating;
                 return DropdownMenuItem<String>(
-                  value: object,
-                  child: Text(object /*.toString()*/),
+                  value: object.id,
+                  child: Text(object.name!),
                 );
               }).toList(),
               onChanged: (String? newValue) {
                 getPrice();
                 setState(() {
                   dropDownCalculating = newValue!;
+                  /*processingRequestModel.orderList[0].selectedPropertyIdList![0]
+                      .partId = newValue;*/
                 });
               },
             ),
@@ -448,15 +472,10 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   void addToCart() {
+    // print("processingRequestModel: ${jsonEncode(processingRequestModel)}");
+    // print("processingData: ${jsonEncode(processingData)}");
     Provider.of<CartOrderList>(context, listen: false)
         .addOrderToCart(processingData);
-    /*apiServiceOrder.processing(processingRequestModel).then(
-      (value) {
-        print("trying to add to cart");
-        Provider.of<CartOrderList>(context, listen: false)
-            .addOrderToCart(value.data![0]);
-      },
-    );*/
   }
 
   @override
