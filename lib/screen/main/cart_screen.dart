@@ -1,16 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/api/api_service_panel.dart';
-import 'package:flutter_sl_001/data/local/shared_pref.dart';
-import 'package:flutter_sl_001/model/order/order_all_model.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
+import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
 import 'package:flutter_sl_001/provider_test/user_provider.dart';
-import 'package:flutter_sl_001/screen/cart/cart_content_main.dart';
-import 'package:flutter_sl_001/screen/cart/cart_content_provider.dart';
-import 'package:flutter_sl_001/screen/helper/request_login.dart';
-import 'package:flutter_sl_001/screen/helper/under_construction.dart';
-import 'package:flutter_sl_001/screen/product/widget/product_order_list_widget.dart';
+import 'package:flutter_sl_001/screen/cart/widget/OrderItemWidget.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
@@ -21,25 +14,10 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  // bool loginState = false;
-  // String? token = UserPreferences.newPrefs.getString("token");
-
-  /*@override
-  void initState() {
-    super.initState();
-    loginState = checkLoginState(token);
-  }*/
-
   @override
   Widget build(BuildContext context) {
-    // orderListInfo = [];
     // token = MySharedPreferences.mySharedPreferences.getString("token");
     LoginData user = Provider.of<UserProvider>(context).getUser;
-    /*setState(() {
-      token = UserPreferences.newPrefs.getString("token");
-    });*/
-
-    // loginState = token != null;
 
     return Scaffold(
       body: NestedScrollView(
@@ -47,10 +25,8 @@ class _CartScreenState extends State<CartScreen> {
           SliverAppBar(
             title: const Text(
               "سبد خرید",
-              style: TextStyle(
-                  // color: Color(0xff28a745),
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Vazir'),
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Vazir'),
             ),
             backgroundColor: Color(0xff28a745),
             snap: true,
@@ -59,72 +35,69 @@ class _CartScreenState extends State<CartScreen> {
             actions: [
               IconButton(
                   onPressed: () {
+                    // TODO: Remove This Button
                     print("Refresh: ");
-                    /*Consumer<UserProvider>(
-                      builder: (context, value, child) {
-                        print("value:");
-                      },
-                    );*/
-                    /*setState(() {
-                      loginState = token != null;
-                    });*/
                   },
                   icon: const Icon(Icons.refresh))
             ],
           ),
         ],
-        /*body: loginState == false
-            ? const RequestLoginScreen()
-            // : CartContent(token: token.toString()),
-            : CartContent(),*/
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Text("Consumer"),
-                Consumer<UserProvider>(
+                Consumer<CartOrderList>(
                   builder: (context, value, child) {
-                    return Column(
-                      children: [
-                        Text(value.getUser.mobile.toString()),
-                        Text(jsonEncode(value.getUser)),
-                      ],
-                    );
+                    if (value.processingList == 0) {
+                      return Text('سبد خرید خالی است.');
+                    } else {
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: value.processingList.length,
+                              itemBuilder: (context, index) {
+                                // return Text(value.productList[index].id!);
+                                return OrderItemWidget(
+                                  image: '',
+                                  productName: value
+                                      .processingList[index].product!.titleFa!,
+                                  salesType: value.processingList[index]
+                                      .product!.supporting!
+                                      .toString(),
+                                  shopName: value.processingList[index].product!
+                                      .shopId!.commercialName!,
+                                  branchName: value.processingList[index]
+                                      .product!.branchId!.name!,
+                                  unit: value
+                                      .processingList[index].product!.unit!,
+                                  packing: value.processingList[index]
+                                      .calculated!.packInfo!.name,
+                                  calculatingProperty: value
+                                          .processingList[index]
+                                          .calculated!
+                                          .propertyListInfo![0]
+                                          .name ??
+                                      '',
+                                  discountSum: value.processingList[index]
+                                      .calculated!.discountPriceRatio!,
+                                  payAmount: value
+                                      .processingList[index].calculated!.total!,
+                                  deliveryAddress: value
+                                      .processingList[index].order!.address!,
+                                  quantity: value
+                                      .processingList[index].order!.number!,
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                   },
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                Text("Provider Of"),
-                Text(user.toString()),
-                Text(jsonEncode(user)),
-                Text(user.mobile.toString()),
-                SizedBox(
-                  height: 50,
-                ),
-                Text("Shared Pref Get User"),
-                FutureBuilder(
-                  future: UserPreferences().getUser(),
-                  builder: (context, snapshot) {
-                    return Column(
-                      children: [
-                        // Text(UserPreferences().getUser().toString() ?? "Get User 1"),
-                        /*Text(LoginData.fromJson(
-                                    jsonDecode(jsonEncode(snapshot.data)))
-                                .mobile ??
-                            "Snapshot Data"),*/
-                        // Text(snapshot.data<LoginData>),
-                        // Text(LoginData.fromJson(snapshot.data as Map<String,dynamic>).mobile!),
-                        // Text(jsonEncode(UserPreferences().getUser())),
-                      ],
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                Text("Shared Pref Original"),
-                Text(UserPreferences.newPrefs.getString("token").toString())
+                )
               ],
             ),
           ),

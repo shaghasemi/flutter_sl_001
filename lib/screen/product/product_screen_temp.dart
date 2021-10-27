@@ -59,13 +59,13 @@ class _ProductScreenTempState extends State<ProductScreenTemp> {
                     Row(
                       children: [
                         Text(productAllInfo[index].titleFa!),
-                        ElevatedButton(
+                        /*ElevatedButton(
                           onPressed: () =>
-                              Provider.of<CartProductList>(
+                              Provider.of<CartOrderList>(
                                   context, listen: false)
-                                  .addProductToCart(id: "Some id"),
+                                  .addOrderToCart(),
                           child: Text("Add to Cart"),
-                        ),
+                        ),*/
                       ],
                     ),
               ),

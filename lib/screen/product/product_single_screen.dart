@@ -41,13 +41,14 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   late ProductSingleRequestModel productSingleRequestModel;
 
-  int latestPrice = 0;
+  // ProcessingResponseData orderData = ProcessingResponseData();
 
   late ProcessingRequestModel processingRequestModel;
   late ProcessingRequestOrderList processingRequestOrderList;
   late ProcessingRequestSelectedPropertyIdList
       processingRequestSelectedPropertyIdList;
 
+  int latestPrice = 0;
   ProductSingleData productSingleData = ProductSingleData();
   ProcessingResponseData processingData = ProcessingResponseData();
 
@@ -268,23 +269,10 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   // Add to Cart Button
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKeyProductSingle.currentState!.validate()) {
-                        print("Form Valid");
-                        getPrice();
-                        return Provider.of<CartProductList>(context,
-                                listen: false)
-                            .addProductToCart(
-                          // id: productInfo.id.toString(),
-                          id: productSingleData.id!,
-                        );
-                      }
-                      /*getPrice();
-                      return Provider.of<CartProductList>(context,
-                              listen: false)
-                          .addProductToCart(
-                        // id: productInfo.id.toString(),
-                        id: productSingleData.id!,
-                      );*/
+                      // if (_formKeyProductSingle.currentState!.validate()) {
+                      print("Form Valid");
+                      // getPrice();
+                      addToCart();
                     },
                     child: Text("افزودن به سبد خرید"),
                   ),
@@ -392,15 +380,9 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
             onChanged: (input) {
               processingRequestModel.orderList[0].number = int.parse(input);
               getPrice();
-              /*setState(() {
-                getPrice();
-              });*/
-// processingRequestModel.orderList![0].number = int.parse(input);
             },
           ),
-          // Maybe this could show the price
-          // It could use provider (it might help with next steps to add to cart
-          Text('Price Updating'),
+          Text('قیمت نهایی'),
           Text(latestPrice.toString()),
         ],
       ),
@@ -458,20 +440,27 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   void getPrice() {
     apiServiceOrder.processing(processingRequestModel).then((value) {
-      // latestPrice = value.data![0].calculated!.total!;
       setState(() {
         latestPrice = value.data![0].calculated!.total!;
+        processingData = value.data![0];
       });
     });
   }
 
-  void addToCart() {}
+  void addToCart() {
+    Provider.of<CartOrderList>(context, listen: false)
+        .addOrderToCart(processingData);
+    /*apiServiceOrder.processing(processingRequestModel).then(
+      (value) {
+        print("trying to add to cart");
+        Provider.of<CartOrderList>(context, listen: false)
+            .addOrderToCart(value.data![0]);
+      },
+    );*/
+  }
 
   @override
   void dispose() {
-    textControllerProvince.dispose();
-    textControllerCity.dispose();
-    textControllerAddress.dispose();
     super.dispose();
   }
 }

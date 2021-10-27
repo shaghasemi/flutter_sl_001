@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       title: 'سیوان لند',
       home: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => CartProductList()),
+          ChangeNotifierProvider(create: (_) => CartOrderList()),
           ChangeNotifierProvider(create: (_) => UserProvider()),
           ChangeNotifierProvider(create: (_) => SearchProvider())
         ],
