@@ -352,6 +352,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
             if (case_property == order_options.number_packing ||
                 case_property == order_options.number_calculating_packing)
               DropdownButtonFormField<String>(
+                elevation: 2,
                 validator: (val) {
                   if (case_property == order_options.number_packing ||
                       case_property ==
@@ -386,6 +387,20 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
             if (case_property == order_options.number_calculating ||
                 case_property == order_options.number_calculating_packing)
               DropdownButtonFormField<String>(
+                elevation: 2,
+                decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
+                style: TextStyle(
+                    color: Colors.black, fontSize: 16),
+                // isDense: true,
+                iconSize: 30.0,
+                // iconEnabledColor: Colors.white,
                 value: dropDownCalculating,
                 validator: (val) {
                   if (case_property == order_options.number_calculating ||
