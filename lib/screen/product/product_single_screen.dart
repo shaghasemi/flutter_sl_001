@@ -53,7 +53,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   ProductSingleData productSingleData = ProductSingleData();
   ProcessingResponseData processingData = ProcessingResponseData();
   PropertyListProduct productProperty = PropertyListProduct();
-  PropertyList? calculatingProperty = PropertyList(id: 'asd');
+  PropertyList? calculatingProperty = PropertyList(id: '');
 
   int calculatingCode = 0;
   int price = 0;
@@ -93,6 +93,10 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     return FutureBuilder(
       future: getSingleProductData(),
       builder: (context, snapshot) {
+        print("jsonEncode(snapshot.data)");
+        print(jsonEncode(snapshot.data));
+        print("jsonEncode(snapshot.hasError)");
+        print(jsonEncode(snapshot.hasError));
         if (snapshot.hasData) {
           productSingleData =
               ProductSingleData.fromJson(jsonDecode(jsonEncode(snapshot.data)));
@@ -118,18 +122,14 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
           if (productSingleData.packList!.length == 0) {
             if (calculatingCode == 0) {
-              // Case 11: Number of Order
               case_property = order_options.number;
             } else {
-              // Case 12: Number of Order & Calculating Property List
               case_property = order_options.number_calculating;
             }
           } else {
             if (calculatingCode == 0) {
-              // Case 21: Number of Order & Packing List
               case_property = order_options.number_packing;
             } else {
-              // Case 22: Number of Order & Packing List & Calculating Property List
               case_property = order_options.number_calculating_packing;
             }
           }
@@ -396,8 +396,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                     borderSide: BorderSide(color: Colors.white),
                   ),
                 ),
-                style: TextStyle(
-                    color: Colors.black, fontSize: 16),
+                style: TextStyle(color: Colors.black, fontSize: 16),
                 // isDense: true,
                 iconSize: 30.0,
                 // iconEnabledColor: Colors.white,

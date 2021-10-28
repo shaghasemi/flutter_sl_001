@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
 import 'package:flutter_sl_001/provider_test/user_provider.dart';
@@ -35,9 +36,10 @@ class _CartScreenState extends State<CartScreen> {
             actions: [
               IconButton(
                   onPressed: () {
-                    // TODO: Remove This Button
+                    Provider.of<CartOrderList>(context, listen: false)
+                        .clearCart();
                   },
-                  icon: const Icon(Icons.refresh))
+                  icon: const Icon(Icons.delete))
             ],
           ),
         ],
@@ -67,6 +69,11 @@ class _CartScreenState extends State<CartScreen> {
                                 // print(jsonEncode(value.processingList[index].calculated!.propertyListInfo));
                                 // print(jsonEncode(value.processingList[0].order));
                                 return OrderItemWidget(
+                                  customOrder:
+                                      value.processingList[index].order!,
+                                  index: index,
+                                  productId:
+                                      value.processingList[index].order!.id!,
                                   image: '',
                                   productName: value.processingList[index]
                                           .product!.titleFa ??

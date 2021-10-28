@@ -21,9 +21,13 @@ class ApiServiceProduct {
     final response = await http.get(
       Uri.parse(url),
     );
+    // print("jsonDecode(response.body)");
+    // print(jsonDecode(response.body));
     if (response.statusCode == 200) {
+      print("successful return");
       return ProductSingleData.fromJson(json.decode(response.body)['data']);
     } else {
+      print("faulty return");
       throw Exception('Failed to Retrieve Product Info');
     }
   }
@@ -60,13 +64,9 @@ class ApiServiceProduct {
         "cat_id=${productLatestRequestModel.cat_id}&"
         "page=${productLatestRequestModel.page!}&"
         "limit=${productLatestRequestModel.limit!}";
-    print("BEfore calling Latest products:");
     final response = await http.get(
       Uri.parse(url),
     );
-    print(response.statusCode);
-    print("response.body:");
-    print(jsonDecode(response.body));
     /* if (response.statusCode == 200 || response.statusCode == 400) {
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {
