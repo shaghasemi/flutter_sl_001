@@ -58,6 +58,14 @@ class _CartScreenState extends State<CartScreen> {
                               shrinkWrap: true,
                               itemCount: value.processingList.length,
                               itemBuilder: (context, index) {
+                                /*print("Null Checking Packing:");
+                                print(
+                                    value.processingList[index].order!.packId);
+                                print(jsonEncode(value.processingList[index].calculated!
+                                    .packInfo));*/
+                                // print("Null Checking Calculating:");
+                                // print(jsonEncode(value.processingList[index].calculated!.propertyListInfo));
+                                // print(jsonEncode(value.processingList[0].order));
                                 return OrderItemWidget(
                                   image: '',
                                   productName: value.processingList[index]
@@ -85,10 +93,15 @@ class _CartScreenState extends State<CartScreen> {
                                           .packInfo!.name
                                       : 'No Packing Info',
                                   calculatingProperty: value
-                                              .processingList[index]
-                                              .order!
-                                              .selectedPropertyIdList !=
-                                          null
+                                                  .processingList[index]
+                                                  .order!
+                                                  .selectedPropertyIdList !=
+                                              null &&
+                                          value
+                                                  .processingList[index]
+                                                  .calculated!
+                                                  .propertyListInfo !=
+                                              null
                                       ? value.processingList[index].calculated!
                                           .propertyListInfo![0].name
                                       : 'No Calculating Property',

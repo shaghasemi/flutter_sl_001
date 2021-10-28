@@ -28,8 +28,6 @@ class ApiServiceOrder {
       body: processingBody,
     );
     if (response.statusCode == 200) {
-      print("ProcessingResponseModel.fromJson(jsonDecode(response.body))");
-      print(jsonDecode(response.body));
       return ProcessingResponseModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to Retrieve Processing Info');

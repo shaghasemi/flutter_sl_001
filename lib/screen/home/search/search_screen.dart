@@ -47,15 +47,16 @@ class _SearchScreenState extends State<SearchScreen> {
                   icon: Icon(Icons.search),
                   onPressed: () {
                     setState(() {
-                    apiServiceSearch
-                        .productSearchData(productSearchRequestModel)
-                        .then((value) {
-                      print("search value");
-                      return Provider.of<SearchProvider>(context, listen: false)
-                          .setData(value);
-                    }, onError: (err) {
-                      print("Api Call Error: $err");
-                    });
+                      apiServiceSearch
+                          .productSearchData(productSearchRequestModel)
+                          .then((value) {
+                        print("search value");
+                        return Provider.of<SearchProvider>(context,
+                                listen: false)
+                            .setData(value);
+                      }, onError: (err) {
+                        print("Api Call Error: $err");
+                      });
                     });
                   },
                 ),
@@ -97,8 +98,6 @@ class _SearchScreenState extends State<SearchScreen> {
           // width: MediaQuery.of(context).size.width,
           child: Consumer<SearchProvider>(
             builder: (context, value, child) {
-              print("value.getData.toString()");
-              print(value.getData.total.toString());
               if (value.getData.total == null || value.getData.total == 0) {
                 return Text('محصولی با این مشخصات پیدا نشد.');
               } else {

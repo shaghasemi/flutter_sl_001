@@ -31,6 +31,7 @@ class ProductSingleScreen extends StatefulWidget {
 
 class _ProductSingleScreenState extends State<ProductSingleScreen> {
   GlobalKey<FormState> _formKeyProductSingle = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKeyOrderOption = GlobalKey<FormState>();
 
   ApiServiceProduct apiServiceProduct = ApiServiceProduct();
   ApiServiceOrder apiServiceOrder = ApiServiceOrder();
@@ -81,6 +82,9 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
         ),
       ],
     );
+    processingRequestModel.orderList[0].selectedPropertyIdList = [
+      ProcessingRequestSelectedPropertyIdList()
+    ];
   }
 
   Widget build(BuildContext context) {
@@ -107,9 +111,9 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
             productProperty = productSingleData.propertyList!.firstWhere(
                 (element) => element.code == calculatingCode,
                 orElse: () => PropertyListProduct());
-            processingRequestModel.orderList[0].selectedPropertyIdList = [
-              ProcessingRequestSelectedPropertyIdList()
-            ];
+            // Set id for the calculating property in the processing request
+            processingRequestModel.orderList[0].selectedPropertyIdList![0]
+                .propertyId = productProperty.id;
           }
 
           if (productSingleData.packList!.length == 0) {
@@ -253,7 +257,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                           },
                           keyboardType: TextInputType.streetAddress,
                           onChanged: (input) {
-                            processingRequestModel.orderList[0].city = input.trim();
+                            processingRequestModel.orderList[0].city =
+                                input.trim();
                           },
                         ),
                         TextFormField(
@@ -271,7 +276,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                           },
                           keyboardType: TextInputType.streetAddress,
                           onChanged: (input) {
-                            processingRequestModel.orderList[0].address = input.trim();
+                            processingRequestModel.orderList[0].address =
+                                input.trim();
                           },
                         )
                       ],
@@ -286,8 +292,10 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKeyProductSingle.currentState!.validate()) {
-                        // getPrice();
-                        addToCart();
+                        if (_formKeyOrderOption.currentState!.validate()) {
+                          // getPrice();
+                          addToCart();
+                        }
                       }
                     },
                     child: Text("افزودن به سبد خرید"),
@@ -333,82 +341,104 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   Card OrderOptions(case_property) {
     return Card(
-      child: Column(
-        children: [
-          Text('اطلاعات سفارش'),
-          SizedBox(height: vertical_distance),
+      child: Form(
+        key: _formKeyOrderOption,
+        child: Column(
+          children: [
+            Text('اطلاعات سفارش'),
+            SizedBox(height: vertical_distance),
 
-          // Select Packing if available
-          if (case_property == order_options.number_packing ||
-              case_property == order_options.number_calculating_packing)
-            DropdownButton<String>(
-              value: dropDownPacking,
-              hint: Opacity(
-                opacity: 0.5,
-                child: Text(
-                  'بسته بندی',
+            // Select Packing if available
+            if (case_property == order_options.number_packing ||
+                case_property == order_options.number_calculating_packing)
+              DropdownButtonFormField<String>(
+                validator: (val) {
+                  if (case_property == order_options.number_packing ||
+                      case_property ==
+                          order_options.number_calculating_packing) {
+                    print("Packing Val: $val");
+                    if (val!.length == 0) {
+                      return "الزامی";
+                    }
+                  }
+                },
+                value: dropDownPacking,
+                hint: Opacity(
+                  opacity: 0.5,
+                  child: Text(
+                    'بسته بندی',
+                  ),
                 ),
-              ),
-              items: productSingleData.packList!.map((object) {
-                return DropdownMenuItem(
-                  value: object.id,
-                  child: Text(object.name!),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                setState(() {
+                items: productSingleData.packList!.map((object) {
+                  return DropdownMenuItem(
+                    value: object.id,
+                    child: Text(object.name!),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
                   dropDownPacking = newValue!;
                   processingRequestModel.orderList[0].packId = newValue;
                   getPrice();
-                  // getPrice();
-                });
-              },
-            ),
-
-          // Select Calculating Property if available
-          if (case_property == order_options.number_calculating ||
-              case_property == order_options.number_calculating_packing)
-            DropdownButton<String>(
-              value: dropDownCalculating,
-              hint: Opacity(
-                opacity: 0.5,
-                child: Text(calculatingProperty!.nameFa!),
+                },
               ),
-              items: productProperty.selectRatioList!
-                  .map<DropdownMenuItem<String>>((SelectRatioList object) {
-                processingRequestModel.orderList[0].selectedPropertyIdList![0]
-                    .propertyId = object.id;
-                processingRequestModel.orderList[0].selectedPropertyIdList![0]
-                    .propertyName = object.name;
-                processingRequestModel.orderList[0].selectedPropertyIdList![0]
-                    .partId = dropDownCalculating;
-                return DropdownMenuItem<String>(
-                  value: object.id,
-                  child: Text(object.name!),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
+
+            // Select Calculating Property if available
+            if (case_property == order_options.number_calculating ||
+                case_property == order_options.number_calculating_packing)
+              DropdownButtonFormField<String>(
+                value: dropDownCalculating,
+                validator: (val) {
+                  if (case_property == order_options.number_calculating ||
+                      case_property ==
+                          order_options.number_calculating_packing) {
+                    print("Calc Val: $val");
+                    if (val!.length == 0) {
+                      return "الزامی";
+                    }
+                  }
+                },
+                hint: Opacity(
+                  opacity: 0.5,
+                  child: Text(calculatingProperty!.nameFa!),
+                ),
+                items: productProperty.selectRatioList!
+                    .map<DropdownMenuItem<String>>((SelectRatioList object) {
+                  return DropdownMenuItem<String>(
+                    value: object.id,
+                    child: Text(object.name!),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  dropDownCalculating = newValue;
+                  getPrice();
+                  processingRequestModel.orderList[0].selectedPropertyIdList![0]
+                      .partId = newValue;
+                  processingRequestModel.orderList[0].selectedPropertyIdList![0]
+                          .propertyName =
+                      productProperty.selectRatioList!
+                          .firstWhere((element) => element.id == newValue)
+                          .name;
+                },
+              ),
+
+            // Available in all cases - Order Quantity
+            TextFormField(
+              validator: (val) {
+                if (val!.length == 0) {
+                  return "تعداد سفارش را وارد کنید.";
+                }
+              },
+              decoration: InputDecoration(hintText: 'تعداد'),
+              keyboardType: TextInputType.number,
+              onChanged: (input) {
+                processingRequestModel.orderList[0].number = int.parse(input);
                 getPrice();
-                setState(() {
-                  dropDownCalculating = newValue!;
-                  /*processingRequestModel.orderList[0].selectedPropertyIdList![0]
-                      .partId = newValue;*/
-                });
               },
             ),
-
-          // Available in all cases - Order Quantity
-          TextField(
-            decoration: InputDecoration(hintText: 'تعداد'),
-            keyboardType: TextInputType.number,
-            onChanged: (input) {
-              processingRequestModel.orderList[0].number = int.parse(input);
-              getPrice();
-            },
-          ),
-          Text('قیمت نهایی'),
-          Text(latestPrice.toString()),
-        ],
+            Text('قیمت نهایی'),
+            Text(latestPrice.toString()),
+          ],
+        ),
       ),
     );
   }
@@ -472,10 +502,16 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   void addToCart() {
-    // print("processingRequestModel: ${jsonEncode(processingRequestModel)}");
-    // print("processingData: ${jsonEncode(processingData)}");
-    Provider.of<CartOrderList>(context, listen: false)
-        .addOrderToCart(processingData);
+    if (order_options.number_calculating == true) {
+      print("Fill required");
+    } else {
+      apiServiceOrder.processing(processingRequestModel).then(
+        (value) {
+          Provider.of<CartOrderList>(context, listen: false)
+              .addOrderToCart(value.data![0]);
+        },
+      );
+    }
   }
 
   @override

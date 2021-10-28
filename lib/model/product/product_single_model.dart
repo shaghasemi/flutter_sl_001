@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 class ProductSingleResponseModel {
   final ProductSingleData? data;
   final String? message;
