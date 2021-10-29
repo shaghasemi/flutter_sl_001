@@ -62,6 +62,10 @@ class CartOrderList extends ChangeNotifier {
     notifyListeners();
   }
 
+  LoadOrder() {
+    processingList = CartPreferences().loadCart();
+  }
+
   // TODO: Fix order number on remove
   removeOrder(int index) {
     processingList.removeAt(index);

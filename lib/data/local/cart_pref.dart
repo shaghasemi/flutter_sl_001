@@ -17,7 +17,7 @@ class CartPreferences {
     cartPrefs.setString('cart', jsonEncode(orderList));
   }
 
-  Future<List<ProcessingResponseData>> loadCart() async {
+  List<ProcessingResponseData> loadCart() {
     String? cartData = cartPrefs.getString('cart');
     return [ProcessingResponseData.fromJson(jsonDecode(cartData!))];
   }
