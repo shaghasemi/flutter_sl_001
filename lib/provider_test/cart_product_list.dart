@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/data/local/cart_pref.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
 
@@ -15,6 +16,7 @@ class CartOrderList extends ChangeNotifier {
     void addOK() {
       print("added to cart");
       processingList.add(orderItem);
+      CartPreferences().saveCart(processingList);
       notifyListeners();
     }
 
@@ -42,29 +44,21 @@ class CartOrderList extends ChangeNotifier {
           .toList();
       if (repeatOrder.length == 0) {
         addOK();
-      } else {
-        print("Repetitive 1");
-        return "Repetitive 1";
-      }
+      } else {}
     } else if (orderItem.order!.packId != null) {
       if (samePackingOrderData.length == 0) {
         addOK();
-      } else {
-        print("Repetitive 2");
-        return "Repetitive 2";
-      }
+      } else {}
     } else if (orderItem.order!.selectedPropertyIdList![0].propertyId != null) {
       if (samePropertyOrderData.length == 0) {
         addOK();
-      } else {
-        print("Repetitive 3");
-        return "Repetitive 3";
-      }
+      } else {}
     }
   }
 
   updateOrder(int index, ProcessingResponseData updatedData) {
     processingList[index] = updatedData;
+    CartPreferences().saveCart(processingList);
     notifyListeners();
   }
 
