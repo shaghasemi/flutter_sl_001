@@ -23,7 +23,7 @@ class OrderItemWidget extends StatefulWidget {
   final int? discountSum;
   final int? payAmount;
   final String? deliveryAddress;
-  final int? quantity;
+  final int quantity;
 
   const OrderItemWidget({
     Key? key,
@@ -41,7 +41,7 @@ class OrderItemWidget extends StatefulWidget {
     /*required*/ this.discountSum,
     /*required*/ this.payAmount,
     /*required*/ this.deliveryAddress,
-    /*required*/ this.quantity,
+    required this.quantity,
   }) : super(key: key);
 
   @override
@@ -58,7 +58,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
       processingRequestSelectedPropertyIdList;
   ProcessingResponseData processingData = ProcessingResponseData();
   int price = 0;
-  int quantity = 0;
+  late int quantity /*= 0*/;
 
   // int price = payAmount;
 
@@ -98,7 +98,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           widget.customOrder.selectedPropertyIdList![0].partId;
     }
     price = widget.payAmount!;
-    quantity = widget.quantity!;
+    quantity = widget.quantity;
   }
 
   @override
@@ -129,7 +129,8 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           // Text(widget.payAmount.toString()),
           Text(price.toString()),
           Text(widget.deliveryAddress.toString()),
-          TextFormField(
+          Text(quantity.toString()),
+          /*TextFormField(
             initialValue: quantity.toString(),
             keyboardType: TextInputType.number,
             onChanged: (input) {
@@ -140,7 +141,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
               icon: Icon(Icons.tag),
               hintText: "order Quantity",
             ),
-          ),
+          ),*/
         ],
       ),
     );

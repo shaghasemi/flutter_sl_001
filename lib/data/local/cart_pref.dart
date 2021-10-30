@@ -14,9 +14,7 @@ class CartPreferences {
 
   // Without list from parent function
   Future<void> saveCart(List<ProcessingResponseData> orderList) async {
-    print("CartPref Save Called");
     cartPrefs.setString('cart', jsonEncode(orderList));
-    print("CartPref Saved Data: ${jsonEncode(orderList)}");
   }
 
   // Future<ProcessingResponseData> loadCart() async {
