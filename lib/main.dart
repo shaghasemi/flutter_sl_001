@@ -7,10 +7,12 @@ import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'app_home.dart';
 import 'data/local/shared_pref.dart';
-import 'provider_test/cart_product_list.dart';
+import 'data/local/cart_pref.dart';
+import 'provider_test/cart_provider.dart';
 
 void main() async {
   await UserPreferences.init(); // Initializing Shared Prefs throughout app
+  await CartPreferences.init(); // Initializing Shared Prefs throughout app
   HttpOverrides.global = new MyHttpOverrides();
   runApp(const MyApp());
 }
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
       title: 'سیوان لند',
       home: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => CartOrderList()),
+          ChangeNotifierProvider(create: (_) => CartProvider()),
           ChangeNotifierProvider(create: (_) => UserProvider()),
           ChangeNotifierProvider(create: (_) => SearchProvider())
         ],

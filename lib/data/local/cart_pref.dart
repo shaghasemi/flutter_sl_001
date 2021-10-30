@@ -14,12 +14,21 @@ class CartPreferences {
 
   // Without list from parent function
   Future<void> saveCart(List<ProcessingResponseData> orderList) async {
+    print("CartPref Save Called");
     cartPrefs.setString('cart', jsonEncode(orderList));
+    print("CartPref Saved Data: ${jsonEncode(orderList)}");
   }
 
-  List<ProcessingResponseData> loadCart() {
+  // Future<ProcessingResponseData> loadCart() async {
+  Future<List<ProcessingResponseData>> loadCart() async {
     String? cartData = cartPrefs.getString('cart');
-    return [ProcessingResponseData.fromJson(jsonDecode(cartData!))];
+    if (cartData != null) {
+      List dataList = jsonDecode(cartData);
+      List<ProcessingResponseData> dataResult =
+          dataList.map((e) => ProcessingResponseData.fromJson(e)).toList();
+      return dataResult;
+    } else {
+      throw Exception('No Order Data Available!');
+    }
   }
-
 }

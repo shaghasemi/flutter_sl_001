@@ -87,7 +87,6 @@ class ApiServiceProduct {
         "cat_id=${productLatestRequestModel.cat_id}&"
         "page=${productLatestRequestModel.page!}&"
         "limit=${productLatestRequestModel.limit!}";
-    print("BEfore calling Latest products: Data");
     final response = await http.get(
       Uri.parse(url),
     );

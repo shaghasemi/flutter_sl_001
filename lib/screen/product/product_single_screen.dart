@@ -5,7 +5,7 @@ import 'package:flutter_sl_001/api/api_service_product.dart';
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
-import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
+import 'package:flutter_sl_001/provider_test/cart_provider.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:provider/provider.dart';
 
@@ -93,10 +93,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     return FutureBuilder(
       future: getSingleProductData(),
       builder: (context, snapshot) {
-        print("jsonEncode(snapshot.data)");
-        print(jsonEncode(snapshot.data));
-        print("jsonEncode(snapshot.hasError)");
-        print(jsonEncode(snapshot.hasError));
         if (snapshot.hasData) {
           productSingleData =
               ProductSingleData.fromJson(jsonDecode(jsonEncode(snapshot.data)));
@@ -521,7 +517,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     } else {
       apiServiceOrder.processing(processingRequestModel).then(
         (value) {
-          Provider.of<CartOrderList>(context, listen: false)
+          Provider.of<CartProvider>(context, listen: false)
               .addOrderToCart(value.data![0]);
         },
       );

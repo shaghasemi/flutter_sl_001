@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
 import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
-import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
+import 'package:flutter_sl_001/provider_test/cart_provider.dart';
 import 'package:flutter_sl_001/model/category/category_all_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
 import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:flutter_sl_001/screen/category/widget/product_list_by_category.dart';
-import 'package:flutter_sl_001/screen/product/product_screen_temp.dart';
 import 'package:provider/provider.dart';
 
 class CategoryContentScreen extends StatefulWidget {
@@ -48,9 +47,6 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
       builder: (context, value, child) {
-        print("value:");
-        print(value.getUser.mobile);
-        print(value.toString());
         return ProgressHUD(
           child: _uiSetup(context),
           isAsyncCall: _isApiCallProcess,

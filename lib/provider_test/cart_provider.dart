@@ -5,7 +5,7 @@ import 'package:flutter_sl_001/data/local/cart_pref.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
 
-class CartOrderList extends ChangeNotifier {
+class CartProvider extends ChangeNotifier {
   List<ProcessingResponseData> processingList = [];
   List<ProcessingResponseData> sameProductOrderData = [];
   List<ProcessingResponseData> samePackingOrderData = [];
@@ -14,7 +14,7 @@ class CartOrderList extends ChangeNotifier {
 
   addOrderToCart(ProcessingResponseData orderItem) {
     void addOK() {
-      print("added to cart");
+      print("CartProvider Add Called");
       processingList.add(orderItem);
       CartPreferences().saveCart(processingList);
       notifyListeners();
@@ -57,23 +57,35 @@ class CartOrderList extends ChangeNotifier {
   }
 
   updateOrder(int index, ProcessingResponseData updatedData) {
+    print("CartProvider Update Called");
     processingList[index] = updatedData;
     CartPreferences().saveCart(processingList);
     notifyListeners();
   }
 
-  LoadOrder() {
-    processingList = CartPreferences().loadCart();
+  loadOrder() {
+    print("CartProvider Load Called");
+    Future<List<ProcessingResponseData>> getData() =>
+        CartPreferences().loadCart();
+    getData().then(
+      (value) {
+        processingList = value;
+        notifyListeners();
+      },
+    );
   }
 
   // TODO: Fix order number on remove
   removeOrder(int index) {
+    print("CartProvider Remove Called");
     processingList.removeAt(index);
+    CartPreferences().saveCart(processingList);
     notifyListeners();
   }
 
   clearCart() {
     processingList = [];
+    CartPreferences().saveCart(processingList);
     notifyListeners();
   }
 }

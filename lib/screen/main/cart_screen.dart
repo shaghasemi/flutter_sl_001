@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/data/local/cart_pref.dart';
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
+import 'package:flutter_sl_001/model/order/processing_response_model.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
-import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
+import 'package:flutter_sl_001/provider_test/cart_provider.dart';
 import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:flutter_sl_001/screen/cart/widget/OrderItemWidget.dart';
 import 'package:provider/provider.dart';
@@ -16,9 +18,17 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   @override
+  void initState() {
+    super.initState();
+    Provider.of<CartProvider>(context, listen: false).loadOrder();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // token = MySharedPreferences.mySharedPreferences.getString("token");
     // LoginData user = Provider.of<UserProvider>(context).getUser;
+    // Future<List<ProcessingResponseData>> getCartData() => CartPreferences().loadCart();
+    // CartPreferences().loadCart();
 
     return Scaffold(
       body: NestedScrollView(
@@ -36,7 +46,7 @@ class _CartScreenState extends State<CartScreen> {
             actions: [
               IconButton(
                   onPressed: () {
-                    Provider.of<CartOrderList>(context, listen: false)
+                    Provider.of<CartProvider>(context, listen: false)
                         .clearCart();
                   },
                   icon: const Icon(Icons.delete))
@@ -47,7 +57,7 @@ class _CartScreenState extends State<CartScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Consumer<CartOrderList>(
+                Consumer<CartProvider>(
                   builder: (context, value, child) {
                     if (value.processingList == 0) {
                       return Text('سبد خرید خالی است.');

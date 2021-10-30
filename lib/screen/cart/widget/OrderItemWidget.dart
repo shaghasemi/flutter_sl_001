@@ -5,7 +5,7 @@ import 'package:flutter_sl_001/api/api_service_order.dart';
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
-import 'package:flutter_sl_001/provider_test/cart_product_list.dart';
+import 'package:flutter_sl_001/provider_test/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class OrderItemWidget extends StatefulWidget {
@@ -109,7 +109,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              Provider.of<CartOrderList>(context, listen: false)
+              Provider.of<CartProvider>(context, listen: false)
                   .removeOrder(widget.index);
             },
           ),
@@ -152,7 +152,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
       /*Provider.of<CartOrderList>(context, listen: false)
           .updateOrder(widget.index, value.data![0]);*/
       setState(() {
-        Provider.of<CartOrderList>(context, listen: false)
+        Provider.of<CartProvider>(context, listen: false)
             .updateOrder(widget.index, value.data![0]);
         price = value.data![0].calculated!.total!;
         quantity = processingRequestModel.orderList[0].number!;
