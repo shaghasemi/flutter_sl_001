@@ -53,5 +53,4 @@ class ApiServiceOrder {
       throw Exception('Failed to Retrieve Processing Info');
     }
   }
-
 }

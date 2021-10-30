@@ -16,8 +16,7 @@ class _CustomerInfoOrderScreenState extends State<CustomerInfoOrderScreen> {
   GlobalKey<FormState> _formKeyReal = GlobalKey<FormState>();
 
   Future<String> getToken() => UserPreferences().getToken();
-  RegisterListRequestModel registerListRequestModel =
-      RegisterListRequestModel();
+  late RegisterListRequestModel registerListRequestModel;
 
   /*RegisterListRequestModel registerListRequestModel = RegisterListRequestModel(
       customerInfo: Customer_info(), orderList: [Order_list()]);*/
@@ -26,6 +25,8 @@ class _CustomerInfoOrderScreenState extends State<CustomerInfoOrderScreen> {
   void initState() {
     super.initState();
     getToken().then((value) => token = value);
+    registerListRequestModel =
+        RegisterListRequestModel(customerInfo: Customer_info());
   }
 
   @override
@@ -53,6 +54,7 @@ class _CustomerInfoOrderScreenState extends State<CustomerInfoOrderScreen> {
                       MaterialPageRoute(
                         builder: (context) => ConfirmOrderScreen(
                           customerInfo: registerListRequestModel.customerInfo!,
+                          token: token!,
                         ),
                       ),
                     );

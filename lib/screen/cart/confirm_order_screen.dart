@@ -11,8 +11,11 @@ import 'package:provider/provider.dart';
 class ConfirmOrderScreen extends StatefulWidget {
   // RegisterListRequestModel registerListRequestModel;
   Customer_info customerInfo;
+  String token;
 
-  ConfirmOrderScreen({Key? key, required this.customerInfo}) : super(key: key);
+  ConfirmOrderScreen(
+      {Key? key, required this.customerInfo, required this.token})
+      : super(key: key);
 
   @override
   State<ConfirmOrderScreen> createState() => _ConfirmOrderScreenState();
@@ -26,7 +29,10 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   void initState() {
     super.initState();
     registerListRequestModel = RegisterListRequestModel(
-        customerInfo: widget.customerInfo, orderList: [Order_list()]);
+      token: widget.token,
+      customerInfo: widget.customerInfo,
+      orderList: [Order_list()],
+    );
   }
 
   @override
@@ -71,11 +77,31 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               children: [
                 Consumer<CartProvider>(
                   builder: (context, value, child) {
+                    print(
+                        "Mapping Before: ${jsonEncode(value.processingList)}");
                     // Pass values from provider order list to new request
-                    value.processingList
-                        .map((e) => registerListRequestModel.orderList!
-                            .add(Order_list.fromJson(jsonEncode(e))))
-                        .toList();
+                    /*value.processingList.map((e) {
+                      print("Mapping After:")
+                      registerListRequestModel.orderList!
+                          .add(Order_list.fromJson(jsonEncode(e)));
+                    }
+                    );*/
+                    for (int i = 0; i < 1; i++) {
+                      print("Mapping After: $i");
+                      registerListRequestModel.orderList!.add(
+                        Order_list.fromJson(
+                          jsonDecode(jsonEncode(value.processingList[i])),
+                        ),
+                      );
+                      print("Mapping 1111");
+                      print(jsonEncode(Order_list.fromJson(
+                          jsonDecode(jsonEncode(value.processingList[i])))));
+                      print("Mapping 2222");
+                      print(jsonEncode(value.processingList[i]));
+                      print("Mapping 3333");
+                      print(jsonEncode(registerListRequestModel.orderList));
+                    }
+                    // registerListRequestModel.orderList.addAll(iterable)
                     print("jsonEncode(registerListRequestModel)");
                     print(jsonEncode(registerListRequestModel));
 
