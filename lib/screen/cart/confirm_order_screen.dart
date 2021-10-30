@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/api/api_service_order.dart';
 import 'package:flutter_sl_001/model/order/register_list_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_provider.dart';
 import 'package:flutter_sl_001/screen/cart/widget/order_item_confirm_widget.dart';
@@ -6,16 +9,26 @@ import 'package:flutter_sl_001/screen/main/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
-  RegisterListRequestModel registerListRequestModel;
+  // RegisterListRequestModel registerListRequestModel;
+  Customer_info customerInfo;
 
-  ConfirmOrderScreen({Key? key, required this.registerListRequestModel})
-      : super(key: key);
+  ConfirmOrderScreen({Key? key, required this.customerInfo}) : super(key: key);
 
   @override
   State<ConfirmOrderScreen> createState() => _ConfirmOrderScreenState();
 }
 
 class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
+  ApiServiceOrder apiServiceOrder = ApiServiceOrder();
+  late RegisterListRequestModel registerListRequestModel;
+
+  @override
+  void initState() {
+    super.initState();
+    registerListRequestModel = RegisterListRequestModel(
+        customerInfo: widget.customerInfo, orderList: [Order_list()]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +47,17 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  apiServiceOrder
+                      .registerListOrder(registerListRequestModel)
+                      .then(
+                    (value) {
+                      print(jsonEncode(value));
+                      CartProvider().clearCart();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                      );
+                    },
                   );
                 },
                 child: Text("تایید اطلاعات"),
@@ -50,6 +71,14 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               children: [
                 Consumer<CartProvider>(
                   builder: (context, value, child) {
+                    // Pass values from provider order list to new request
+                    value.processingList
+                        .map((e) => registerListRequestModel.orderList!
+                            .add(Order_list.fromJson(jsonEncode(e))))
+                        .toList();
+                    print("jsonEncode(registerListRequestModel)");
+                    print(jsonEncode(registerListRequestModel));
+
                     if (value.processingList == 0) {
                       return Text('سبد خرید خالی است.');
                     } else {

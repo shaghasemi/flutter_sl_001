@@ -37,10 +37,10 @@ class ApiServiceOrder {
   }
 
   // Register List for an Order
-  Future<RegisterListResponseModel> changePassword(
+  Future<RegisterListResponseModel> registerListOrder(
       RegisterListRequestModel registerListRequestModel) async {
-    String url = "${baseURLV1}${userRole}password/changer";
-    final response = await http.put(
+    String url = "${baseURLV1}${userRoleCustomer}order/Register/list";
+    final response = await http.post(
       Uri.parse(url),
       body: registerListRequestModel.toJson(),
       headers: {

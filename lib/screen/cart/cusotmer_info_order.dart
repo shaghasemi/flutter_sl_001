@@ -52,7 +52,7 @@ class _CustomerInfoOrderScreenState extends State<CustomerInfoOrderScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ConfirmOrderScreen(
-                          registerListRequestModel: registerListRequestModel,
+                          customerInfo: registerListRequestModel.customerInfo!,
                         ),
                       ),
                     );
