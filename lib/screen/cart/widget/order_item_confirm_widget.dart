@@ -103,13 +103,6 @@ class _OrderItemWidgetState extends State<OrderItemConfirmWidget> {
     return Container(
       child: Column(
         children: [
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              Provider.of<CartProvider>(context, listen: false)
-                  .removeOrder(widget.index);
-            },
-          ),
           Container(
             height: 140,
             width: 140,

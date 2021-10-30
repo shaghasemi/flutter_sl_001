@@ -26,7 +26,22 @@ class _CustomerInfoOrderScreenState extends State<CustomerInfoOrderScreen> {
     super.initState();
     getToken().then((value) => token = value);
     registerListRequestModel =
-        RegisterListRequestModel(customerInfo: Customer_info());
+        RegisterListRequestModel(customerInfo: Customer_info(
+          companyEconomicCode: '',
+          companyName: '',
+          companyNationalId: '',
+          companyPostalCode: '',
+          companyRebuildCode: '',
+          companyRegistrationCode: '',
+          companyTelephone: '',
+          family: '',
+          mobile: '',
+          name: '',
+          nationalCode: '',
+          personal: true,
+          postalCode: '7135641258',
+          sosPhone: ''
+        ));
   }
 
   @override

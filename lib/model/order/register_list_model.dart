@@ -2,7 +2,7 @@ class RegisterListResponseModel {
   RegisterListResponseModel({
     this.data,
     this.message,
-    this.error,
+    // this.error,
     this.success,
     this.status,
   });
@@ -10,14 +10,14 @@ class RegisterListResponseModel {
   RegisterListResponseModel.fromJson(dynamic json) {
     data = json['data'];
     message = json['message'];
-    error = json['error'] != null ? json['error'].cast<String>() : [];
+    // error = json['error'] != null ? json['error'].cast<String>() : [];
     success = json['success'];
     status = json['status'];
   }
 
   bool? data;
   String? message;
-  List<String>? error;
+  // List<String>? error;
   bool? success;
   int? status;
 
@@ -25,7 +25,7 @@ class RegisterListResponseModel {
     final map = <String, dynamic>{};
     map['data'] = data;
     map['message'] = message;
-    map['error'] = error;
+    // map['error'] = error;
     map['success'] = success;
     map['status'] = status;
     return map;
@@ -174,11 +174,11 @@ class Order_list {
   String? id;
   String? packId;
   bool? isPack;
-  String? number;
+  int? number;
   List<Selected_property_id_list>? selectedPropertyIdList;
   String? address;
-  String? lat;
-  String? lon;
+  double? lat;
+  double? lon;
   String? province;
   String? city;
 

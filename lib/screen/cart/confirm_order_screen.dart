@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_order.dart';
+import 'package:flutter_sl_001/model/order/processing_response_model.dart';
 import 'package:flutter_sl_001/model/order/register_list_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_provider.dart';
 import 'package:flutter_sl_001/screen/cart/widget/order_item_confirm_widget.dart';
@@ -31,7 +32,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
     registerListRequestModel = RegisterListRequestModel(
       token: widget.token,
       customerInfo: widget.customerInfo,
-      orderList: [Order_list()],
+      // orderList: [Order_list()],
+      orderList: [],
     );
   }
 
@@ -55,14 +57,19 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 onPressed: () {
                   apiServiceOrder
                       .registerListOrder(registerListRequestModel)
-                      .then(
-                    (value) {
-                      print(jsonEncode(value));
-                      CartProvider().clearCart();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      );
+                      .then((value) {
+                    print("Got some response");
+                    print(value.message);
+                    print("jsonEncode(value.data)");
+                    print(jsonEncode(value.data));
+                    CartProvider().clearCart();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );
+                  },
+                    onError: (err) {
+                      print("Error1" + err);
                     },
                   );
                 },
@@ -77,33 +84,51 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               children: [
                 Consumer<CartProvider>(
                   builder: (context, value, child) {
-                    print(
-                        "Mapping Before: ${jsonEncode(value.processingList)}");
-                    // Pass values from provider order list to new request
-                    /*value.processingList.map((e) {
-                      print("Mapping After:")
-                      registerListRequestModel.orderList!
-                          .add(Order_list.fromJson(jsonEncode(e)));
-                    }
-                    );*/
                     for (int i = 0; i < 1; i++) {
-                      print("Mapping After: $i");
-                      registerListRequestModel.orderList!.add(
-                        Order_list.fromJson(
-                          jsonDecode(jsonEncode(value.processingList[i])),
-                        ),
-                      );
-                      print("Mapping 1111");
-                      print(jsonEncode(Order_list.fromJson(
-                          jsonDecode(jsonEncode(value.processingList[i])))));
-                      print("Mapping 2222");
-                      print(jsonEncode(value.processingList[i]));
-                      print("Mapping 3333");
-                      print(jsonEncode(registerListRequestModel.orderList));
+                      registerListRequestModel.orderList![i].id =
+                          value.processingList[i].order!.id;
+                      registerListRequestModel.orderList![i].packId =
+                          value.processingList[i].order!.packId;
+                      registerListRequestModel.orderList![i].isPack =
+                          registerListRequestModel.orderList![i].packId != null
+                              ? true
+                              : false;
+                      registerListRequestModel.orderList![i].number =
+                          value.processingList[i].order!.number;
+                      registerListRequestModel.orderList![i].address =
+                          value.processingList[i].order!.address;
+                      registerListRequestModel.orderList![i].lat =
+                          value.processingList[i].order!.lat;
+                      registerListRequestModel.orderList![i].lon =
+                          value.processingList[i].order!.lon;
+                      registerListRequestModel.orderList![i].province =
+                          value.processingList[i].order!.province;
+                      registerListRequestModel.orderList![i].city =
+                          value.processingList[i].order!.city;
+                      if (value.processingList[i].order!
+                                  .selectedPropertyIdList !=
+                              null ||
+                          value.processingList[i].order!
+                                  .selectedPropertyIdList !=
+                              []) {
+                        registerListRequestModel
+                            .orderList![i].selectedPropertyIdList = [
+                          Selected_property_id_list()
+                        ];
+                        registerListRequestModel.orderList![i]
+                                .selectedPropertyIdList![0].partId =
+                            value.processingList[i].order!
+                                .selectedPropertyIdList![0].partId;
+                        registerListRequestModel.orderList![i]
+                                .selectedPropertyIdList![0].propertyId =
+                            value.processingList[i].order!
+                                .selectedPropertyIdList![0].propertyId;
+                        registerListRequestModel.orderList![i]
+                                .selectedPropertyIdList![0].propertyName =
+                            value.processingList[i].order!
+                                .selectedPropertyIdList![0].propertyName;
+                      }
                     }
-                    // registerListRequestModel.orderList.addAll(iterable)
-                    print("jsonEncode(registerListRequestModel)");
-                    print(jsonEncode(registerListRequestModel));
 
                     if (value.processingList == 0) {
                       return Text('سبد خرید خالی است.');
@@ -116,14 +141,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                               shrinkWrap: true,
                               itemCount: value.processingList.length,
                               itemBuilder: (context, index) {
-                                /*print("Null Checking Packing:");
-                                print(
-                                    value.processingList[index].order!.packId);
-                                print(jsonEncode(value.processingList[index].calculated!
-                                    .packInfo));*/
-                                // print("Null Checking Calculating:");
-                                // print(jsonEncode(value.processingList[index].calculated!.propertyListInfo));
-                                // print(jsonEncode(value.processingList[0].order));
                                 return OrderItemConfirmWidget(
                                   customOrder:
                                       value.processingList[index].order!,
