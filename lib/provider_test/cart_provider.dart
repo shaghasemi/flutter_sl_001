@@ -77,17 +77,7 @@ class CartProvider extends ChangeNotifier {
 
   // TODO: Fix order number on remove
   removeOrder(int index) {
-    print("Before");
-    print(jsonEncode(processingList[0]));
-    print(jsonEncode(processingList[1]));
-    print(jsonEncode(processingList[2]));
-    // processingList.map((e) => print(jsonEncode(e)));
     processingList.removeAt(index);
-    print("After");
-    print(jsonEncode(processingList[0]));
-    print(jsonEncode(processingList[1]));
-    print(jsonEncode(processingList[2]));
-    // processingList.map((e) => print(jsonEncode(e)));
     CartPreferences().saveCart(processingList);
     notifyListeners();
   }

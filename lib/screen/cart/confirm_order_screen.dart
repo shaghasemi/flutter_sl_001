@@ -1,51 +1,29 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/data/local/cart_pref.dart';
-import 'package:flutter_sl_001/model/order/processing_request_model.dart';
-import 'package:flutter_sl_001/model/order/processing_response_model.dart';
-import 'package:flutter_sl_001/model/panel/login_model.dart';
+import 'package:flutter_sl_001/model/order/register_list_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_provider.dart';
-import 'package:flutter_sl_001/provider_test/user_provider.dart';
-import 'package:flutter_sl_001/screen/cart/cusotmer_info_order.dart';
-import 'package:flutter_sl_001/screen/cart/widget/OrderItemWidget.dart';
+import 'package:flutter_sl_001/screen/cart/widget/order_item_confirm_widget.dart';
+import 'package:flutter_sl_001/screen/main/home_screen.dart';
 import 'package:provider/provider.dart';
 
-class CartScreen extends StatefulWidget {
-  const CartScreen({Key? key}) : super(key: key);
+class ConfirmOrderScreen extends StatefulWidget {
+  RegisterListRequestModel registerListRequestModel;
+
+  ConfirmOrderScreen({Key? key, required this.registerListRequestModel})
+      : super(key: key);
 
   @override
-  State<CartScreen> createState() => _CartScreenState();
+  State<ConfirmOrderScreen> createState() => _ConfirmOrderScreenState();
 }
 
-class _CartScreenState extends State<CartScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<CartProvider>(context, listen: false).loadOrder();
-  }
-
+class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   @override
   Widget build(BuildContext context) {
-    // token = MySharedPreferences.mySharedPreferences.getString("token");
-    // LoginData user = Provider.of<UserProvider>(context).getUser;
-    // Future<List<ProcessingResponseData>> getCartData() => CartPreferences().loadCart();
-    // CartPreferences().loadCart();
-
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
-            leading: TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CustomerInfoOrderScreen()),
-                );
-              },
-              child: Text("تایید اطلاعات"),
-            ),
             title: const Text(
-              "سبد خرید",
+              "پرداخت",
               style:
                   TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Vazir'),
             ),
@@ -54,12 +32,15 @@ class _CartScreenState extends State<CartScreen> {
             centerTitle: true,
             floating: true,
             actions: [
-              IconButton(
-                  onPressed: () {
-                    Provider.of<CartProvider>(context, listen: false)
-                        .clearCart();
-                  },
-                  icon: const Icon(Icons.delete))
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                },
+                child: Text("تایید اطلاعات"),
+              ),
             ],
           ),
         ],
@@ -88,7 +69,7 @@ class _CartScreenState extends State<CartScreen> {
                                 // print("Null Checking Calculating:");
                                 // print(jsonEncode(value.processingList[index].calculated!.propertyListInfo));
                                 // print(jsonEncode(value.processingList[0].order));
-                                return OrderItemWidget(
+                                return OrderItemConfirmWidget(
                                   customOrder:
                                       value.processingList[index].order!,
                                   index: index,
@@ -161,11 +142,3 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 }
-
-/*checkLoginState(String? token) {
-  if (token != null) {
-    return true;
-  } else {
-    return false;
-  }
-}*/

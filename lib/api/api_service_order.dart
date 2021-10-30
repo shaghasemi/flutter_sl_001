@@ -1,5 +1,6 @@
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
+import 'package:flutter_sl_001/model/order/register_list_model.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -7,6 +8,7 @@ import 'dart:convert';
 const String baseURLV1 = AppUrl.baseUrl;
 // const String userRole = "customer/";
 const String userRole = "guest/";
+const String userRoleCustomer = "customer/";
 
 class ApiServiceOrder {
   // Send Product Information and User Input to Get Price
@@ -33,4 +35,23 @@ class ApiServiceOrder {
       throw Exception('Failed to Retrieve Processing Info');
     }
   }
+
+  // Register List for an Order
+  Future<RegisterListResponseModel> changePassword(
+      RegisterListRequestModel registerListRequestModel) async {
+    String url = "${baseURLV1}${userRole}password/changer";
+    final response = await http.put(
+      Uri.parse(url),
+      body: registerListRequestModel.toJson(),
+      headers: {
+        'x-access-token': registerListRequestModel.token!,
+      },
+    );
+    if (response.statusCode == 200) {
+      return RegisterListResponseModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to Retrieve Processing Info');
+    }
+  }
+
 }
