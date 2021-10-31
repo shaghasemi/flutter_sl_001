@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/cart_pref.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
-import 'package:flutter_sl_001/model/product/product_single_model.dart';
+import 'package:flutter_sl_001/model/product/product_single_model_old.dart';
 
 class CartProvider extends ChangeNotifier {
   List<ProcessingResponseData> processingList = [];

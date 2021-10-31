@@ -1,6 +1,5 @@
-/*
-class paymentInitResponseModel {
-  paymentInitResponseModel({
+class PaymentInitResponseModel {
+  PaymentInitResponseModel({
     this.data,
     this.message,
     this.error,
@@ -8,7 +7,7 @@ class paymentInitResponseModel {
     this.status,
   });
 
-  paymentInitResponseModel.fromJson(dynamic json) {
+  PaymentInitResponseModel.fromJson(dynamic json) {
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
     message = json['message'];
     error = json['error'] != null ? json['error'].cast<String>() : [];
@@ -52,4 +51,25 @@ class Data {
     return map;
   }
 }
-*/
+
+class PaymentInitRequestModel {
+  PaymentInitRequestModel({
+    this.paymentId,
+    this.token,
+  });
+
+  PaymentInitRequestModel.fromJson(dynamic json) {
+    paymentId = json['payment_id'];
+    token = json['x-access-token'];
+  }
+
+  String? paymentId;
+  String? token;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['payment_id'] = paymentId;
+    map['x-access-token'] = token;
+    return map;
+  }
+}

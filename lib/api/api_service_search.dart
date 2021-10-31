@@ -1,7 +1,7 @@
 import 'package:flutter_sl_001/model/product/product_all_model.dart';
 import 'package:flutter_sl_001/model/product/product_latest_model.dart';
 import 'package:flutter_sl_001/model/search/product_search.dart';
-import 'package:flutter_sl_001/model/product/product_single_model.dart';
+import 'package:flutter_sl_001/model/product/product_single_model_old.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

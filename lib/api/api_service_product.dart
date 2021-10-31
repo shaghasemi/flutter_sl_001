@@ -1,6 +1,8 @@
 import 'package:flutter_sl_001/model/product/product_all_model.dart';
 import 'package:flutter_sl_001/model/product/product_latest_model.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
+import 'package:flutter_sl_001/model/product/product_single_model_old_new.dart';
+import 'package:flutter_sl_001/model/product/product_single_model_old.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,7 +15,7 @@ const String userRole = "guest/";
 
 class ApiServiceProduct {
   // Get a Single Product by id
-  Future<ProductSingleData> productSingle(
+  Future<ProductSingleResponseModel> productSingle(
     ProductSingleRequestModel productSingleRequestModel,
   ) async {
     String url = "$baseURLV1${userRole}product/info"
@@ -21,13 +23,33 @@ class ApiServiceProduct {
     final response = await http.get(
       Uri.parse(url),
     );
-    // print("jsonDecode(response.body)");
-    // print(jsonDecode(response.body));
+    print("jsonDecode(response.body)");
+    print(jsonDecode(response.body));
+    // return ProductSingleResponseModel.fromJson(json.decode(response.body));
     if (response.statusCode == 200) {
-      print("successful return");
+      return ProductSingleResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to Retrieve Product Info');
+    }
+  }
+
+  Future<ProductSingleData> productSingleData(
+    ProductSingleRequestModel productSingleRequestModel,
+  ) async {
+    String url = "$baseURLV1${userRole}product/info"
+        "?product_id=${productSingleRequestModel.id}";
+    final response = await http.get(Uri.parse(url));
+    /*      .then((value) {
+      return ProductSingleData.fromJson(json.decode(value.body)['data']);
+    });
+    return Future.delayed(Duration(seconds: 3),
+        () => response);*/
+    // throw Exception('Failed to Retrieve Product Info');
+    print("jsonDecode(response.body)");
+    print(jsonDecode(response.body));
+    if (response.statusCode == 200) {
       return ProductSingleData.fromJson(json.decode(response.body)['data']);
     } else {
-      print("faulty return");
       throw Exception('Failed to Retrieve Product Info');
     }
   }
@@ -96,4 +118,19 @@ class ApiServiceProduct {
       throw Exception('Failed to Fetch Latest Products');
     }
   }
+}
+
+class ProductSingleRequestModel {
+  String id;
+
+  ProductSingleRequestModel({
+    required this.id,
+  });
+
+  ProductSingleRequestModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'];
+
+  Map<String, dynamic> toJson() => {
+    "id": id.trim(),
+  };
 }

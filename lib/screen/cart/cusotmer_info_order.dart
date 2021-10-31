@@ -12,10 +12,10 @@ class CustomerInfoOrderScreen extends StatefulWidget {
 }
 
 class _CustomerInfoOrderScreenState extends State<CustomerInfoOrderScreen> {
-  late String? token;
+  String token = '';
   GlobalKey<FormState> _formKeyReal = GlobalKey<FormState>();
 
-  Future<String> getToken() => UserPreferences().getToken();
+  Future<String> getToken() async => UserPreferences().getToken();
   late RegisterListRequestModel registerListRequestModel;
 
   /*RegisterListRequestModel registerListRequestModel = RegisterListRequestModel(
@@ -24,9 +24,9 @@ class _CustomerInfoOrderScreenState extends State<CustomerInfoOrderScreen> {
   @override
   void initState() {
     super.initState();
-    getToken().then((value) => token = value);
-    registerListRequestModel =
-        RegisterListRequestModel(customerInfo: Customer_info(
+    registerListRequestModel = RegisterListRequestModel(
+      // token: '',
+      customerInfo: Customer_info(
           companyEconomicCode: '',
           companyName: '',
           companyNationalId: '',
@@ -40,8 +40,11 @@ class _CustomerInfoOrderScreenState extends State<CustomerInfoOrderScreen> {
           nationalCode: '',
           personal: true,
           postalCode: '7135641258',
-          sosPhone: ''
-        ));
+          sosPhone: ''),
+    );
+    getToken().then((value) async{
+      return registerListRequestModel.token = value;
+    });
   }
 
   @override
@@ -69,7 +72,7 @@ class _CustomerInfoOrderScreenState extends State<CustomerInfoOrderScreen> {
                       MaterialPageRoute(
                         builder: (context) => ConfirmOrderScreen(
                           customerInfo: registerListRequestModel.customerInfo!,
-                          token: token!,
+                          token: token,
                         ),
                       ),
                     );

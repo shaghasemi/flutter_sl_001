@@ -25,7 +25,7 @@ class ProcessingResponseModel {
 
   Map<String, dynamic> toJson() => {
         'data': data?.map((e) => e.toJson()).toList(),
-        'message': message,
+        // 'message': message,
         'error': error,
         'success': success,
         'status': status

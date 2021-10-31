@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_order.dart';
+import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
 import 'package:flutter_sl_001/model/order/register_list_model.dart';
 import 'package:flutter_sl_001/provider_test/cart_provider.dart';
@@ -12,7 +13,7 @@ import 'package:provider/provider.dart';
 class ConfirmOrderScreen extends StatefulWidget {
   // RegisterListRequestModel registerListRequestModel;
   Customer_info customerInfo;
-  String token;
+  String token = '';
 
   ConfirmOrderScreen(
       {Key? key, required this.customerInfo, required this.token})
@@ -25,12 +26,14 @@ class ConfirmOrderScreen extends StatefulWidget {
 class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   ApiServiceOrder apiServiceOrder = ApiServiceOrder();
   late RegisterListRequestModel registerListRequestModel;
-
+  String? token = UserPreferences.newPrefs.getString('token');
+  // print("token");
+  // print(token);
   @override
   void initState() {
     super.initState();
     registerListRequestModel = RegisterListRequestModel(
-      token: widget.token,
+      // token: token,
       customerInfo: widget.customerInfo,
       // orderList: [Order_list()],
       orderList: [],
@@ -39,6 +42,11 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("token");
+    print(token);
+    registerListRequestModel.token = token;
+    print("registerListRequestModel.toke");
+    print(registerListRequestModel.token);
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
@@ -55,19 +63,25 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             actions: [
               TextButton(
                 onPressed: () {
+                  // registerListRequestModel.token = widget.token;
+                  // String tokenCustom =
+                      // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA1MjQsImV4cCI6MTYzNjI2NTMyNH0.x6p0skHvLvKhqFM51grrcOHFy7nNm1e04OYYaZAbA_E";
+                      // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA5ODcsImV4cCI6MTYzNjI2NTc4N30.b59L1ZG6uMYCG6t3ynpqRWW9BTDpizl4Zlw5l8Q3fn4;
                   apiServiceOrder
                       .registerListOrder(registerListRequestModel)
-                      .then((value) {
-                    print("Got some response");
-                    print(value.message);
-                    print("jsonEncode(value.data)");
-                    print(jsonEncode(value.data));
-                    CartProvider().clearCart();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    );
-                  },
+                      .then(
+                    (value) {
+                      print("Got some response");
+                      // print(value.message);
+                      print(value);
+                      // print("jsonEncode(value.data)");
+                      // print(jsonEncode(value.data));
+                      CartProvider().clearCart();
+                      /*Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                      );*/
+                    },
                     onError: (err) {
                       print("Error1" + err);
                     },
@@ -84,7 +98,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               children: [
                 Consumer<CartProvider>(
                   builder: (context, value, child) {
-                    for (int i = 0; i < 1; i++) {
+                    /*for (int i = 0; i < 1; i++) {
                       registerListRequestModel.orderList![i].id =
                           value.processingList[i].order!.id;
                       registerListRequestModel.orderList![i].packId =
@@ -128,7 +142,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                             value.processingList[i].order!
                                 .selectedPropertyIdList![0].propertyName;
                       }
-                    }
+                    }*/
 
                     if (value.processingList == 0) {
                       return Text('سبد خرید خالی است.');

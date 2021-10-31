@@ -5,6 +5,7 @@ import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
 import 'package:flutter_sl_001/screen/panel/message_list_screen.dart';
+import 'package:flutter_sl_001/screen/panel/order_screen.dart';
 import 'package:flutter_sl_001/screen/panel/password_change_screen.dart';
 import 'package:flutter_sl_001/screen/panel/user_info_screen_editable.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
@@ -128,9 +129,9 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
                     destination: CartScreen(),
                   ),
                   ProfileSectionGoToWidget(
-                    title: 'نشانی',
-                    iconName: Icons.map,
-                    destination: CartScreen(),
+                    title: 'سفارش ها',
+                    iconName: Icons.shopping_bag,
+                    destination: OrderScreen(),
                   ),
                   ProfileSectionGoToWidget(
                     title: 'اطلاعات کاربر',

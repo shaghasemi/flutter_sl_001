@@ -1,505 +1,600 @@
-import 'package:equatable/equatable.dart';
-
 class ProductSingleResponseModel {
-  final ProductSingleData? data;
-  final String? message;
-  final bool? error;
-  final bool? success;
-  final int? status;
+  ProductSingleData? data;
+  String? error;
+  String? message;
+  int? status;
+  bool? success;
 
-  ProductSingleResponseModel({
-    this.data,
-    this.message,
-    this.error,
-    this.success,
-    this.status,
-  });
+  ProductSingleResponseModel({this.data, this.error, this.message, this.status, this.success});
 
-  ProductSingleResponseModel.fromJson(Map<String, dynamic> json)
-      : data = (json['data'] as Map<String, dynamic>?) != null
-      ? ProductSingleData.fromJson(json['data'] as Map<String, dynamic>)
-      : null,
-        message = json['message'] as String?,
-        error = json['error'] as bool?,
-        success = json['success'] as bool?,
-        status = json['status'] as int?;
+  factory ProductSingleResponseModel.fromJson(Map<String, dynamic> json) {
+    return ProductSingleResponseModel(
+      data: json['data'] != null ? ProductSingleData.fromJson(json['data']) : null,
+      error: json['error'],
+      message: json['message'],
+      status: json['status'],
+      success: json['success'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-    'data': data?.toJson(),
-    'message': message,
-    'error': error,
-    'success': success,
-    'status': status
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['error'] = this.error;
+    data['message'] = this.message;
+    data['status'] = this.status;
+    data['success'] = this.success;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
+  }
 }
 
 class ProductSingleData {
-  final int? status;
-  final List<String>? categoryIdList;
-  final String? titleEn;
-  final String? slugEn;
-  final List<String>? seoKeywords;
-  final bool? supporting;
-  final bool? returning;
-  final String? discountPercent;
-  final String? marketerCommission;
-  final String? id;
-  final int? trackingCode;
-  final String? sellerId;
-  final ItemId? itemId;
-  final ShopId? shopId;
-  final BranchId? branchId;
-  final String? titleFa;
-  final String? slugFa;
-  final String? unit;
-  final List<PriceRatioRangeList>? priceRatioRangeList;
-  final List<PackList>? packList;
-  final String? price;
-  final String? discountEndDate;
-  final int? inventory;
-  final int? minOrder;
-  final int? maxOrder;
-  final List<Images>? images;
-  final List<PropertyListProduct>? propertyList;
-  final String? createdAt;
-  final String? updatedAt;
-  final int? v;
-  final String? description;
-  final String? marketerCommissionEndDate;
-  final String? rules;
+  int? v;
+  String? id;
+  BranchId? branch_id;
+  List<String>? category_id_list;
+  String? createdAt;
+  String? description;
+  String? discount_end_date;
+  String? discount_percent;
+  List<ImageModel>? images;
+  int? inventory;
+  ItemId? item_id;
+  int? marketer_commission;
+  String? marketer_commission_end_date;
+  int? max_order;
+  int? min_order;
+  List<Pack>? pack_list;
+  String? price;
+  List<PriceRatioRange>? price_ratio_range_list;
+  List<PropertyListProduct>? property_list;
+  bool? returning;
+  String? rules;
+  String? seller_id;
+  List<String>? seo_keywords;
+  ShopId? shop_id;
+  String? slug_en;
+  String? slug_fa;
+  int? status;
+  bool? supporting;
+  String? title_en;
+  String? title_fa;
+  int? tracking_code;
+  String? unit;
+  String? updatedAt;
 
-  ProductSingleData({
-    this.status,
-    this.categoryIdList,
-    this.titleEn,
-    this.slugEn,
-    this.seoKeywords,
-    this.supporting,
-    this.returning,
-    this.discountPercent,
-    this.marketerCommission,
-    this.id,
-    this.trackingCode,
-    this.sellerId,
-    this.itemId,
-    this.shopId,
-    this.branchId,
-    this.titleFa,
-    this.slugFa,
-    this.unit,
-    this.priceRatioRangeList,
-    this.packList,
-    this.price,
-    this.discountEndDate,
-    this.inventory,
-    this.minOrder,
-    this.maxOrder,
-    this.images,
-    this.propertyList,
-    this.createdAt,
-    this.updatedAt,
-    this.v,
-    this.description,
-    this.marketerCommissionEndDate,
-    this.rules,
-  });
+  ProductSingleData(
+      {this.v,
+      this.id,
+      this.branch_id,
+      this.category_id_list,
+      this.createdAt,
+      this.description,
+      this.discount_end_date,
+      this.discount_percent,
+      this.images,
+      this.inventory,
+      this.item_id,
+      this.marketer_commission,
+      this.marketer_commission_end_date,
+      this.max_order,
+      this.min_order,
+      this.pack_list,
+      this.price,
+      this.price_ratio_range_list,
+      this.property_list,
+      this.returning,
+      this.rules,
+      this.seller_id,
+      this.seo_keywords,
+      this.shop_id,
+      this.slug_en,
+      this.slug_fa,
+      this.status,
+      this.supporting,
+      this.title_en,
+      this.title_fa,
+      this.tracking_code,
+      this.unit,
+      this.updatedAt});
 
-  ProductSingleData.fromJson(Map<String, dynamic> json)
-      : status = json['status'] as int?,
-        categoryIdList = (json['category_id_list'] as List?)
-            ?.map((dynamic e) => e as String)
-            .toList(),
-        titleEn = json['title_en'] as String?,
-        slugEn = json['slug_en'] as String?,
-        seoKeywords = (json['seo_keywords'] as List?)
-            ?.map((dynamic e) => e as String)
-            .toList(),
-        supporting = json['supporting'] as bool?,
-        returning = json['returning'] as bool?,
-        discountPercent = json['discount_percent'] as String?,
-        marketerCommission = json['marketer_commission'] as String?,
-        id = json['_id'] as String?,
-        trackingCode = json['tracking_code'] as int?,
-        sellerId = json['seller_id'] as String?,
-        itemId = (json['item_id'] as Map<String, dynamic>?) != null
-            ? ItemId.fromJson(json['item_id'] as Map<String, dynamic>)
-            : null,
-        shopId = (json['shop_id'] as Map<String, dynamic>?) != null
-            ? ShopId.fromJson(json['shop_id'] as Map<String, dynamic>)
-            : null,
-        branchId = (json['branch_id'] as Map<String, dynamic>?) != null
-            ? BranchId.fromJson(json['branch_id'] as Map<String, dynamic>)
-            : null,
-        titleFa = json['title_fa'] as String?,
-        slugFa = json['slug_fa'] as String?,
-        unit = json['unit'] as String?,
-        priceRatioRangeList = (json['price_ratio_range_list'] as List?)
-            ?.map((dynamic e) =>
-            PriceRatioRangeList.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        packList = (json['pack_list'] as List?)
-            ?.map((dynamic e) => PackList.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        price = json['price'] as String?,
-        discountEndDate = json['discount_end_date'] as String?,
-        inventory = json['inventory'] as int?,
-        minOrder = json['min_order'] as int?,
-        maxOrder = json['max_order'] as int?,
-        images = (json['images'] as List?)
-            ?.map((dynamic e) => Images.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        propertyList = (json['property_list'] as List?)
-            ?.map(
-                (dynamic e) => PropertyListProduct.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        createdAt = json['createdAt'] as String?,
-        updatedAt = json['updatedAt'] as String?,
-        v = json['__v'] as int?,
-        description = json['description'] as String?,
-        marketerCommissionEndDate =
-        json['marketer_commission_end_date'] as String?,
-        rules = json['rules'] as String?;
+  factory ProductSingleData.fromJson(Map<String, dynamic> json) {
+    return ProductSingleData(
+      v: json['__v'],
+      id: json['_id'],
+      branch_id: json['branch_id'] != null
+          ? BranchId.fromJson(json['branch_id'])
+          : null,
+      category_id_list: json['category_id_list'] != null
+          ? new List<String>.from(json['category_id_list'])
+          : null,
+      createdAt: json['createdAt'],
+      description: json['description'],
+      discount_end_date: json['discount_end_date'],
+      discount_percent: json['discount_percent'],
+      images: json['images'] != null
+          ? (json['images'] as List).map((i) => ImageModel.fromJson(i)).toList()
+          : null,
+      inventory: json['inventory'],
+      item_id:
+          json['item_id'] != null ? ItemId.fromJson(json['item_id']) : null,
+      marketer_commission: json['marketer_commission'],
+      marketer_commission_end_date: json['marketer_commission_end_date'],
+      max_order: json['max_order'],
+      min_order: json['min_order'],
+      pack_list: json['pack_list'] != null
+          ? (json['pack_list'] as List).map((i) => Pack.fromJson(i)).toList()
+          : null,
+      price: json['price'],
+      price_ratio_range_list: json['price_ratio_range_list'] != null
+          ? (json['price_ratio_range_list'] as List)
+              .map((i) => PriceRatioRange.fromJson(i))
+              .toList()
+          : null,
+      property_list: json['property_list'] != null
+          ? (json['property_list'] as List)
+              .map((i) => PropertyListProduct.fromJson(i))
+              .toList()
+          : null,
+      returning: json['returning'],
+      rules: json['rules'],
+      seller_id: json['seller_id'],
+      seo_keywords: json['seo_keywords'] != null
+          ? new List<String>.from(json['seo_keywords'])
+          : null,
+      shop_id:
+          json['shop_id'] != null ? ShopId.fromJson(json['shop_id']) : null,
+      slug_en: json['slug_en'],
+      slug_fa: json['slug_fa'],
+      status: json['status'],
+      supporting: json['supporting'],
+      title_en: json['title_en'],
+      title_fa: json['title_fa'],
+      tracking_code: json['tracking_code'],
+      unit: json['unit'],
+      updatedAt: json['updatedAt'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-    'status': status,
-    'category_id_list': categoryIdList,
-    'title_en': titleEn,
-    'slug_en': slugEn,
-    'seo_keywords': seoKeywords,
-    'supporting': supporting,
-    'returning': returning,
-    'discount_percent': discountPercent,
-    'marketer_commission': marketerCommission,
-    '_id': id,
-    'tracking_code': trackingCode,
-    'seller_id': sellerId,
-    'item_id': itemId?.toJson(),
-    'shop_id': shopId?.toJson(),
-    'branch_id': branchId?.toJson(),
-    'title_fa': titleFa,
-    'slug_fa': slugFa,
-    'unit': unit,
-    'price_ratio_range_list':
-    priceRatioRangeList?.map((e) => e.toJson()).toList(),
-    'pack_list': packList?.map((e) => e.toJson()).toList(),
-    'price': price,
-    'discount_end_date': discountEndDate,
-    'inventory': inventory,
-    'min_order': minOrder,
-    'max_order': maxOrder,
-    'images': images?.map((e) => e.toJson()).toList(),
-    'property_list': propertyList?.map((e) => e.toJson()).toList(),
-    'createdAt': createdAt,
-    'updatedAt': updatedAt,
-    '__v': v,
-    'description': description,
-    'marketer_commission_end_date': marketerCommissionEndDate,
-    'rules': rules
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['__v'] = this.v;
+    data['_id'] = this.id;
+    data['createdAt'] = this.createdAt;
+    data['description'] = this.description;
+    data['discount_end_date'] = this.discount_end_date;
+    data['discount_percent'] = this.discount_percent;
+    data['inventory'] = this.inventory;
+    data['marketer_commission'] = this.marketer_commission;
+    data['marketer_commission_end_date'] = this.marketer_commission_end_date;
+    data['max_order'] = this.max_order;
+    data['min_order'] = this.min_order;
+    data['price'] = this.price;
+    data['returning'] = this.returning;
+    data['rules'] = this.rules;
+    data['seller_id'] = this.seller_id;
+    data['slug_en'] = this.slug_en;
+    data['slug_fa'] = this.slug_fa;
+    data['status'] = this.status;
+    data['supporting'] = this.supporting;
+    data['title_en'] = this.title_en;
+    data['title_fa'] = this.title_fa;
+    data['tracking_code'] = this.tracking_code;
+    data['unit'] = this.unit;
+    data['updatedAt'] = this.updatedAt;
+    if (this.branch_id != null) {
+      data['branch_id'] = this.branch_id!.toJson();
+    }
+    if (this.category_id_list != null) {
+      data['category_id_list'] = this.category_id_list;
+    }
+    if (this.images != null) {
+      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    }
+    if (this.item_id != null) {
+      data['item_id'] = this.item_id!.toJson();
+    }
+    if (this.pack_list != null) {
+      data['pack_list'] = this.pack_list!.map((v) => v.toJson()).toList();
+    }
+    if (this.price_ratio_range_list != null) {
+      data['price_ratio_range_list'] =
+          this.price_ratio_range_list!.map((v) => v.toJson()).toList();
+    }
+    if (this.property_list != null) {
+      data['property_list'] =
+          this.property_list!.map((v) => v.toJson()).toList();
+    }
+    if (this.seo_keywords != null) {
+      data['seo_keywords'] = this.seo_keywords;
+    }
+    if (this.shop_id != null) {
+      data['shop_id'] = this.shop_id!.toJson();
+    }
+    return data;
+  }
+}
+
+class Pack {
+  String? id;
+  String? name;
+  String? ratio_unit;
+
+  Pack({this.id, this.name, this.ratio_unit});
+
+  factory Pack.fromJson(Map<String, dynamic> json) {
+    return Pack(
+      id: json['_id'],
+      name: json['name'],
+      ratio_unit: json['ratio_unit'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['name'] = this.name;
+    data['ratio_unit'] = this.ratio_unit;
+    return data;
+  }
+}
+
+class PriceRatioRange {
+  String? id;
+  int? end;
+  String? ratio_price;
+  int? start;
+
+  PriceRatioRange({this.id, this.end, this.ratio_price, this.start});
+
+  factory PriceRatioRange.fromJson(Map<String, dynamic> json) {
+    return PriceRatioRange(
+      id: json['_id'],
+      end: json['end'],
+      ratio_price: json['ratio_price'],
+      start: json['start'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['end'] = this.end;
+    data['ratio_price'] = this.ratio_price;
+    data['start'] = this.start;
+    return data;
+  }
 }
 
 class ItemId {
-  final int? status;
-  final List<String>? categoryIdList;
-  final List<String>? unitList;
-  final String? nameEn;
-  final String? id;
-  final String? nameFa;
-  final List<PropertyList>? propertyList;
-  final int? trackingCode;
-  final String? createdAt;
-  final String? updatedAt;
-  final int? v;
+  int? v;
+  String? id;
+  List<String>? category_id_list;
+  String? createdAt;
+  String? name_en;
+  String? name_fa;
 
-  ItemId({
-    this.status,
-    this.categoryIdList,
-    this.unitList,
-    this.nameEn,
-    this.id,
-    this.nameFa,
-    this.propertyList,
-    this.trackingCode,
-    this.createdAt,
-    this.updatedAt,
-    this.v,
-  });
+  // PackList? pack_list;
+  List<PropertyList>? property_list;
+  int? status;
+  int? tracking_code;
+  List<String>? unit_list;
+  String? updatedAt;
 
-  ItemId.fromJson(Map<String, dynamic> json)
-      : status = json['status'] as int?,
-        categoryIdList = (json['category_id_list'] as List?)
-            ?.map((dynamic e) => e as String)
-            .toList(),
-        unitList = (json['unit_list'] as List?)
-            ?.map((dynamic e) => e as String)
-            .toList(),
-        nameEn = json['name_en'] as String?,
-        id = json['_id'] as String?,
-        nameFa = json['name_fa'] as String?,
-        propertyList = (json['property_list'] as List?)
-            ?.map(
-                (dynamic e) => PropertyList.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        trackingCode = json['tracking_code'] as int?,
-        createdAt = json['createdAt'] as String?,
-        updatedAt = json['updatedAt'] as String?,
-        v = json['__v'] as int?;
+  ItemId(
+      {this.v,
+      this.id,
+      this.category_id_list,
+      this.createdAt,
+      this.name_en,
+      this.name_fa,
+      /*this.pack_list,*/ this.property_list,
+      this.status,
+      this.tracking_code,
+      this.unit_list,
+      this.updatedAt});
 
-  Map<String, dynamic> toJson() => {
-    'status': status,
-    'category_id_list': categoryIdList,
-    'unit_list': unitList,
-    'name_en': nameEn,
-    '_id': id,
-    'name_fa': nameFa,
-    'property_list': propertyList?.map((e) => e.toJson()).toList(),
-    'tracking_code': trackingCode,
-    'createdAt': createdAt,
-    'updatedAt': updatedAt,
-    '__v': v
-  };
+  factory ItemId.fromJson(Map<String, dynamic> json) {
+    return ItemId(
+      v: json['__v'],
+      id: json['_id'],
+      category_id_list: json['category_id_list'] != null
+          ? new List<String>.from(json['category_id_list'])
+          : null,
+      createdAt: json['createdAt'],
+      name_en: json['name_en'],
+      name_fa: json['name_fa'],
+      // pack_list: json['pack_list'] != null ? PackList.fromJson(json['pack_list']) : null,
+      property_list: json['property_list'] != null
+          ? (json['property_list'] as List)
+              .map((i) => PropertyList.fromJson(i))
+              .toList()
+          : null,
+      status: json['status'],
+      tracking_code: json['tracking_code'],
+      unit_list: json['unit_list'] != null
+          ? new List<String>.from(json['unit_list'])
+          : null,
+      updatedAt: json['updatedAt'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['__v'] = this.v;
+    data['_id'] = this.id;
+    data['createdAt'] = this.createdAt;
+    data['name_en'] = this.name_en;
+    data['name_fa'] = this.name_fa;
+    data['status'] = this.status;
+    data['tracking_code'] = this.tracking_code;
+    data['updatedAt'] = this.updatedAt;
+    if (this.category_id_list != null) {
+      data['category_id_list'] = this.category_id_list;
+    }
+    /*if (this.pack_list != null) {
+            data['pack_list'] = this.pack_list.toJson();
+        }*/
+    if (this.property_list != null) {
+      data['property_list'] =
+          this.property_list!.map((v) => v.toJson()).toList();
+    }
+    if (this.unit_list != null) {
+      data['unit_list'] = this.unit_list;
+    }
+    return data;
+  }
 }
 
 class PropertyList {
-  final bool? multiple;
-  final bool? uploading;
-  final bool? required;
-  final bool? calculating;
-  final bool? comparing;
-  final List<String>? selectList;
-  final String? id;
-  final int? index;
-  final String? nameFa;
-  final String? nameEn;
-  final int? code;
+  String? id;
+  bool? calculating;
+  int? code;
+  bool? comparing;
+  int? index;
+  bool? multiple;
+  String? name_en;
+  String? name_fa;
+  bool? required;
+  List<String>? select_list;
+  bool? uploading;
 
-  PropertyList({
-    this.multiple,
-    this.uploading,
-    this.required,
-    this.calculating,
-    this.comparing,
-    this.selectList,
-    this.id,
-    this.index,
-    this.nameFa,
-    this.nameEn,
-    this.code,
-  });
+  PropertyList(
+      {this.id,
+      this.calculating,
+      this.code,
+      this.comparing,
+      this.index,
+      this.multiple,
+      this.name_en,
+      this.name_fa,
+      this.required,
+      this.select_list,
+      this.uploading});
 
-  PropertyList.fromJson(Map<String, dynamic> json)
-      : multiple = json['multiple'] as bool?,
-        uploading = json['uploading'] as bool?,
-        required = json['required'] as bool?,
-        calculating = json['calculating'] as bool?,
-        comparing = json['comparing'] as bool?,
-        selectList = (json['select_list'] as List?)
-            ?.map((dynamic e) => e as String)
-            .toList(),
-        id = json['_id'] as String?,
-        index = json['index'] as int?,
-        nameFa = json['name_fa'] as String?,
-        nameEn = json['name_en'] as String?,
-        code = json['code'] as int?;
+  factory PropertyList.fromJson(Map<String, dynamic> json) {
+    return PropertyList(
+      id: json['_id'],
+      calculating: json['calculating'],
+      code: json['code'],
+      comparing: json['comparing'],
+      index: json['index'],
+      multiple: json['multiple'],
+      name_en: json['name_en'],
+      name_fa: json['name_fa'],
+      required: json['required'],
+      select_list: json['select_list'] != null
+          ? new List<String>.from(json['select_list'])
+          : null,
+      uploading: json['uploading'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-    'multiple': multiple,
-    'uploading': uploading,
-    'required': required,
-    'calculating': calculating,
-    'comparing': comparing,
-    'select_list': selectList,
-    '_id': id,
-    'index': index,
-    'name_fa': nameFa,
-    'name_en': nameEn,
-    'code': code
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['calculating'] = this.calculating;
+    data['code'] = this.code;
+    data['comparing'] = this.comparing;
+    data['index'] = this.index;
+    data['multiple'] = this.multiple;
+    data['name_en'] = this.name_en;
+    data['name_fa'] = this.name_fa;
+    data['required'] = this.required;
+    data['uploading'] = this.uploading;
+    if (this.select_list != null) {
+      data['select_list'] = this.select_list;
+    }
+    return data;
+  }
 }
 
 class ShopId {
-  final int? status;
-  final String? id;
+  String? id;
+  int? status;
 
-  ShopId({
-    this.status,
-    this.id,
-  });
+  ShopId({this.id, this.status});
 
-  ShopId.fromJson(Map<String, dynamic> json)
-      : status = json['status'] as int?,
-        id = json['_id'] as String?;
+  factory ShopId.fromJson(Map<String, dynamic> json) {
+    return ShopId(
+      id: json['_id'],
+      status: json['status'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {'status': status, '_id': id};
-}
-
-class BranchId {
-  final int? status;
-  final String? id;
-  final String? name;
-
-  BranchId({
-    this.status,
-    this.id,
-    this.name,
-  });
-
-  BranchId.fromJson(Map<String, dynamic> json)
-      : status = json['status'] as int?,
-        id = json['_id'] as String?,
-        name = json['name'] as String?;
-
-  Map<String, dynamic> toJson() => {'status': status, '_id': id, 'name': name};
-}
-
-class PriceRatioRangeList {
-  final String? id;
-  final int? start;
-  final int? end;
-  final String? ratioPrice;
-
-  PriceRatioRangeList({
-    this.id,
-    this.start,
-    this.end,
-    this.ratioPrice,
-  });
-
-  PriceRatioRangeList.fromJson(Map<String, dynamic> json)
-      : id = json['_id'] as String?,
-        start = json['start'] as int?,
-        end = json['end'] as int?,
-        ratioPrice = json['ratio_price'] as String?;
-
-  Map<String, dynamic> toJson() =>
-      {'_id': id, 'start': start, 'end': end, 'ratio_price': ratioPrice};
-}
-
-class PackList {
-  final String? id;
-  final String? name;
-  final String? ratioUnit;
-
-  PackList({
-    this.id,
-    this.name,
-    this.ratioUnit,
-  });
-
-  PackList.fromJson(Map<String, dynamic> json)
-      : id = json['_id'] as String?,
-        name = json['name'] as String?,
-        ratioUnit = json['ratio_unit'] as String?;
-
-  Map<String, dynamic> toJson() =>
-      {'_id': id, 'name': name, 'ratio_unit': ratioUnit};
-}
-
-class Images {
-  final String? id;
-  final String? type;
-  final String? url;
-
-  Images({
-    this.id,
-    this.type,
-    this.url,
-  });
-
-  Images.fromJson(Map<String, dynamic> json)
-      : id = json['_id'] as String?,
-        type = json['type'] as String?,
-        url = json['url'] as String?;
-
-  Map<String, dynamic> toJson() => {'_id': id, 'type': type, 'url': url};
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['status'] = this.status;
+    return data;
+  }
 }
 
 class PropertyListProduct {
-  final List<String>? selectList;
-  final String? id;
-  final int? code;
-  final int? index;
-  final List<SelectRatioList>? selectRatioList;
-  final List<dynamic>? uploadList;
+  String? id;
+  int? code;
+  int? index;
+  List<String>? select_list;
+  List<SelectRatio>? select_ratio_list;
+  List<Upload>? upload_list;
 
-  PropertyListProduct({
-    this.selectList,
-    this.id,
-    this.code,
-    this.index,
-    this.selectRatioList,
-    this.uploadList,
-  });
+  PropertyListProduct(
+      {this.id,
+      this.code,
+      this.index,
+      this.select_list,
+      this.select_ratio_list,
+      this.upload_list});
 
-  PropertyListProduct.fromJson(Map<String, dynamic> json)
-      : selectList = (json['select_list'] as List?)
-      ?.map((dynamic e) => e as String)
-      .toList(),
-        id = json['_id'] as String?,
-        code = json['code'] as int?,
-        index = json['index'] as int?,
-        selectRatioList = (json['select_ratio_list'] as List?)
-            ?.map((dynamic e) =>
-            SelectRatioList.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        uploadList = json['upload_list'] as List?;
+  factory PropertyListProduct.fromJson(Map<String, dynamic> json) {
+    return PropertyListProduct(
+      id: json['_id'],
+      code: json['code'],
+      index: json['index'],
+      select_list: json['select_list'] != null
+          ? new List<String>.from(json['select_list'])
+          : null,
+      select_ratio_list: json['select_ratio_list'] != null
+          ? (json['select_ratio_list'] as List)
+              .map((i) => SelectRatio.fromJson(i))
+              .toList()
+          : null,
+      upload_list: json['upload_list'] != null
+          ? (json['upload_list'] as List)
+              .map((i) => Upload.fromJson(i))
+              .toList()
+          : null,
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-    'select_list': selectList,
-    '_id': id,
-    'code': code,
-    'index': index,
-    'select_ratio_list': selectRatioList?.map((e) => e.toJson()).toList(),
-    'upload_list': uploadList
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['code'] = this.code;
+    data['index'] = this.index;
+    if (this.select_list != null) {
+      data['select_list'] = this.select_list;
+    }
+    if (this.select_ratio_list != null) {
+      data['select_ratio_list'] =
+          this.select_ratio_list!.map((v) => v.toJson()).toList();
+    }
+    if (this.upload_list != null) {
+      data['upload_list'] = this.upload_list!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class SelectRatioList {
-  final String? id;
-  final String? name;
-  final String? price;
-  final int? inventory;
-  final int? minOrder;
-  final int? maxOrder;
+class Upload {
+  String? id;
+  String? type;
+  String? url;
 
-  SelectRatioList({
-    this.id,
-    this.name,
-    this.price,
-    this.inventory,
-    this.minOrder,
-    this.maxOrder,
-  });
+  Upload({this.id, this.type, this.url});
 
-  SelectRatioList.fromJson(Map<String, dynamic> json)
-      : id = json['_id'] as String?,
-        name = json['name'] as String?,
-        price = json['price'] as String?,
-        inventory = json['inventory'] as int?,
-        minOrder = json['min_order'] as int?,
-        maxOrder = json['max_order'] as int?;
+  factory Upload.fromJson(Map<String, dynamic> json) {
+    return Upload(
+      id: json['_id'],
+      type: json['type'],
+      url: json['url'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-    '_id': id,
-    'name': name,
-    'price': price,
-    'inventory': inventory,
-    'min_order': minOrder,
-    'max_order': maxOrder
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['type'] = this.type;
+    data['url'] = this.url;
+    return data;
+  }
 }
 
-class ProductSingleRequestModel {
-  String id;
+class SelectRatio {
+  String? id;
+  int? inventory;
+  int? max_order;
+  int? min_order;
+  String? name;
+  String? price;
 
-  ProductSingleRequestModel({
-    required this.id,
-  });
+  SelectRatio(
+      {this.id,
+      this.inventory,
+      this.max_order,
+      this.min_order,
+      this.name,
+      this.price});
 
-  ProductSingleRequestModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'];
+  factory SelectRatio.fromJson(Map<String, dynamic> json) {
+    return SelectRatio(
+      id: json['_id'],
+      inventory: json['inventory'],
+      max_order: json['max_order'],
+      min_order: json['min_order'],
+      name: json['name'],
+      price: json['price'],
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-    "id": id.trim(),
-  };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['inventory'] = this.inventory;
+    data['max_order'] = this.max_order;
+    data['min_order'] = this.min_order;
+    data['name'] = this.name;
+    data['price'] = this.price;
+    return data;
+  }
+}
+
+class BranchId {
+  String? id;
+  String? name;
+  int? status;
+
+  BranchId({this.id, this.name, this.status});
+
+  factory BranchId.fromJson(Map<String, dynamic> json) {
+    return BranchId(
+      id: json['_id'],
+      name: json['name'],
+      status: json['status'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['name'] = this.name;
+    data['status'] = this.status;
+    return data;
+  }
+}
+
+class ImageModel {
+  String? id;
+  String? type;
+  String? url;
+
+  ImageModel({this.id, this.type, this.url});
+
+  factory ImageModel.fromJson(Map<String, dynamic> json) {
+    return ImageModel(
+      id: json['_id'],
+      type: json['type'],
+      url: json['url'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.id;
+    data['type'] = this.type;
+    data['url'] = this.url;
+    return data;
+  }
 }

@@ -4,6 +4,8 @@ import 'package:flutter_sl_001/model/panel/change_password_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_send_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_validate_model.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
+import 'package:flutter_sl_001/model/panel/panel_order_model.dart';
+import 'package:flutter_sl_001/model/panel/payment_init_model.dart';
 import 'package:flutter_sl_001/model/panel/resend_code_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
@@ -86,7 +88,6 @@ class APIServicePanel extends ChangeNotifier {
       Uri.parse(url),
       body: loginRequestModel.toJson(),
     );
-    print(json.decode(response.body));
     if (response.statusCode == 200) {
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -263,5 +264,50 @@ class APIServicePanel extends ChangeNotifier {
       throw Exception('Failed to Login');
     }*/
     return UserInfoEditResponseModel.fromJson(json.decode(response.body));
+  }
+
+  // Get List of Orders
+  Future<PanelOrderResponseData> getOrderData(
+    PanelOrderRequestModel panelOrderRequestModel,
+  ) async {
+    String url = "$baseURLV1${userRole}order/group/cart/paginate?"
+        "page=${panelOrderRequestModel.page}&"
+        "limit=${panelOrderRequestModel.limit}";
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'x-access-token': panelOrderRequestModel.token,
+      },
+    );
+    if (response.statusCode == 200) {
+      return PanelOrderResponseData.fromJson(jsonDecode(response.body)['data']);
+    } else {
+      throw Exception('Failed to Fetch Search Products');
+    }
+  }
+
+  // Get Proforma
+  Future getProforma() async {
+    String url = "${baseURLV1}guest/pdf/prefactor?code=123456";
+    final response = await http.get(Uri.parse(url));
+    return;
+  }
+
+  // Initiate Payment
+  Future<PaymentInitResponseModel> initPayment(
+      PaymentInitRequestModel paymentInitRequestModel) async {
+    String url = "$baseURLV1${userRole}payment/init?"
+        "payment_id=${paymentInitRequestModel.paymentId}";
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'x-access-token': paymentInitRequestModel.token!,
+      },
+    );
+    if (response.statusCode == 200) {
+      return PaymentInitResponseModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to Initiate Payment');
+    }
   }
 }

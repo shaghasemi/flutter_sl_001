@@ -5,6 +5,8 @@ import 'package:flutter_sl_001/api/api_service_product.dart';
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
+import 'package:flutter_sl_001/model/product/product_single_model_old_new.dart';
+import 'package:flutter_sl_001/model/product/product_single_model_old.dart';
 import 'package:flutter_sl_001/provider_test/cart_provider.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
 import 'package:provider/provider.dart';
@@ -53,6 +55,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   ProductSingleData productSingleData = ProductSingleData();
   ProcessingResponseData processingData = ProcessingResponseData();
   PropertyListProduct productProperty = PropertyListProduct();
+
   PropertyList? calculatingProperty = PropertyList(id: '');
 
   int calculatingCode = 0;
@@ -89,26 +92,29 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   Widget build(BuildContext context) {
     Future<ProductSingleData> getSingleProductData() =>
-        apiServiceProduct.productSingle(productSingleRequestModel);
+        apiServiceProduct.productSingleData(productSingleRequestModel);
+
     return FutureBuilder(
       future: getSingleProductData(),
       builder: (context, snapshot) {
+        print("Fault 1");
         if (snapshot.hasData) {
+          print("Fault 2");
           productSingleData =
               ProductSingleData.fromJson(jsonDecode(jsonEncode(snapshot.data)));
 
           // Get the code for calculating proper if available
-          calculatingCode = productSingleData.itemId!.propertyList!
+          calculatingCode = productSingleData.item_id!.property_list!
                   .firstWhere((element) => element.calculating == true,
                       orElse: () => PropertyList())
                   .code ??
               0;
           // Get a separate variable for calculating property
           if (calculatingCode != 0) {
-            calculatingProperty = productSingleData.itemId!.propertyList!
+            calculatingProperty = productSingleData.item_id!.property_list!
                 .where((element) => element.code == calculatingCode)
                 .first;
-            productProperty = productSingleData.propertyList!.firstWhere(
+            productProperty = productSingleData.property_list!.firstWhere(
                 (element) => element.code == calculatingCode,
                 orElse: () => PropertyListProduct());
             // Set id for the calculating property in the processing request
@@ -116,7 +122,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                 .propertyId = productProperty.id;
           }
 
-          if (productSingleData.packList!.length == 0) {
+          if (productSingleData.pack_list!.length == 0) {
             if (calculatingCode == 0) {
               case_property = order_options.number;
             } else {
@@ -185,12 +191,12 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   SizedBox(height: vertical_distance),
 
                   // Product Title
-                  Text(productSingleData.titleFa!),
+                  Text(productSingleData.title_fa!),
                   SizedBox(height: vertical_distance),
 
                   // Product Code
                   Text(
-                    'کد محصول: ${productSingleData.trackingCode!}',
+                    'کد محصول: ${productSingleData.tracking_code!}',
                     style: TextStyle(fontSize: 10),
                   ),
                   SizedBox(height: vertical_distance),
@@ -281,7 +287,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   ),
                   // Card(),
 
-                  Text(productSingleData.titleFa!),
+                  Text(productSingleData.title_fa!),
                   SizedBox(height: vertical_distance),
 
                   // Add to Cart Button
@@ -366,7 +372,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                     'بسته بندی',
                   ),
                 ),
-                items: productSingleData.packList!.map((object) {
+                items: productSingleData.pack_list!.map((object) {
                   return DropdownMenuItem(
                     value: object.id,
                     child: Text(object.name!),
@@ -409,10 +415,10 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                 },
                 hint: Opacity(
                   opacity: 0.5,
-                  child: Text(calculatingProperty!.nameFa!),
+                  child: Text(calculatingProperty!.name_fa!),
                 ),
-                items: productProperty.selectRatioList!
-                    .map<DropdownMenuItem<String>>((SelectRatioList object) {
+                items: productProperty.select_ratio_list!
+                    .map<DropdownMenuItem<String>>((SelectRatio object) {
                   return DropdownMenuItem<String>(
                     value: object.id,
                     child: Text(object.name!),
@@ -425,7 +431,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                       .partId = newValue;
                   processingRequestModel.orderList[0].selectedPropertyIdList![0]
                           .propertyName =
-                      productProperty.selectRatioList!
+                      productProperty.select_ratio_list!
                           .firstWhere((element) => element.id == newValue)
                           .name;
                 },
@@ -460,18 +466,19 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
         ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: productSingleData.priceRatioRangeList!.length,
+          itemCount: productSingleData.price_ratio_range_list!.length,
           itemBuilder: (context, index) {
             return Row(
               children: [
                 Text('از '),
-                Text(productSingleData.priceRatioRangeList![index].start
+                Text(productSingleData.price_ratio_range_list![index].start
                     .toString()),
                 Text(' تا '),
-                Text(productSingleData.priceRatioRangeList![index].end
+                Text(productSingleData.price_ratio_range_list![index].end
                     .toString()),
                 Text(productSingleData.unit.toString()),
-                Text(productSingleData.priceRatioRangeList![index].ratioPrice
+                Text(productSingleData
+                    .price_ratio_range_list![index].ratio_price
                     .toString()),
                 Text(' درصد'),
               ],
@@ -489,13 +496,13 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
         Row(
           children: [
             Text('حداقل سفارش: '),
-            Text(productSingleData.minOrder.toString()),
+            Text(productSingleData.min_order.toString()),
           ],
         ),
         Row(
           children: [
             Text('حداکثر سفارش: '),
-            Text(productSingleData.maxOrder.toString()),
+            Text(productSingleData.max_order.toString()),
           ],
         ),
       ],
