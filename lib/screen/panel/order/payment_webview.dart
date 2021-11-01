@@ -69,24 +69,24 @@ class PaymentWebViewState extends State<PaymentWebView> {
     print(widget.url);
     print(widget.paymentInitData.form);
     // String sample = <body onload='document.forms[\"form\"].submit()'>\n                              <form name=\"form\" action=https://mipg.atipay.net/v1/redirect-to-gateway method=\"POST\">\n                                <input type=\"hidden\" value=\"801ebe143c734874a0ecd75df1ed7979\" name=\"token\" />\n                              </form>\n                           </body>
-    String fileHtmlContents =
-        await rootBundle.loadString(widget.paymentInitData.form!);
+    /*String fileHtmlContents =
+        await rootBundle.loadString(widget.paymentInitData.form!);*/
 
-    var bytes = utf8.encode(fileHtmlContents);
-    var base64Str = base64.encode(bytes);
-
+    // var bytes = utf8.encode(fileHtmlContents);
+    // var base64Str = base64.encode(bytes);
+    //
     // .loadString(widget.paymentInitData.form.toString());
     /*_webViewController.evaluateJavascript(
         "const div = document.createElement(<body onload='document.forms[\"form\"].submit()'>\n                              <form name=\"form\" action=https://mipg.atipay.net/v1/redirect-to-gateway method=\"POST\">\n                                <input type=\"hidden\" value=\"b7419b94f06e406089b1403bf4b8eb1b\" name=\"token\" />\n                              </form>\n                           </body>)" +
             "div.innerHTML = htmlData" +
             "document.body.appendChild(div)" +
             "div.firstElementChild.submit()");*/
-    _webViewController.evaluateJavascript(
+    /*_webViewController.evaluateJavascript(
         "const div1 = document.createElement('div')" +
             // "div.innerHTML="+base64Str+
             "div.innerHTML="+widget.paymentInitData.form!+
             "document.body.appendChild(div1)" +
-            "div1.firstElementChild.submit()");
+            "div1.firstElementChild.submit()");*/
     /*_webViewController.evaluateJavascript(
         "externalRefrenceByHTML: (htmlData = <></>) => {" +
             "const div = document.createElement('div')" +
@@ -98,10 +98,11 @@ class PaymentWebViewState extends State<PaymentWebView> {
             mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
         .toString());*/
     // String fileHtmlContents = await rootBundle.loadString('assets/paid.html');
-    /*String fileHtmlContents = await rootBundle.loadString('assets/demo.html');
+    String fileHtmlContents = await rootBundle.loadString('assets/demo.html');
     _webViewController.loadUrl(Uri.dataFromString(fileHtmlContents,
             mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
-        .toString());*/
+        .toString());
+    _webViewController.evaluateJavascript('alert("Hello World")');
     /*_webViewController.loadUrl(Uri.dataFromString(
       '<html><body>hello world</body></html>',
       mimeType: 'text/html',
