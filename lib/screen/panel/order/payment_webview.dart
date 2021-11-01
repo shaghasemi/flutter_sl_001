@@ -20,6 +20,7 @@ class PaymentWebView extends StatefulWidget {
 
 class PaymentWebViewState extends State<PaymentWebView> {
   late WebViewController _webViewController;
+  // late WebViewController myWebViewController;
 
   @override
   void initState() {
@@ -34,18 +35,31 @@ class PaymentWebViewState extends State<PaymentWebView> {
     print("widget.paymentInitData.form");
     print(widget.paymentInitData.form);
     print("widget.paymentInitData.form");
-    return Padding(
-      padding: EdgeInsets.all(50),
-      child: WebView(
-        initialUrl: 'https://mipg.atipay.net/v1/redirect-to-gateway',
-        // initialUrl: '',
-        // initialUrl: 'https://www.digikala.com',
-        // initialUrl: widget.url,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) {
-          _webViewController = webViewController;
-          loadAsset();
-        },
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: EdgeInsets.all(50),
+        child: WebView(
+          // initialUrl: 'https://mipg.atipay.net/v1/redirect-to-gateway',
+          initialUrl: '',
+          // initialUrl: 'https://www.digikala.com',
+          // initialUrl: widget.url,
+          javascriptMode: JavascriptMode.unrestricted,
+          /*onPageStarted: (WebViewController webViewController) {
+            _webViewController = webViewController;
+            loadAsset();
+          },*/
+          onWebViewCreated: (WebViewController webViewController) {
+            _webViewController = webViewController;
+            /*myWebViewController.evaluateJavascript(
+                "const div = document.createElement('div)" +
+                    "div.innerHTML = htmlData" +
+                    "document.body.appendChild(div)" +
+                    "div.firstElementChild.submit()");*/
+            loadAsset();
+          },
+        ),
       ),
     );
   }
@@ -55,25 +69,25 @@ class PaymentWebViewState extends State<PaymentWebView> {
     print(widget.url);
     print(widget.paymentInitData.form);
     // String sample = <body onload='document.forms[\"form\"].submit()'>\n                              <form name=\"form\" action=https://mipg.atipay.net/v1/redirect-to-gateway method=\"POST\">\n                                <input type=\"hidden\" value=\"801ebe143c734874a0ecd75df1ed7979\" name=\"token\" />\n                              </form>\n                           </body>
-    String fileHtmlContents = await rootBundle
-        .loadString(widget.paymentInitData.form!);
+    String fileHtmlContents =
+        await rootBundle.loadString(widget.paymentInitData.form!);
 
     var bytes = utf8.encode(fileHtmlContents);
     var base64Str = base64.encode(bytes);
 
-        // .loadString(widget.paymentInitData.form.toString());
+    // .loadString(widget.paymentInitData.form.toString());
     /*_webViewController.evaluateJavascript(
         "const div = document.createElement(<body onload='document.forms[\"form\"].submit()'>\n                              <form name=\"form\" action=https://mipg.atipay.net/v1/redirect-to-gateway method=\"POST\">\n                                <input type=\"hidden\" value=\"b7419b94f06e406089b1403bf4b8eb1b\" name=\"token\" />\n                              </form>\n                           </body>)" +
             "div.innerHTML = htmlData" +
             "document.body.appendChild(div)" +
             "div.firstElementChild.submit()");*/
     _webViewController.evaluateJavascript(
-        // "const div = document.createElement('"+fileHtmlContents+"')" +
-        "const div = document.createElement('"+base64Str+"')" +
-            "div.innerHTML = htmlData" +
-            "document.body.appendChild(div)" +
-            "div.firstElementChild.submit()");
-     /*_webViewController.evaluateJavascript(
+        "const div1 = document.createElement('div')" +
+            // "div.innerHTML="+base64Str+
+            "div.innerHTML="+widget.paymentInitData.form!+
+            "document.body.appendChild(div1)" +
+            "div1.firstElementChild.submit()");
+    /*_webViewController.evaluateJavascript(
         "externalRefrenceByHTML: (htmlData = <></>) => {" +
             "const div = document.createElement('div')" +
             "div.innerHTML = htmlData" +
