@@ -103,12 +103,13 @@ class ApiServiceOrder {
       'Charset': 'utf-8',
       'Accept': '*/*'
     };
-    print(registerListRequestModel.token);
+    // print(registerListRequestModel.token);
+    print(jsonEncode(registerListRequestModel));
     final response = await http.post(
       Uri.parse(url),
-      body: jsonEncode(registerListRequestModel),
+      // body: jsonEncode(registerListRequestModel),
       // body: body,
-      // body: bodyJson,
+      body: bodyJson,
       headers: headers,
     );
     print("response.body");

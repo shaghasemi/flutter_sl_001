@@ -23,9 +23,6 @@ class ApiServiceProduct {
     final response = await http.get(
       Uri.parse(url),
     );
-    print("jsonDecode(response.body)");
-    print(jsonDecode(response.body));
-    // return ProductSingleResponseModel.fromJson(json.decode(response.body));
     if (response.statusCode == 200) {
       return ProductSingleResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -45,8 +42,6 @@ class ApiServiceProduct {
     return Future.delayed(Duration(seconds: 3),
         () => response);*/
     // throw Exception('Failed to Retrieve Product Info');
-    print("jsonDecode(response.body)");
-    print(jsonDecode(response.body));
     if (response.statusCode == 200) {
       return ProductSingleData.fromJson(json.decode(response.body)['data']);
     } else {

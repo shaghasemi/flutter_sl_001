@@ -8,14 +8,14 @@ class PaymentInitResponseModel {
   });
 
   PaymentInitResponseModel.fromJson(dynamic json) {
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? PaymentInitData.fromJson(json['data']) : null;
     message = json['message'];
     error = json['error'] != null ? json['error'].cast<String>() : [];
     success = json['success'];
     status = json['status'];
   }
 
-  Data? data;
+  PaymentInitData? data;
   String? message;
   List<String>? error;
   bool? success;
@@ -34,12 +34,12 @@ class PaymentInitResponseModel {
   }
 }
 
-class Data {
-  Data({
+class PaymentInitData {
+  PaymentInitData({
     this.form,
   });
 
-  Data.fromJson(dynamic json) {
+  PaymentInitData.fromJson(dynamic json) {
     form = json['form'];
   }
 

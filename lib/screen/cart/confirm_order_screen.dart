@@ -27,8 +27,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   ApiServiceOrder apiServiceOrder = ApiServiceOrder();
   late RegisterListRequestModel registerListRequestModel;
   String? token = UserPreferences.newPrefs.getString('token');
-  // print("token");
-  // print(token);
+
   @override
   void initState() {
     super.initState();
@@ -42,11 +41,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("token");
-    print(token);
     registerListRequestModel.token = token;
-    print("registerListRequestModel.toke");
-    print(registerListRequestModel.token);
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
@@ -65,17 +60,12 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 onPressed: () {
                   // registerListRequestModel.token = widget.token;
                   // String tokenCustom =
-                      // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA1MjQsImV4cCI6MTYzNjI2NTMyNH0.x6p0skHvLvKhqFM51grrcOHFy7nNm1e04OYYaZAbA_E";
-                      // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA5ODcsImV4cCI6MTYzNjI2NTc4N30.b59L1ZG6uMYCG6t3ynpqRWW9BTDpizl4Zlw5l8Q3fn4;
+                  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA1MjQsImV4cCI6MTYzNjI2NTMyNH0.x6p0skHvLvKhqFM51grrcOHFy7nNm1e04OYYaZAbA_E";
+                  // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA5ODcsImV4cCI6MTYzNjI2NTc4N30.b59L1ZG6uMYCG6t3ynpqRWW9BTDpizl4Zlw5l8Q3fn4;
                   apiServiceOrder
                       .registerListOrder(registerListRequestModel)
                       .then(
                     (value) {
-                      print("Got some response");
-                      // print(value.message);
-                      print(value);
-                      // print("jsonEncode(value.data)");
-                      // print(jsonEncode(value.data));
                       CartProvider().clearCart();
                       /*Navigator.push(
                         context,
@@ -98,8 +88,45 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               children: [
                 Consumer<CartProvider>(
                   builder: (context, value, child) {
-                    /*for (int i = 0; i < 1; i++) {
-                      registerListRequestModel.orderList![i].id =
+                    // registerListRequestModel.orderList=[]
+                    for (int i = 0; i < value.processingList.length; i++) {
+                      Order_list newOrderList = Order_list();
+                      newOrderList.id = value.processingList[i].order!.id;
+                      newOrderList.packId =
+                          value.processingList[i].order!.packId;
+                      newOrderList.isPack =
+                          newOrderList.packId != null ? true : false;
+                      newOrderList.number =
+                          value.processingList[i].order!.number;
+                      newOrderList.address =
+                          value.processingList[i].order!.address;
+                      newOrderList.lat = value.processingList[i].order!.lat;
+                      newOrderList.lon = value.processingList[i].order!.lon;
+                      newOrderList.province =
+                          value.processingList[i].order!.province;
+                      newOrderList.city = value.processingList[i].order!.city;
+                      if (value.processingList[i].order!
+                                  .selectedPropertyIdList !=
+                              null ||
+                          value.processingList[i].order!
+                                  .selectedPropertyIdList !=
+                              []) {
+                        newOrderList.selectedPropertyIdList = [
+                          Selected_property_id_list()
+                        ];
+                        newOrderList.selectedPropertyIdList![0].partId = value
+                            .processingList[i]
+                            .order!
+                            .selectedPropertyIdList![0]
+                            .partId;
+                        newOrderList.selectedPropertyIdList![0].propertyId =
+                            value.processingList[i].order!
+                                .selectedPropertyIdList![0].propertyId;
+                        newOrderList.selectedPropertyIdList![0].propertyName =
+                            value.processingList[i].order!
+                                .selectedPropertyIdList![0].propertyName;
+                      }
+                      /*registerListRequestModel.orderList![i].id =
                           value.processingList[i].order!.id;
                       registerListRequestModel.orderList![i].packId =
                           value.processingList[i].order!.packId;
@@ -141,8 +168,9 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                 .selectedPropertyIdList![0].propertyName =
                             value.processingList[i].order!
                                 .selectedPropertyIdList![0].propertyName;
-                      }
-                    }*/
+                      }*/
+                      registerListRequestModel.orderList!.add(newOrderList);
+                    }
 
                     if (value.processingList == 0) {
                       return Text('سبد خرید خالی است.');

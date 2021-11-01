@@ -144,7 +144,7 @@ class ProcessingResponseProduct {
   final String? titleEn;
   final bool? supporting;
   final bool? returning;
-  final String? marketerCommission;
+  final int? marketerCommission;
   final String? id;
   final ProcessingResponseShopId? shopId;
   final ProcessingResponseBranchId? branchId;
@@ -181,7 +181,7 @@ class ProcessingResponseProduct {
         titleEn = json['title_en'] as String?,
         supporting = json['supporting'] as bool?,
         returning = json['returning'] as bool?,
-        marketerCommission = json['marketer_commission'] as String?,
+        marketerCommission = json['marketer_commission'] as int?,
         id = json['_id'] as String?,
         shopId = (json['shop_id'] as Map<String, dynamic>?) != null
             ? ProcessingResponseShopId.fromJson(

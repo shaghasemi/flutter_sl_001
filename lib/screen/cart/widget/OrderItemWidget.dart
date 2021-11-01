@@ -130,7 +130,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           Text(price.toString()),
           Text(widget.deliveryAddress.toString()),
           Text(quantity.toString()),
-          /*TextFormField(
+          TextFormField(
             initialValue: quantity.toString(),
             keyboardType: TextInputType.number,
             onChanged: (input) {
@@ -141,7 +141,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
               icon: Icon(Icons.tag),
               hintText: "order Quantity",
             ),
-          ),*/
+          ),
         ],
       ),
     );

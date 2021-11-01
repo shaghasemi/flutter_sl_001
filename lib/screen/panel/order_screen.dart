@@ -1,10 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/data/local/shared_pref.dart';
 import 'package:flutter_sl_001/model/panel/panel_order_model.dart';
 import 'package:flutter_sl_001/model/panel/payment_init_model.dart';
+import 'package:flutter_sl_001/screen/panel/order/payment_webview.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -21,6 +21,7 @@ class _OrderScreenState extends State<OrderScreen> {
   PaymentInitRequestModel paymentInitRequestModel = PaymentInitRequestModel();
   late PanelOrderResponseData orderData;
   late String token;
+  String bankUrl = '';
 
   @override
   void initState() {
@@ -34,10 +35,11 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     Future<PanelOrderResponseData> getOrderData() =>
         apiServicePanel.getOrderData(panelOrderRequestModel);
-    /*_launchURL() async {
-      const url = 'https://flutter.io';
+    /*_launchURL(String url) async {
       if (await canLaunch(url)) {
-        await launch(url);
+        await launch(
+          url,
+        );
       } else {
         throw 'Could not launch $url';
       }
@@ -95,7 +97,18 @@ class _OrderScreenState extends State<OrderScreen> {
                                       .initPayment(paymentInitRequestModel)
                                       .then(
                                     (value) {
-                                      print(jsonEncode(value.data));
+                                      // print(jsonEncode(value.data));
+                                      print("jsonEncode(value.data!.form)");
+                                      print(jsonEncode(value.data!.form));
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => PaymentWebView(
+                                            url: bankUrl,
+                                            paymentInitData: value.data!,
+                                          ),
+                                        ),
+                                      );
                                     },
                                   );
                                 },
@@ -103,15 +116,16 @@ class _OrderScreenState extends State<OrderScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  // _launchURL();
-                                  /*_launchURL() async {
-                                    const url = 'https://flutter.io';
-                                    if (await canLaunch(url)) {
-                                      await launch(url);
-                                    } else {
-                                      throw 'Could not launch $url';
-                                    }
-                                  }*/
+                                  /*Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PaymentWebView(
+                                        url: bankUrl,
+                                        paymentInitData: ,
+                                      ),
+                                    ),
+                                  );*/
+                                  // _launchURL(bankForm);
                                 },
                                 child: Text("مرورگر"),
                               ),

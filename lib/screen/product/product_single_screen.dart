@@ -97,9 +97,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     return FutureBuilder(
       future: getSingleProductData(),
       builder: (context, snapshot) {
-        print("Fault 1");
         if (snapshot.hasData) {
-          print("Fault 2");
           productSingleData =
               ProductSingleData.fromJson(jsonDecode(jsonEncode(snapshot.data)));
 
@@ -359,7 +357,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   if (case_property == order_options.number_packing ||
                       case_property ==
                           order_options.number_calculating_packing) {
-                    print("Packing Val: $val");
+                    // print("Packing Val: $val");
                     if (val!.length == 0) {
                       return "الزامی";
                     }
@@ -407,7 +405,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   if (case_property == order_options.number_calculating ||
                       case_property ==
                           order_options.number_calculating_packing) {
-                    print("Calc Val: $val");
+                    // print("Calc Val: $val");
                     if (val!.length == 0) {
                       return "الزامی";
                     }
@@ -519,7 +517,13 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   void addToCart() {
-    if (order_options.number_calculating == true) {
+    apiServiceOrder.processing(processingRequestModel).then(
+          (value) {
+        Provider.of<CartProvider>(context, listen: false)
+            .addOrderToCart(value.data![0]);
+      },
+    );
+   /* if (order_options.number_calculating == true) {
       print("Fill required");
     } else {
       apiServiceOrder.processing(processingRequestModel).then(
@@ -528,7 +532,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               .addOrderToCart(value.data![0]);
         },
       );
-    }
+    }*/
   }
 
   @override
