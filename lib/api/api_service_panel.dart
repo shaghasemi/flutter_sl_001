@@ -282,7 +282,7 @@ class APIServicePanel extends ChangeNotifier {
     if (response.statusCode == 200) {
       return PanelOrderResponseData.fromJson(jsonDecode(response.body)['data']);
     } else {
-      throw Exception('Failed to Fetch Search Products');
+      throw Exception('Failed to Fetch Order Records');
     }
   }
 

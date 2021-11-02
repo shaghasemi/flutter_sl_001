@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_search.dart';
+import 'package:flutter_sl_001/data/provider/search_provider.dart';
 import 'package:flutter_sl_001/model/search/product_search.dart';
-import 'package:flutter_sl_001/provider_test/search_provider.dart';
 import 'package:flutter_sl_001/screen/product/widget/product_single_card_widget.dart';
 import 'package:provider/provider.dart';
 

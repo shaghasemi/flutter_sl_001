@@ -1,8 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/data/local/shared_pref.dart';
+import 'package:flutter_sl_001/data/local/user_pref.dart';
+import 'package:flutter_sl_001/data/provider/user_provider.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
-import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
 import 'package:flutter_sl_001/screen/panel/message_list_screen.dart';
 import 'package:flutter_sl_001/screen/panel/order_screen.dart';
@@ -12,7 +11,6 @@ import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.
 import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
 import 'package:provider/provider.dart';
 import 'profile_settings_screen.dart';
-import 'widget/user_info_main_widget.dart';
 
 class ProfileScreenContent extends StatefulWidget {
   const ProfileScreenContent({Key? key}) : super(key: key);
@@ -25,14 +23,15 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
   late LoginResponseModel userInfo;
 
   @override
+  void initState() {
+    super.initState();
+    Provider.of<UserProvider>(context, listen: false).loadUser();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Future<String?> getTokenString() => UserPreferences().getToken();
-    Future<LoginData> getUserData() => UserPreferences().getUser();
-    /*userInfo = LoginResponseModel.fromJson(
-      jsonDecode(
-        UserPreferences.prefs.getString("user_data")!,
-      ),
-    );*/
+    // Future<String?> getTokenString() => UserPreferences().getTokenAsync();
+    // Future<LoginData> getUserData() => UserPreferences().getUserAsync();
     return Scaffold(
       body: NestedScrollView(
         scrollDirection: Axis.vertical,
@@ -70,43 +69,20 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
           children: [
             // Column for user's name and number - personal info display
             const SizedBox(height: 20),
-            // Title for profile section.
-            // This could also work in the way that the widget itself gets it's
-            // information from shared pref
-            /* UserInfoMainWidget(
-              // userName: userInfo.data!.userId!.name.toString(),
-              */ /*userName: Consumer<UserProvider>(
-              builder: (context, value) {
-                return value.user.token.toString();
-              },
-            )*/ /*
-              // userPhone: userInfo.data!.mobile.toString(),
-              userPhone: userInfo.data!.mobile.toString(),
-            ),*/
             Column(
               children: [
-                /*Consumer<UserProvider>(
+                Consumer<UserProvider>(
                   builder: (context, value, child) {
-                    return Text(value.user.token.toString());
-                  },
-                ),*/
-                FutureBuilder(
-                  future: getTokenString(),
-                  builder: (context, snapshot) {
-                    return Text(snapshot.data.toString());
-                  },
-                ),
-                FutureBuilder(
-                  future: getUserData(),
-                  builder: (context, snapshot) {
                     return Column(
                       children: [
-                        // Text(jsonDecode(json.encode(snapshot.data))['token']),
-                        // Text(jsonDecode(json.encode(snapshot.data))['mobile']),
+                        Text(value.userData.mobile!),
+                        if (value.userData.user_id != null &&
+                            value.userData.user_id!.name != null)
+                          Text(value.userData.user_id!.name!)
                       ],
                     );
                   },
-                )
+                ),
               ],
             ),
 

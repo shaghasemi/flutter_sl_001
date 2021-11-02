@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/cart_pref.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
-import 'package:flutter_sl_001/model/product/product_single_model_old.dart';
 
 class CartProvider extends ChangeNotifier {
   List<ProcessingResponseData> processingList = [];
@@ -17,11 +14,6 @@ class CartProvider extends ChangeNotifier {
       print("CartProvider Add Called");
       processingList.add(orderItem);
       CartPreferences().saveCart(processingList);
-      print("Added to Cart");
-      print(processingList.length);
-      for (int i = 0; i < processingList.length; i++) {
-        print(jsonEncode(processingList[i]));
-      }
       notifyListeners();
     }
 
@@ -65,10 +57,6 @@ class CartProvider extends ChangeNotifier {
     print("CartProvider Update Called");
     processingList[index] = updatedData;
     CartPreferences().saveCart(processingList);
-    print("Updated Cart");
-    for (int i = 0; i < processingList.length; i++) {
-      print(jsonEncode(processingList[i]));
-    }
     notifyListeners();
   }
 
@@ -79,10 +67,6 @@ class CartProvider extends ChangeNotifier {
     getData().then(
       (value) {
         processingList = value;
-        print("loaded Cart");
-        for (int i = 0; i < processingList.length; i++) {
-          print(jsonEncode(processingList[i]));
-        }
         notifyListeners();
       },
     );
@@ -93,7 +77,6 @@ class CartProvider extends ChangeNotifier {
     processingList.removeAt(index);
     CartPreferences().saveCart(processingList);
     print("Removed Order from Cart");
-    print(jsonEncode(processingList));
     notifyListeners();
   }
 
@@ -101,7 +84,6 @@ class CartProvider extends ChangeNotifier {
     processingList = [];
     CartPreferences().saveCart(processingList);
     print("Cleared Cart");
-    print(jsonEncode(processingList));
     notifyListeners();
   }
 }

@@ -1,11 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/data/local/cart_pref.dart';
-import 'package:flutter_sl_001/model/order/processing_request_model.dart';
-import 'package:flutter_sl_001/model/order/processing_response_model.dart';
-import 'package:flutter_sl_001/model/panel/login_model.dart';
-import 'package:flutter_sl_001/provider_test/cart_provider.dart';
-import 'package:flutter_sl_001/provider_test/user_provider.dart';
+import 'package:flutter_sl_001/data/provider/cart_provider.dart';
 import 'package:flutter_sl_001/screen/cart/cusotmer_info_order.dart';
 import 'package:flutter_sl_001/screen/cart/widget/OrderItemWidget.dart';
 import 'package:provider/provider.dart';

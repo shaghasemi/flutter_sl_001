@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_order.dart';
+import 'package:flutter_sl_001/data/provider/cart_provider.dart';
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
-import 'package:flutter_sl_001/model/product/product_single_model_old.dart';
-import 'package:flutter_sl_001/provider_test/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class OrderItemWidget extends StatefulWidget {
@@ -132,6 +129,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           Text(quantity.toString()),
           TextFormField(
             initialValue: quantity.toString(),
+
             keyboardType: TextInputType.number,
             onChanged: (input) {
               processingRequestModel.orderList[0].number = int.parse(input);

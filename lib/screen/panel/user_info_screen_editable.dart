@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_panel.dart';
-import 'package:flutter_sl_001/data/local/shared_pref.dart';
+import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/model/panel/user_info_edit.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
@@ -27,7 +25,7 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
     super.initState();
     userInfo = Data();
     String token =
-        UserPreferences.newPrefs.getString("token") ?? "aaa";
+        UserPreferences.userPrefs.getString("token") ?? "aaa";
     userInfoRequestModel = UserInfoRequestModel(token: token);
     userInfoEditRequestModel = UserInfoEditRequestModel(token: token);
     fetchUserInfo();

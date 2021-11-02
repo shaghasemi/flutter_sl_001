@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_order.dart';
-import 'package:flutter_sl_001/data/local/shared_pref.dart';
-import 'package:flutter_sl_001/model/order/processing_response_model.dart';
+import 'package:flutter_sl_001/data/local/user_pref.dart';
+import 'package:flutter_sl_001/data/provider/cart_provider.dart';
 import 'package:flutter_sl_001/model/order/register_list_model.dart';
-import 'package:flutter_sl_001/provider_test/cart_provider.dart';
 import 'package:flutter_sl_001/screen/cart/widget/order_item_confirm_widget.dart';
-import 'package:flutter_sl_001/screen/main/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
@@ -26,7 +22,7 @@ class ConfirmOrderScreen extends StatefulWidget {
 class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   ApiServiceOrder apiServiceOrder = ApiServiceOrder();
   late RegisterListRequestModel registerListRequestModel;
-  String? token = UserPreferences.newPrefs.getString('token');
+  String? token = UserPreferences.userPrefs.getString('token');
 
   @override
   void initState() {

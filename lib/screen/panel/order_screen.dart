@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_panel.dart';
-import 'package:flutter_sl_001/data/local/shared_pref.dart';
+import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/model/panel/panel_order_model.dart';
 import 'package:flutter_sl_001/model/panel/payment_init_model.dart';
 import 'package:flutter_sl_001/screen/panel/order/payment_webview.dart';
@@ -17,7 +17,7 @@ class OrderScreen extends StatefulWidget {
 class _OrderScreenState extends State<OrderScreen> {
   APIServicePanel apiServicePanel = APIServicePanel();
   PanelOrderRequestModel panelOrderRequestModel =
-      PanelOrderRequestModel(token: '', page: 1, limit: 10);
+      PanelOrderRequestModel(token: '', page: 1, limit: 100);
   PaymentInitRequestModel paymentInitRequestModel = PaymentInitRequestModel();
   late PanelOrderResponseData orderData;
   late String token;
@@ -26,7 +26,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   void initState() {
     super.initState();
-    token = UserPreferences.newPrefs.getString('token')!;
+    token = UserPreferences().getToken();
     panelOrderRequestModel.token = token;
     paymentInitRequestModel.token = token;
   }
@@ -35,15 +35,6 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     Future<PanelOrderResponseData> getOrderData() =>
         apiServicePanel.getOrderData(panelOrderRequestModel);
-    /*_launchURL(String url) async {
-      if (await canLaunch(url)) {
-        await launch(
-          url,
-        );
-      } else {
-        throw 'Could not launch $url';
-      }
-    }*/
 
     return Scaffold(
       body: NestedScrollView(
@@ -65,6 +56,10 @@ class _OrderScreenState extends State<OrderScreen> {
             child: FutureBuilder(
               future: getOrderData(),
               builder: (context, snapshot) {
+                print("jsonEncode(snapshot)");
+                print(snapshot.error);
+                print(snapshot.stackTrace);
+                print(jsonEncode(snapshot.data));
                 if (snapshot.hasData) {
                   orderData = PanelOrderResponseData.fromJson(
                       jsonDecode(jsonEncode(snapshot.data)));
@@ -135,8 +130,12 @@ class _OrderScreenState extends State<OrderScreen> {
                       },
                     ),
                   );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('بروز خطا هنگام دریافت سفارش ها'),
+                  );
                 } else {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 }
               },
             ),

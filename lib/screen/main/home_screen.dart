@@ -35,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.start,
               children: [
-
                 // Slider Advertisement
                 BannerAdTopSliderWidget(),
 

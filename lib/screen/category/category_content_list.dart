@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
-import 'package:flutter_sl_001/data/local/shared_pref.dart';
-import 'package:flutter_sl_001/model/panel/login_model.dart';
-import 'package:flutter_sl_001/provider_test/cart_provider.dart';
+import 'package:flutter_sl_001/data/local/user_pref.dart';
+import 'package:flutter_sl_001/data/provider/user_provider.dart';
 import 'package:flutter_sl_001/model/category/category_all_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
-import 'package:flutter_sl_001/provider_test/user_provider.dart';
 import 'package:flutter_sl_001/screen/category/widget/product_list_by_category.dart';
 import 'package:provider/provider.dart';
 
@@ -206,7 +204,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreen> {
                   .toList();
             }
           }
-          UserPreferences.newPrefs.setString(
+          UserPreferences.userPrefs.setString(
             "category_data",
             value.data!.toString(),
           );

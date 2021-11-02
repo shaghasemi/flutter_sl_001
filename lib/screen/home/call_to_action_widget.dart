@@ -1,10 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/api/api_service_product.dart';
-import 'package:flutter_sl_001/model/product/product_latest_model.dart';
 import 'package:flutter_sl_001/screen/helper/under_construction.dart';
-import 'package:flutter_sl_001/util/app_url.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
 
 class CallToActionWidget extends StatelessWidget {
   const CallToActionWidget({
