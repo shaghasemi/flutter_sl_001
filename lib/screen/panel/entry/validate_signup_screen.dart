@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
-import 'package:flutter_sl_001/screen/panel/login_screen.dart';
+import 'package:flutter_sl_001/screen/panel/entry/login_screen.dart';
 
 class ValidateSignupScreen extends StatefulWidget {
   final String passedPhoneNumber;

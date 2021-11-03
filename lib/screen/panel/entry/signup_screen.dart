@@ -4,8 +4,8 @@ import 'package:flutter_sl_001/model/panel/resend_code_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
-import 'package:flutter_sl_001/screen/panel/forgot_code_screen.dart';
-import 'package:flutter_sl_001/screen/panel/login_screen.dart';
+import 'package:flutter_sl_001/screen/panel/entry/forgot_code_screen.dart';
+import 'package:flutter_sl_001/screen/panel/entry/login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -58,6 +58,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 children: [
                   // Phone Number as username
                   TextFormField(
+                    validator: (value) => value!.isEmpty
+                        ? 'رمز عبور را وارد کنید'
+                        : null,
                     keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
                       hintText: "شماره تلفن",
@@ -75,6 +78,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   // Password
                   TextFormField(
+                    validator: (value) => value!.isEmpty
+                        ? 'رمز عبور را وارد کنید'
+                        : null,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: const InputDecoration(
                       hintText: "رمز عبور",
@@ -210,6 +216,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   // Validation Code received via phon e
                   TextFormField(
+                    validator: (value) => value!.isEmpty
+                        ? 'رمز عبور را وارد کنید'
+                        : null,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       hintText: "کد احراز هویت دریافت شده با تلفن همراه",

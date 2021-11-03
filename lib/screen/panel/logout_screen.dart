@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/data/provider/user_provider.dart';
-import 'package:flutter_sl_001/screen/panel/login_screen.dart';
+import 'package:flutter_sl_001/screen/panel/entry/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class LogoutGlobalScreen extends StatefulWidget {

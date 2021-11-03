@@ -37,7 +37,36 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Vazir',
-        primaryColor: const Color(0xff5fd961),
+        // colorScheme: ColorScheme.light(),
+        // colorScheme: ColorScheme.dark(),
+        // primaryColor: const Color(0xff5fd961),
+        // primaryColor: const Color(0xff7cb721),
+        // cardColor: const Color(0xffE8E8E8),
+        primarySwatch: Colors.green,
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.disabled)) return Colors.red;
+                return null                   ; // Defer to the widget's default.
+              },
+            ),
+            shadowColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.disabled)) return Colors.pink;
+                return Colors.black; // Defer to the widget's default.
+              },
+            ),
+          ),
+        ),
+        // primaryTextTheme: ,ButtonStyle(co)
+        // cardColor: const Color(0xff7cb721),
+        // brightness: Brightness.dark,
+        textTheme: const TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Vazir'),
+        ),
       ),
       title: 'سیوان لند',
       home: MultiProvider(

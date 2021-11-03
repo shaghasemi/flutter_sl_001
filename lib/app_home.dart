@@ -50,6 +50,8 @@ class _AppHomeState extends State<AppHome> {
         return isFirstRouteInCurrentTab;
       },
       child: Scaffold(
+        // Brings screen in focus upwards when keyboard appears
+        resizeToAvoidBottomInset: true,
         body: Stack(
           children: <Widget>[
             buildOffstageNavigator("Page1"),
@@ -77,7 +79,7 @@ class _AppHomeState extends State<AppHome> {
             ),
             BottomNavigationBarItem(
               label: "دسته بندی",
-              icon: Icon(Icons.feed),
+              icon: Icon(Icons.widgets ),
               backgroundColor: Colors.blueAccent,
             ),
             BottomNavigationBarItem(

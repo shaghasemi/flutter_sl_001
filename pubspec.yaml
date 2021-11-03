@@ -81,6 +81,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/home/
+    - assets/images/panel/
     - assets/images/home/banner_shop/
     - assets/images/home/top_ad/
     - assets/images/home/top_ad/slider/

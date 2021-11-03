@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_send_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_validate_model.dart';
-import 'package:flutter_sl_001/screen/panel/login_screen.dart';
-import 'package:flutter_sl_001/screen/panel/signup_screen.dart';
+import 'package:flutter_sl_001/screen/panel/entry/login_screen.dart';
+import 'package:flutter_sl_001/screen/panel/entry/signup_screen.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
 import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -75,6 +75,9 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
                 children: [
                   // Phone Number
                   TextFormField(
+                    validator: (value) => value!.isEmpty
+                        ? 'رمز عبور را وارد کنید'
+                        : null,
                     keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
                       hintText: "شماره تلفن",
@@ -170,6 +173,9 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
                     child: const Text("عضو نیستید؟ ثبت نام کنید"),
                   ),*/
                   TextFormField(
+                    validator: (value) => value!.isEmpty
+                        ? 'رمز عبور را وارد کنید'
+                        : null,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       hintText: "کد احراز دریافت شده",
@@ -185,6 +191,9 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
                   ),
                   // Password
                   TextFormField(
+                    validator: (value) => value!.isEmpty
+                        ? 'رمز عبور را وارد کنید'
+                        : null,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: const InputDecoration(
                       hintText: "رمز عبور جدید",

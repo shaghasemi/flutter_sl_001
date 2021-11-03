@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/screen/panel/login_screen.dart';
+import 'package:flutter_sl_001/screen/panel/entry/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({bool? shouldRebuild = false, Key? key})
