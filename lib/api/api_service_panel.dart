@@ -89,8 +89,12 @@ class APIServicePanel extends ChangeNotifier {
       Uri.parse(url),
       body: loginRequestModel.toJson(),
     );
-    print(jsonEncode(response.body));
     if (response.statusCode == 200) {
+      return LoginResponseModel.fromJson(json.decode(response.body));
+    } else {
+      return Future.error(jsonDecode(response.body)['message']);
+    }
+    /*if (response.statusCode == 200) {
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else if (response.statusCode == 422) {
       print("Status: Above 400");
@@ -98,7 +102,7 @@ class APIServicePanel extends ChangeNotifier {
       return Future.error(jsonDecode(response.body)['message']);
     } else {
       throw Exception('Login Failed');
-    }
+    }*/
   }
 
   // Resend Validation Code

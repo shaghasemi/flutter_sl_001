@@ -16,23 +16,17 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  late SignupRequestModel signupRequestModel; //late
-  late ValidateSignupRequestModel validateSignupRequestModel; //late
-  late ResendCodeRequestModel resendCodeRequestModel; //late
-  bool isApiCallProcess = false;
-
-  // Check if form is valid
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    super.initState();
-    signupRequestModel = SignupRequestModel(phone: '', password: '');
-    validateSignupRequestModel =
-        ValidateSignupRequestModel(phone: '', code: '');
-    resendCodeRequestModel = ResendCodeRequestModel(phone: '');
-  }
+  SignupRequestModel signupRequestModel =
+      SignupRequestModel(phone: '', password: '');
+  ValidateSignupRequestModel validateSignupRequestModel =
+      ValidateSignupRequestModel(phone: '', code: ''); //late
+  ResendCodeRequestModel resendCodeRequestModel =
+      ResendCodeRequestModel(phone: ''); //late
+  APIServicePanel apiService = APIServicePanel();
+  APIServicePanel validateApiService = APIServicePanel();
+  bool isApiCallProcess = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +39,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   Widget _uiSetup(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: false,
       key: scaffoldKey,
       body: Center(
         child: SingleChildScrollView(
@@ -52,295 +47,305 @@ class _SignupScreenState extends State<SignupScreen> {
             padding: const EdgeInsets.all(24.0),
             child: Form(
               key: globalFormKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Phone Number as username
-                  TextFormField(
-                    validator: (value) => value!.isEmpty
-                        ? 'رمز عبور را وارد کنید'
-                        : null,
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(
-                      hintText: "شماره تلفن",
-                      prefixIcon: Icon(Icons.phone),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      validator: (value) =>
+                          value!.isEmpty ? 'شماره تماس خود را وارد کنید' : null,
+                      keyboardType: TextInputType.phone,
+                      textDirection: TextDirection.ltr,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        label: Text('شماره تلفن'),
+                        prefixIcon: Icon(Icons.phone),
+                        contentPadding: EdgeInsets.all(18),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          borderSide: BorderSide(
+                            style: BorderStyle.solid,
+                            width: 2.0,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                      autofocus: false,
+                      onChanged: (input) {
+                        signupRequestModel.phone = input;
+                        validateSignupRequestModel.phone = input;
+                        resendCodeRequestModel.phone = input;
+                      },
                     ),
-                    autofocus: false,
-                    onChanged: (input) {
-                      signupRequestModel.phone = input;
-                      validateSignupRequestModel.phone = input;
-                      resendCodeRequestModel.phone = input;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  // Password
-                  TextFormField(
-                    validator: (value) => value!.isEmpty
-                        ? 'رمز عبور را وارد کنید'
-                        : null,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: const InputDecoration(
-                      hintText: "رمز عبور",
-                      prefixIcon: Icon(Icons.lock),
+                    const SizedBox(
+                      height: 30,
                     ),
-                    onChanged: (input) {
-                      signupRequestModel.password = input;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  // Signup and request code on phone
-                  ElevatedButton(
-                    onPressed: () async {
-                      setState(
-                        () {
-                          isApiCallProcess = true;
-                        },
-                      );
-                      APIServicePanel apiService = APIServicePanel();
-                      try {
-                        apiService.signup(signupRequestModel).then(
-                          (value) {
-                            setState(
-                              () {
-                                if (value.status == 200) {
-                                  isApiCallProcess = false;
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      // return object of type Dialog
-                                      return AlertDialog(
-                                        title: Text(value.error.toString()),
-                                        content: Text(value.message.toString()),
-                                        actions: <Widget>[
-                                          // usually buttons at the bottom of the dialog
-                                          ElevatedButton(
-                                            child: const Text("Close"),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                              },
-                            );
-                          },
-                          onError: (err) {},
-                        ).whenComplete(
-                          () {
-                            setState(
-                              () {
-                                isApiCallProcess = false;
-                              },
-                            );
-                          },
+                    // Password
+                    TextFormField(
+                      validator: (value) =>
+                          value!.isEmpty ? 'رمز عبور را وارد کنید' : null,
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: const InputDecoration(
+                        hintText: "رمز عبور",
+                        prefixIcon: Icon(Icons.lock),
+                      ),
+                      onChanged: (input) {
+                        signupRequestModel.password = input;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    // Signup and request code on phone
+                    ElevatedButton(
+                      onPressed: () async {
+                        signup();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 16,
+                        ),
+                        child: Text(
+                          "دریافت کد احراز",
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        resendCode();
+                      },
+                      child: const Text("ارسال مجدد کد"),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    // Validation Code received via phone
+                    TextFormField(
+                      validator: (value) =>
+                          value!.isEmpty ? 'رمز عبور را وارد کنید' : null,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        hintText: "کد احراز هویت دریافت شده با تلفن همراه",
+                        prefixIcon: Icon(Icons.code),
+                      ),
+                      autofocus: false,
+                      onChanged: (input) {
+                        validateSignupRequestModel.code = input;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    // Validate signup using received code
+                    ElevatedButton(
+                      onPressed: () async {
+                        validateSignup();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 16,
+                        ),
+                        child: Text(
+                          "تایید",
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    // Go to Login Page
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginScreen()),
                         );
-                      } catch (myError) {
-                        throw (myError);
-                      }
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
-                      ),
-                      child: Text(
-                        "دریافت کد احراز",
-                      ),
+                      },
+                      child: const Text("عضو هستید؟ وارد شوید"),
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      setState(
-                        () {
-                          isApiCallProcess = true;
-                        },
-                      );
-                      APIServicePanel apiService = APIServicePanel();
-                      try {
-                        apiService.resendCode(resendCodeRequestModel).then(
-                          (value) {
-                            setState(
-                              () {
-                                if (value.status == 200) {
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      // return object of type Dialog
-                                      return AlertDialog(
-                                        title: Text(value.error.toString()),
-                                        content: Text(value.message.toString()),
-                                        actions: <Widget>[
-                                          // usually buttons at the bottom of the dialog
-                                          ElevatedButton(
-                                            child: const Text("Close"),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                              },
-                            );
-                          },
-                          onError: (err) {},
-                        ).whenComplete(
-                          () {
-                            setState(
-                              () {
-                                isApiCallProcess = false;
-                              },
-                            );
-                          },
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    // Go to Login Page
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ForgotCodeScreen()),
                         );
-                      } catch (myError) {
-                        throw (myError);
-                      }
-                    },
-                    child: const Text("ارسال مجدد کد"),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  // Validation Code received via phon e
-                  TextFormField(
-                    validator: (value) => value!.isEmpty
-                        ? 'رمز عبور را وارد کنید'
-                        : null,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      hintText: "کد احراز هویت دریافت شده با تلفن همراه",
-                      prefixIcon: Icon(Icons.code),
+                      },
+                      child: const Text("فراموشی رمز عبور"),
                     ),
-                    autofocus: false,
-                    onChanged: (input) {
-                      validateSignupRequestModel.code = input;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  // Validate signup using received code
-                  ElevatedButton(
-                    onPressed: () async {
-                      setState(
-                        () {
-                          isApiCallProcess = true;
-                        },
-                      );
-                      APIServicePanel validateApiService = APIServicePanel();
-                      try {
-                        validateApiService
-                            .validateSignup(validateSignupRequestModel)
-                            .then(
-                          (value) {
-                            setState(
-                              () {
-                                if (value.status == 200) {
-                                  // isApiCallProcess = false;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const LoginScreen(),
-                                    ),
-                                  );
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      // return object of type Dialog
-                                      return AlertDialog(
-                                        title: Text(value.error.toString()),
-                                        content: Text(value.message.toString()),
-                                        actions: <Widget>[
-                                          // usually buttons at the bottom of the dialog
-                                          ElevatedButton(
-                                            child: const Text("Close"),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                              },
-                            );
-                          },
-                          onError: (err) {
-                            print("On Error:" + err);
-                          },
-                        ).whenComplete(
-                          () {
-                            setState(
-                              () {
-                                isApiCallProcess = false;
-                              },
-                            );
-                          },
-                        );
-                      } catch (myError) {
-                        print("Try/Catch Error");
-                        print(myError.toString());
-                      }
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 32,
-                        vertical: 16,
-                      ),
-                      child: Text(
-                        "تایید",
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  // Go to Login Page
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen()),
-                      );
-                    },
-                    child: const Text("عضو هستید؟ وارد شوید"),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  // Go to Login Page
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ForgotCodeScreen()),
-                      );
-                    },
-                    child: const Text("فراموشی رمز عبور"),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  void signup() {
+    setState(
+      () {
+        isApiCallProcess = true;
+      },
+    );
+    apiService.signup(signupRequestModel).then(
+      (value) {
+        setState(
+          () {
+            if (value.status == 200) {
+              isApiCallProcess = false;
+            } else {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return AlertDialog(
+                    title: Text(value.error.toString()),
+                    content: Text(value.message.toString()),
+                    actions: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      ElevatedButton(
+                        child: const Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+        );
+      },
+      onError: (err) {},
+    ).whenComplete(
+      () {
+        setState(
+          () {
+            isApiCallProcess = false;
+          },
+        );
+      },
+    );
+  }
+
+  void validateSignup() {
+    setState(
+      () {
+        isApiCallProcess = true;
+      },
+    );
+    validateApiService.validateSignup(validateSignupRequestModel).then(
+      (value) {
+        setState(
+          () {
+            if (value.status == 200) {
+              // isApiCallProcess = false;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ),
+              );
+            } else {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return AlertDialog(
+                    title: Text(value.error.toString()),
+                    content: Text(value.message.toString()),
+                    actions: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      ElevatedButton(
+                        child: const Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+        );
+      },
+      onError: (err) {
+        print("On Error:" + err);
+      },
+    ).whenComplete(
+      () {
+        setState(
+          () {
+            isApiCallProcess = false;
+          },
+        );
+      },
+    );
+  }
+
+  void resendCode() {
+    setState(
+      () {
+        isApiCallProcess = true;
+      },
+    );
+    APIServicePanel apiService = APIServicePanel();
+    apiService.resendCode(resendCodeRequestModel).then(
+      (value) {
+        setState(
+          () {
+            if (value.status == 200) {
+            } else {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return AlertDialog(
+                    title: Text(value.error.toString()),
+                    content: Text(value.message.toString()),
+                    actions: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      ElevatedButton(
+                        child: const Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+        );
+      },
+      onError: (err) {},
+    ).whenComplete(
+      () {
+        setState(
+          () {
+            isApiCallProcess = false;
+          },
+        );
+      },
     );
   }
 }

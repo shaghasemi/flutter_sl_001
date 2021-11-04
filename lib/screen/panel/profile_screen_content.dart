@@ -25,6 +25,7 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
   @override
   void initState() {
     super.initState();
+    // UserProvider().loadUser();
     Provider.of<UserProvider>(context, listen: false).loadUser();
   }
 

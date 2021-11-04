@@ -20,19 +20,13 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  late LoginRequestModel loginRequestModel;
-  late LoginData user;
+
+  LoginRequestModel loginRequestModel =
+      LoginRequestModel(phone: "", password: "");
+  LoginData user = LoginData(token: '');
   bool _isApiCallProcess = false;
   APIServicePanel apiService = APIServicePanel();
-
-  @override
-  void initState() {
-    super.initState();
-    loginRequestModel = LoginRequestModel(phone: "", password: "");
-    user = LoginData(token: '');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +39,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _uiSetup(BuildContext context) {
     Future<String?> getTokenString() => UserPreferences().getTokenAsync();
-    Future<LoginResponseModel> getLoginData() =>
-        apiService.login(loginRequestModel);
     return Scaffold(
+      extendBodyBehindAppBar: false,
       key: scaffoldKey,
       body: FutureBuilder(
         future: getTokenString(),
@@ -151,76 +144,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     OutlinedButton(
                       style: ElevatedButton.styleFrom(
                         side: BorderSide(
-                          width: 4.0,
+                          width: 2.4,
                           color: Theme.of(context).primaryColor,
                         ),
-                        // primary: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
-                          // side:url_launch
                         ),
                       ),
                       onPressed: () async {
                         if (globalFormKey.currentState!.validate()) {
-                          setState(
-                            () {
-                              _isApiCallProcess = true;
-                            },
-                          );
-                          /*FutureBuilder(
-                            future: getLoginData(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<LoginResponseModel> snapshot) {
-                              if (snapshot.hasData) {
-                                print("If");
-                                print(snapshot.data!.message);
-                                return Text("If");
-                              } else if (snapshot.hasError) {
-                                print("Else If");
-                                Fluttertoast.showToast(msg: snapshot.error.toString());
-                              } else {
-                                print("The Last Else");
-                                return Text("The Last Else");
-                              }
-                              return Text("S");
-                            },
-                          );*/
-                          apiService.login(loginRequestModel).then(
-                            (value) {
-                              print(
-                                  "Result in Login 1: ${value.success} and: ${value.message}");
-                              Provider.of<UserProvider>(context, listen: false)
-                                  .setUser(value.data!);
-                              Provider.of<UserProvider>(context, listen: false)
-                                  .setToken(value.data!.token!);
-
-                              Navigator.pop(context);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ProfileScreenContent(),
-                                ),
-                              );
-                            },
-                          ).onError(
-                            (error, stackTrace) {
-                              Fluttertoast.showToast(
-                                msg: error.toString(),
-                                toastLength: Toast.LENGTH_LONG,
-                                gravity: ToastGravity.BOTTOM,
-                                // fontSize: 16.0,
-                              );
-                            },
-                          ).whenComplete(
-                            () {
-                              setState(
-                                () {
-                                  _isApiCallProcess = false;
-                                },
-                              );
-                            },
-                          );
+                          login();
                         }
                       },
                       child: const Padding(
@@ -233,7 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(
                             fontFamily: 'Vazir',
                             fontSize: 20,
-                            // color: Colors.red,
                           ),
                         ),
                       ),
@@ -304,5 +236,46 @@ class _LoginScreenState extends State<LoginScreen> {
       return true;
     }
     return false;
+  }
+
+  void login() {
+    setState(
+      () {
+        _isApiCallProcess = true;
+      },
+    );
+    apiService.login(loginRequestModel).then(
+      (value) {
+        print("Result in Login 1: ${value.success} and: ${value.message}");
+        Provider.of<UserProvider>(context, listen: false).setUser(value.data!);
+        Provider.of<UserProvider>(context, listen: false)
+            .setToken(value.data!.token!);
+
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ProfileScreenContent(),
+          ),
+        );
+      },
+    ).onError(
+      (error, stackTrace) {
+        Fluttertoast.showToast(
+          msg: error.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          // fontSize: 16.0,
+        );
+      },
+    ).whenComplete(
+      () {
+        setState(
+          () {
+            _isApiCallProcess = false;
+          },
+        );
+      },
+    );
   }
 }
