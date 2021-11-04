@@ -97,15 +97,6 @@ class _OrderScreenState extends State<OrderScreen> {
                                       // print(jsonEncode(value.data));
                                       print("jsonEncode(value.data!.form)");
                                       print(jsonEncode(value.data!.form));
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => PaymentWebView(
-                                            url: bankUrl,
-                                            paymentInitData: value.data!,
-                                          ),
-                                        ),
-                                      );
                                     },
                                   );
                                 },

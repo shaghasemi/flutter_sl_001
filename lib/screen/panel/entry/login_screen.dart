@@ -45,6 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _uiSetup(BuildContext context) {
     Future<String?> getTokenString() => UserPreferences().getTokenAsync();
+    Future<LoginResponseModel> getLoginData() =>
+        apiService.login(loginRequestModel);
     return Scaffold(
       key: scaffoldKey,
       body: FutureBuilder(
@@ -74,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Form(
                       key: globalFormKey,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: EdgeInsets.symmetric(horizontal: 32),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -83,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ? 'شماره تماس خود را وارد کنید'
                                   : null,
                               autofocus: false,
+                              textDirection: TextDirection.ltr,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.phone,
                               decoration: InputDecoration(
@@ -111,10 +114,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 15,
                             ),
                             TextFormField(
+                              keyboardType: TextInputType.visiblePassword,
+                              obscureText: true,
                               validator: (value) => value!.isEmpty
                                   ? 'رمز عبور را وارد کنید'
                                   : null,
-                              textInputAction: TextInputAction.go,
+                              textDirection: TextDirection.ltr,
+                              textInputAction: TextInputAction.next,
                               decoration: InputDecoration(
                                 label: Text("رمز عبور"),
                                 contentPadding: EdgeInsets.all(18),
@@ -161,8 +167,28 @@ class _LoginScreenState extends State<LoginScreen> {
                               _isApiCallProcess = true;
                             },
                           );
+                          /*FutureBuilder(
+                            future: getLoginData(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<LoginResponseModel> snapshot) {
+                              if (snapshot.hasData) {
+                                print("If");
+                                print(snapshot.data!.message);
+                                return Text("If");
+                              } else if (snapshot.hasError) {
+                                print("Else If");
+                                Fluttertoast.showToast(msg: snapshot.error.toString());
+                              } else {
+                                print("The Last Else");
+                                return Text("The Last Else");
+                              }
+                              return Text("S");
+                            },
+                          );*/
                           apiService.login(loginRequestModel).then(
                             (value) {
+                              print(
+                                  "Result in Login 1: ${value.success} and: ${value.message}");
                               Provider.of<UserProvider>(context, listen: false)
                                   .setUser(value.data!);
                               Provider.of<UserProvider>(context, listen: false)
@@ -170,18 +196,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               Navigator.pop(context);
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const ProfileScreenContent()));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ProfileScreenContent(),
+                                ),
+                              );
                             },
-                            onError: (err) {
-                              // TODO: Show login error somehow, preferable alert dialog
-                              print("Error Signing In: $err");
+                          ).onError(
+                            (error, stackTrace) {
+                              Fluttertoast.showToast(
+                                msg: error.toString(),
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.BOTTOM,
+                                // fontSize: 16.0,
+                              );
                             },
                           ).whenComplete(
                             () {
-                              print("Signing In Complete");
                               setState(
                                 () {
                                   _isApiCallProcess = false;
@@ -194,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: const Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: 32,
-                          vertical: 16,
+                          vertical: 12,
                         ),
                         child: Text(
                           "ورود",

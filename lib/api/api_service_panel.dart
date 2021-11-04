@@ -12,6 +12,7 @@ import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
 import 'package:flutter_sl_001/model/panel/user_info_edit.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -88,10 +89,15 @@ class APIServicePanel extends ChangeNotifier {
       Uri.parse(url),
       body: loginRequestModel.toJson(),
     );
+    print(jsonEncode(response.body));
     if (response.statusCode == 200) {
       return LoginResponseModel.fromJson(json.decode(response.body));
+    } else if (response.statusCode == 422) {
+      print("Status: Above 400");
+      // return LoginResponseModel.fromJson(json.decode(response.body));
+      return Future.error(jsonDecode(response.body)['message']);
     } else {
-      throw Exception('Failed to Login');
+      throw Exception('Login Failed');
     }
   }
 
