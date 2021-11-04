@@ -5,7 +5,7 @@ import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/model/panel/panel_order_model.dart';
 import 'package:flutter_sl_001/model/panel/payment_init_model.dart';
 import 'package:flutter_sl_001/screen/panel/order/payment_webview.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({Key? key}) : super(key: key);
@@ -22,6 +22,8 @@ class _OrderScreenState extends State<OrderScreen> {
   late PanelOrderResponseData orderData;
   late String token;
   String bankUrl = '';
+  // String urlBase = 'https://demo.sivanland.com/pay';
+  String urlBase = 'http://192.168.168.215:6005/pay';
 
   @override
   void initState() {
@@ -111,16 +113,11 @@ class _OrderScreenState extends State<OrderScreen> {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  /*Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => PaymentWebView(
-                                        url: bankUrl,
-                                        paymentInitData: ,
-                                      ),
-                                    ),
-                                  );*/
-                                  // _launchURL(bankForm);
+                                  // String urlFinal = "$urlBase?token=$token&pay_code=${orderData.docs![index].cart_id}";
+                                  String urlFinal = "$urlBase/$token/${orderData.docs![index].cart_id}";
+                                  print("urlFinal");
+                                  print(urlFinal);
+                                  _launchURL(urlFinal);
                                 },
                                 child: Text("مرورگر"),
                               ),
@@ -143,5 +140,13 @@ class _OrderScreenState extends State<OrderScreen> {
         ),
       ),
     );
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

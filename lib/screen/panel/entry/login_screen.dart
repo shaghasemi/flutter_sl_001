@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         // primary: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
-                          // side:
+                          // side:url_launch
                         ),
                       ),
                       onPressed: () async {
