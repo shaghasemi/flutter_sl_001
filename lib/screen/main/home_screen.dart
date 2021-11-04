@@ -17,56 +17,58 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScroller) => [
-          SliverAppBar(
-            // leading: SearchWidget(),
-            title: SearchWidget(),
-            backgroundColor: Color(0xDBE7DDFF),
-            snap: true,
-            // pinned: true,
-            // centerTitle: true,
-            floating: true,
-          ),
-        ],
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // Slider Advertisement
-                BannerAdTopSliderWidget(),
+    return SafeArea(
+      child: Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScroller) => [
+            SliverAppBar(
+              // leading: SearchWidget(),
+              title: SearchWidget(),
+              backgroundColor: Color(0xDBE7DDFF),
+              snap: true,
+              // pinned: true,
+              // centerTitle: true,
+              floating: true,
+            ),
+          ],
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // Slider Advertisement
+                  BannerAdTopSliderWidget(),
 
-                // Favorite Categories
-                Text("دسته های پرطرفدار"),
-                FavoriteCategoriesSliderWidget(),
+                  // Favorite Categories
+                  Text("دسته های پرطرفدار"),
+                  FavoriteCategoriesSliderWidget(),
 
-                // Static Advertisement
-                BannerAdTopStaticWidget(),
+                  // Static Advertisement
+                  BannerAdTopStaticWidget(),
 
-                // Latest Products
-                Text("جدیدترین محصولات"),
-                LatestProductsWidget(),
+                  // Latest Products
+                  Text("جدیدترین محصولات"),
+                  LatestProductsWidget(),
 
-                CallToActionWidget(),
+                  CallToActionWidget(),
 
-                // Weekly Special
-                Text("محصول ویزه هفته"),
+                  // Weekly Special
+                  Text("محصول ویزه هفته"),
 
-                // Links with Images
+                  // Links with Images
 
-                // Image Slider - Shops
-                Text("فروشگاه های برتر"),
-                SizedBox(
-                  height: 140,
-                  width: double.infinity,
-                  child: BannerShopSliderWidget(),
-                ),
+                  // Image Slider - Shops
+                  Text("فروشگاه های برتر"),
+                  SizedBox(
+                    height: 140,
+                    width: double.infinity,
+                    child: BannerShopSliderWidget(),
+                  ),
 
-                // Popular Categories
-                Row(),
-              ],
+                  // Popular Categories
+                  Row(),
+                ],
+              ),
             ),
           ),
         ),

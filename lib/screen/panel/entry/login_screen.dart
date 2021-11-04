@@ -58,18 +58,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Stack(
+                      alignment: Alignment.center,
                       children: [
-                        Image.asset('assets/images/panel/login_header_3.png'),
+                        Image.asset('assets/images/panel/login_header_2.png'),
                         Center(
                           child: SvgPicture.asset(
                             'assets/svg/logo_sl_2.svg',
-                            color: Theme.of(context).primaryColor,
-                            // height: 200,
+                            // color: Theme.of(context).primaryColor,
                             width: MediaQuery.of(context).size.width / 3,
                           ),
                         )
                       ],
                     ),
+                    SizedBox(height: 40),
                     Form(
                       key: globalFormKey,
                       child: Padding(
@@ -82,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ? 'شماره تماس خود را وارد کنید'
                                   : null,
                               autofocus: false,
+                              textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.phone,
                               decoration: InputDecoration(
                                 label: Text('شماره تلفن'),
@@ -112,6 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               validator: (value) => value!.isEmpty
                                   ? 'رمز عبور را وارد کنید'
                                   : null,
+                              textInputAction: TextInputAction.go,
                               decoration: InputDecoration(
                                 label: Text("رمز عبور"),
                                 contentPadding: EdgeInsets.all(18),

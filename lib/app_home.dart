@@ -10,6 +10,7 @@ class AppHome extends StatefulWidget {
 
 class _AppHomeState extends State<AppHome> {
   String _currentPage = "Page1";
+  double iconSize = 30.0;
   List<String> pageKeys = [
     "Page1",
     "Page2",
@@ -61,31 +62,47 @@ class _AppHomeState extends State<AppHome> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.redAccent,
+          selectedItemColor: Colors.green.shade700,
+          unselectedItemColor: Colors.black38,
+          backgroundColor: Colors.pink,
+          selectedIconTheme: IconThemeData(size: 30),
+          elevation: 8,
           onTap: (int index) {
             _selectTab(pageKeys[index], index);
           },
           currentIndex: _selectedIndex,
-          items: const [
+          items: [
             BottomNavigationBarItem(
               label: "خانه",
-              icon: Icon(Icons.home),
-              backgroundColor: Colors.blueAccent,
+              icon: Icon(
+                Icons.home,
+                // size: iconSize,
+              ),
+              // backgroundColor: Colors.white70,
             ),
             BottomNavigationBarItem(
               label: "سبد خرید",
-              icon: Icon(Icons.shopping_cart),
-              backgroundColor: Colors.blueAccent,
+              icon: Icon(
+                Icons.shopping_cart,
+                // size: iconSize,
+              ),
+              // backgroundColor: Colors.white70,
             ),
             BottomNavigationBarItem(
               label: "دسته بندی",
-              icon: Icon(Icons.widgets ),
-              backgroundColor: Colors.blueAccent,
+              icon: Icon(
+                Icons.widgets,
+                // size: iconSize,
+              ),
+              // backgroundColor: Colors.white70,
             ),
             BottomNavigationBarItem(
               label: "سیوان من",
-              icon: Icon(Icons.person),
-              backgroundColor: Colors.blueAccent,
+              icon: Icon(
+                Icons.person,
+                // size: iconSize,
+              ),
+              // backgroundColor: Colors.white70,
             ),
           ],
         ),

@@ -13,118 +13,106 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  TextEditingController textControllerSearch = TextEditingController();
   ApiServiceSearch apiServiceSearch = ApiServiceSearch();
-
-  // late Future<ProductSearchData> searchedProducts;
   ProductSearchRequestModel productSearchRequestModel =
       ProductSearchRequestModel(
           page: 1, limit: 1000, cat: '', br: '', str: 'بتن');
 
-  // late ProductSearchData searchedProductData;
-
   @override
-  void initState() {
-    super.initState();
-    // productSearchRequestModel = productSearchRequestModel.page = 1;
-    // productSearchRequestModel.limit = 1000;
+  void dispose() {
+    textControllerSearch.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Search Input Section
-        Container(
-          height: 100,
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: IconButton(
-                  color: Colors.black,
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    setState(() {
-                      apiServiceSearch
-                          .productSearchData(productSearchRequestModel)
-                          .then((value) {
-                        print("search value");
-                        return Provider.of<SearchProvider>(context,
-                                listen: false)
-                            .setData(value);
-                      }, onError: (err) {
-                        print("Api Call Error: $err");
-                      });
-                    });
+    return Scaffold(
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScroller) => [
+          SliverAppBar(
+            backgroundColor: Colors.black26,
+            title: TextField(
+              controller: textControllerSearch,
+              onChanged: (input) {
+                setState(
+                  () {
+                    performSearch();
                   },
-                ),
+                );
+              },
+              textInputAction: TextInputAction.search,
+              autofocus: true,
+              decoration: InputDecoration(
+                hintText: 'جستجو در سیوان لند',
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 4.0,
-                  vertical: 2,
-                ),
-                child: Container(
-                  width: 200,
-                  height: 50,
-                  child: TextField(
-                    onChanged: (input) {
-                      productSearchRequestModel.str = input;
-                    },
-                    style: TextStyle(
-                      fontFamily: 'Vazir',
-                      fontSize: 24,
-                      color: Colors.greenAccent,
+            ),
+            // backgroundColor: Color(0xff28a745),
+            snap: true,
+            centerTitle: true,
+            floating: true,
+            actions: [
+              textControllerSearch.text != ''
+                  ? IconButton(
+                      // color: Colors.black,
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        setState(
+                          () {
+                            textControllerSearch.text = '';
+                            performSearch();
+                          },
+                        );
+                      },
+                    )
+                  : IconButton(
+                      // color: Colors.black,
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        setState(
+                          () {
+                            // textControllerSearch.text = '';
+                            performSearch();
+                          },
+                        );
+                      },
                     ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Icon(
-                  Icons.search,
-                  color: Colors.black,
-                ),
-              ),
             ],
           ),
-        ),
-
-        // Search Result Section
-        Expanded(
-          // height: 400,
-          // width: MediaQuery.of(context).size.width,
-          child: Consumer<SearchProvider>(
-            builder: (context, value, child) {
-              if (value.getData.total == null || value.getData.total == 0) {
-                return Text('محصولی با این مشخصات پیدا نشد.');
-              } else {
-                return ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: value.getData.docs!.length,
-                  itemBuilder: (context, index) {
-                    return ProductSingleCardWidget(
+        ],
+        body: Consumer<SearchProvider>(
+          builder: (context, value, child) {
+            if (value.getData.total == null || value.getData.total == 0) {
+              return Text('محصولی با این مشخصات پیدا نشد.');
+            } else {
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: value.getData.docs!.length,
+                itemBuilder: (context, index) {
+                  return ProductSingleCardWidget(
                       id: value.getData.docs![index].id!,
                       image_logo: value.getData.docs![index].images![0].url!,
                       title: value.getData.docs![index].titleFa!,
                       seller_main: value.getData.docs![index].branchId!.name!,
-                      price_original: value.getData.docs![index].price!,
-                    );
-                    /*return SizedBox(
-                      width: 200,
-                      height: 50,
-                      child: Text(value.getData.docs![index].titleFa!),
-                      // child: Text('Search Result'),
-                    );*/
-                  },
-                );
-              }
-            },
-          ),
+                      price_original: value.getData.docs![index].price!);
+                },
+              );
+            }
+          },
         ),
-      ],
+      ),
     );
+  }
+
+  List<ProductSearchDocs>? performSearch() {
+    productSearchRequestModel.str = textControllerSearch.text;
+    apiServiceSearch.productSearchData(productSearchRequestModel).then((value) {
+      print("search value");
+      return Provider.of<SearchProvider>(context, listen: false).setData(value);
+    }, onError: (err) {
+      print("Api Call Error: $err");
+    });
   }
 }

@@ -36,7 +36,7 @@ class ProductSearchData {
   final int? pages;
   final int? limit;
   final int? page;
-  final List<Docs>? docs;
+  final List<ProductSearchDocs>? docs;
 
   ProductSearchData({
     this.total,
@@ -52,7 +52,7 @@ class ProductSearchData {
         limit = json['limit'] as int?,
         page = json['page'] as int?,
         docs = (json['docs'] as List?)
-            ?.map((dynamic e) => Docs.fromJson(e as Map<String, dynamic>))
+            ?.map((dynamic e) => ProductSearchDocs.fromJson(e as Map<String, dynamic>))
             .toList();
 
   Map<String, dynamic> toJson() => {
@@ -64,7 +64,7 @@ class ProductSearchData {
       };
 }
 
-class Docs {
+class ProductSearchDocs {
   final String? id;
   final int? status;
   final int? trackingCode;
@@ -82,7 +82,7 @@ class Docs {
   final ShopId? shopId;
   final SellerId? sellerId;
 
-  Docs({
+  ProductSearchDocs({
     this.id,
     this.status,
     this.trackingCode,
@@ -101,7 +101,7 @@ class Docs {
     this.sellerId,
   });
 
-  Docs.fromJson(Map<String, dynamic> json)
+  ProductSearchDocs.fromJson(Map<String, dynamic> json)
       : id = json['_id'] as String?,
         status = json['status'] as int?,
         trackingCode = json['tracking_code'] as int?,
