@@ -53,13 +53,9 @@ class APIServicePanel extends ChangeNotifier {
       body: signupRequestModel.toJson(),
     );
     if (response.statusCode == 200) {
-      _registeredStatus = Status.registered;
-      var signupResponse =
-          SignupResponseModel.fromJson(json.decode(response.body));
-      return signupResponse;
+      return SignupResponseModel.fromJson(json.decode(response.body));
     } else {
-      _registeredStatus = Status.registered;
-      throw Exception('Failed to Register');
+      return Future.error(jsonDecode(response.body)['message']);
     }
   }
 
@@ -71,14 +67,10 @@ class APIServicePanel extends ChangeNotifier {
       Uri.parse(url),
       body: validateSignupRequestModel.toJson(),
     );
-    if (response.statusCode == 200 || response.statusCode == 400) {
-      _validatedStatus = Status.validated;
-      var validateSignupResponse =
-          ValidateSignupResponseModel.fromJson(json.decode(response.body));
-      return validateSignupResponse;
+    if (response.statusCode == 200) {
+      return ValidateSignupResponseModel.fromJson(json.decode(response.body));
     } else {
-      _validatedStatus = Status.notValidated;
-      throw Exception('Failed to Validate');
+      return Future.error(jsonDecode(response.body)['message']);
     }
   }
 
@@ -94,15 +86,6 @@ class APIServicePanel extends ChangeNotifier {
     } else {
       return Future.error(jsonDecode(response.body)['message']);
     }
-    /*if (response.statusCode == 200) {
-      return LoginResponseModel.fromJson(json.decode(response.body));
-    } else if (response.statusCode == 422) {
-      print("Status: Above 400");
-      // return LoginResponseModel.fromJson(json.decode(response.body));
-      return Future.error(jsonDecode(response.body)['message']);
-    } else {
-      throw Exception('Login Failed');
-    }*/
   }
 
   // Resend Validation Code
@@ -113,16 +96,11 @@ class APIServicePanel extends ChangeNotifier {
       Uri.parse(url),
       body: resendCodeRequestModel.toJson(),
     );
-    /*if (response.statusCode == 200 || response.statusCode == 400) {
-      var resendCodeResponse =
-          ResendCodeResponseModel.fromJson(json.decode(response.body));
-      return resendCodeResponse;
+    if (response.statusCode == 200) {
+      return ResendCodeResponseModel.fromJson(json.decode(response.body));
     } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
-      throw Exception('Failed to load data');
-    }*/
-    return ResendCodeResponseModel.fromJson(json.decode(response.body));
+      return Future.error(jsonDecode(response.body)['message']);
+    }
   }
 
   // Send Forgotten Validation Code
@@ -133,16 +111,11 @@ class APIServicePanel extends ChangeNotifier {
       Uri.parse(url),
       body: forgetCodeSendRequestModel.toJson(),
     );
-    /*if (response.statusCode == 200 || response.statusCode == 400) {
-      var resendCodeResponse =
-          ResendCodeResponseModel.fromJson(json.decode(response.body));
-      return resendCodeResponse;
+    if (response.statusCode == 200) {
+      return ForgetCodeSendResponseModel.fromJson(json.decode(response.body));
     } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
-      throw Exception('Failed to load data');
-    }*/
-    return ForgetCodeSendResponseModel.fromJson(json.decode(response.body));
+      return Future.error(jsonDecode(response.body)['message']);
+    }
   }
 
   // Validate Forgotten Validation Code
@@ -153,16 +126,12 @@ class APIServicePanel extends ChangeNotifier {
       Uri.parse(url),
       body: forgetCodeValidateRequestModel.toJson(),
     );
-    /*if (response.statusCode == 200 || response.statusCode == 400) {
-      var resendCodeResponse =
-          ResendCodeResponseModel.fromJson(json.decode(response.body));
-      return resendCodeResponse;
+    if (response.statusCode == 200) {
+      return ForgetCodeValidateResponseModel.fromJson(
+          json.decode(response.body));
     } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
-      throw Exception('Failed to load data');
-    }*/
-    return ForgetCodeValidateResponseModel.fromJson(json.decode(response.body));
+      return Future.error(jsonDecode(response.body)['message']);
+    }
   }
 
   // Change Password
@@ -176,16 +145,11 @@ class APIServicePanel extends ChangeNotifier {
         'x-access-token': changePasswordRequestModel.token,
       },
     );
-    /*if (response.statusCode == 200 || response.statusCode == 400) {
-      var resendCodeResponse =
-          ResendCodeResponseModel.fromJson(json.decode(response.body));
-      return resendCodeResponse;
+    if (response.statusCode == 200) {
+      return ChangePasswordResponseModel.fromJson(json.decode(response.body));
     } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
-      throw Exception('Failed to load data');
-    }*/
-    return ChangePasswordResponseModel.fromJson(json.decode(response.body));
+      return Future.error(jsonDecode(response.body)['message']);
+    }
   }
 
   // get User Info
@@ -199,15 +163,11 @@ class APIServicePanel extends ChangeNotifier {
         'x-access-token': userInfoRequestModel.token,
       },
     );
-    /* if (response.statusCode == 200 || response.statusCode == 400) {
-      return LoginResponseModel.fromJson(json.decode(response.body));
+    if (response.statusCode == 200) {
+      return UserInfoResponseModel.fromJson(json.decode(response.body));
     } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
-      throw Exception('Failed to Login');
-    }*/
-    // print(UserInfoResponseModel.fromJson(json.decode(response.body)));
-    return UserInfoResponseModel.fromJson(json.decode(response.body));
+      return Future.error(jsonDecode(response.body)['message']);
+    }
   }
 
   // Get Order List
@@ -222,15 +182,11 @@ class APIServicePanel extends ChangeNotifier {
         'x-access-token': orderAllRequestModel.token,
       },
     );
-    /* if (response.statusCode == 200 || response.statusCode == 400) {
-      return LoginResponseModel.fromJson(json.decode(response.body));
+    if (response.statusCode == 200) {
+      return OrderAllResponseModel.fromJson(json.decode(response.body));
     } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
-      throw Exception('Failed to Login');
-    }*/
-    // print(UserInfoResponseModel.fromJson(json.decode(response.body)));
-    return OrderAllResponseModel.fromJson(json.decode(response.body));
+      return Future.error(jsonDecode(response.body)['message']);
+    }
   }
 
   // Get User Info
@@ -244,14 +200,11 @@ class APIServicePanel extends ChangeNotifier {
         'x-access-token': userInfoRequestModel.token,
       },
     );
-    /* if (response.statusCode == 200 || response.statusCode == 400) {
-      return LoginResponseModel.fromJson(json.decode(response.body));
+    if (response.statusCode == 200) {
+      return UserInfoResponseModel.fromJson(json.decode(response.body));
     } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
-      throw Exception('Failed to Login');
-    }*/
-    return UserInfoResponseModel.fromJson(json.decode(response.body));
+      return Future.error(jsonDecode(response.body)['message']);
+    }
   }
 
   // Edit User Info
@@ -266,14 +219,11 @@ class APIServicePanel extends ChangeNotifier {
         'x-access-token': userInfoEditRequestModel.token,
       },
     );
-    /* if (response.statusCode == 200 || response.statusCode == 400) {
-      return LoginResponseModel.fromJson(json.decode(response.body));
+    if (response.statusCode == 200) {
+      return UserInfoEditResponseModel.fromJson(json.decode(response.body));
     } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
-      throw Exception('Failed to Login');
-    }*/
-    return UserInfoEditResponseModel.fromJson(json.decode(response.body));
+      return Future.error(jsonDecode(response.body)['message']);
+    }
   }
 
   // Get List of Orders
@@ -292,11 +242,12 @@ class APIServicePanel extends ChangeNotifier {
     if (response.statusCode == 200) {
       return PanelOrderResponseData.fromJson(jsonDecode(response.body)['data']);
     } else {
-      throw Exception('Failed to Fetch Order Records');
+      return Future.error(jsonDecode(response.body)['message']);
     }
   }
 
   // Get Proforma
+  // TODO: What????
   Future getProforma() async {
     String url = "${baseURLV1}guest/pdf/prefactor?code=123456";
     final response = await http.get(Uri.parse(url));
@@ -317,7 +268,7 @@ class APIServicePanel extends ChangeNotifier {
     if (response.statusCode == 200) {
       return PaymentInitResponseModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to Initiate Payment');
+      return Future.error(jsonDecode(response.body)['message']);
     }
   }
 }

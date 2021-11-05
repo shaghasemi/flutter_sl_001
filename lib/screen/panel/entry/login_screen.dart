@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Form(
                       key: globalFormKey,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 32),
+                        padding: EdgeInsets.symmetric(horizontal: 48),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             ),
                             const SizedBox(
-                              height: 15,
+                              height: 16,
                             ),
                             TextFormField(
                               keyboardType: TextInputType.visiblePassword,
@@ -140,11 +140,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 16),
                     OutlinedButton(
                       style: ElevatedButton.styleFrom(
                         side: BorderSide(
-                          width: 2.4,
+                          width: 3.2,
                           color: Theme.of(context).primaryColor,
                         ),
                         shape: RoundedRectangleBorder(
@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('قبلا عضو شده اید؟'),
+                          Text('عضو نیستید؟'),
                           TextButton(
                             // style: TextButton.styleFrom(fixedSize: Size.fromHeight(30)),
                             onPressed: () {
