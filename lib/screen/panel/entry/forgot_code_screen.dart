@@ -231,35 +231,48 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      // Go to Login Page
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginScreen(),
+                      const SizedBox(height: 10),
+                      Container(
+                        height: 42,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('عضو نیستید؟'),
+                            TextButton(
+                              // style: TextButton.styleFrom(fixedSize: Size.fromHeight(30)),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignupScreen(),
+                                  ),
+                                );
+                              },
+                              child: const Text("ثبت نام"),
                             ),
-                          );
-                        },
-                        child: const Text("وارد شدن"),
+                          ],
+                        ),
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      // Go to Login Page
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignupScreen(),
+                      Container(
+                        height: 42,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('عضو هستید؟'),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotCodeScreen(),
+                                  ),
+                                );
+                              },
+                              child: const Text("وارد شوید"),
                             ),
-                          );
-                        },
-                        child: const Text("ثبت نام"),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -384,6 +397,15 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
           },
         );
       },
+    );
+  }
+
+  void toast(String message, bool? long) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: long == true ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      // fontSize: 16.0,
     );
   }
 

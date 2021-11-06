@@ -246,7 +246,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     apiService.login(loginRequestModel).then(
       (value) {
-        print("Result in Login 1: ${value.success} and: ${value.message}");
         Provider.of<UserProvider>(context, listen: false).setUser(value.data!);
         Provider.of<UserProvider>(context, listen: false)
             .setToken(value.data!.token!);
