@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     OutlinedButton(
                       style: ElevatedButton.styleFrom(
                         side: BorderSide(
-                          width: 3.2,
+                          width: 2.8,
                           color: Theme.of(context).primaryColor,
                         ),
                         shape: RoundedRectangleBorder(
