@@ -9,10 +9,10 @@ import 'package:flutter_sl_001/model/panel/payment_init_model.dart';
 import 'package:flutter_sl_001/model/panel/resend_code_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_model.dart';
 import 'package:flutter_sl_001/model/panel/signup_validation_model.dart';
-import 'package:flutter_sl_001/model/panel/user_info_edit.dart';
+import 'package:flutter_sl_001/model/panel/user_info_edit_request_model.dart';
+import 'package:flutter_sl_001/model/panel/user_info_edit_response_model.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -211,12 +211,14 @@ class APIServicePanel extends ChangeNotifier {
   Future<UserInfoEditResponseModel> editUserInfo(
     UserInfoEditRequestModel userInfoEditRequestModel,
   ) async {
-    String url = "${baseURLV1}${userRole}editor";
+    String url = "${baseURLV1}${userRole}info/editor";
+    print("Edit Info 1");
+    print(jsonEncode(userInfoEditRequestModel));
     final response = await http.put(
       Uri.parse(url),
       body: userInfoEditRequestModel.toJson(),
       headers: {
-        'x-access-token': userInfoEditRequestModel.token,
+        'x-access-token': userInfoEditRequestModel.token!,
       },
     );
     if (response.statusCode == 200) {

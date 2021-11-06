@@ -8,49 +8,71 @@ class OrderByStatusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("سفارشات من"),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+          child: const Text(
+            "سفارش ها",
+            style: TextStyle(fontSize: 18),
+          ),
+        ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           reverse: true,
           child: Row(
             children: [
-              // Different boxes for orders
-              Column(
-                children: [
-                  Image.asset('assets/images/awaiting_payment.png'),
-                  const Text("در انتظار پرداخت"),
-                ],
+              OrderCategoryItem(
+                iconAsset: Icons.payment,
+                title: "منتظر پرداخت",
               ),
-              Column(
-                children: [
-                  Image.asset('assets/images/processing.png'),
-                  const Text("در حال پردازش"),
-                ],
+              OrderCategoryItem(
+                iconAsset: Icons.av_timer,
+                title: "در حال پردازش",
               ),
-              Column(
-                children: [
-                  Image.asset('assets/images/processing.png'),
-                  const Text("ارسال شده"),
-                ],
+              OrderCategoryItem(
+                iconAsset: Icons.cloud_done,
+                title: "تحویل شده",
               ),
-              Column(
-                children: [
-                  Image.asset('assets/images/processing.png'),
-                  const Text("تحویل شده"),
-                ],
+              OrderCategoryItem(
+                iconAsset: Icons.delete_forever,
+                title: "لغو شده",
               ),
-              Column(
-                children: [
-                  Image.asset('assets/images/processing.png'),
-                  // Image.asset('processing.png'),
-                  const Text("مرجوعی"),
-                ],
+              OrderCategoryItem(
+                iconAsset: Icons.assignment_return,
+                title: "مرجوع شده",
               ),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  OrderCategoryItem({required IconData iconAsset, required String title}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: SizedBox(
+        width: 80,
+        // height: 120,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Image.asset('assets/images/processing.png'),
+            Icon(
+              iconAsset,
+              size: 58,
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 13,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

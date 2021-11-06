@@ -1,12 +1,13 @@
+/*
 class UserInfoEditResponseModel {
   UserInfoEditResponseModel({
-    dynamic data,
+    // dynamic data,
     String? message,
     List<String>? error,
     bool? success,
     int? status,
   }) {
-    _data = data;
+    // _data = data;
     _message = message;
     _error = error;
     _success = success;
@@ -14,20 +15,20 @@ class UserInfoEditResponseModel {
   }
 
   UserInfoEditResponseModel.fromJson(dynamic json) {
-    _data = json['data'];
+    // _data = json['data'];
     _message = json['message'];
     _error = json['error'] != null ? json['error'].cast<String>() : [];
     _success = json['success'];
     _status = json['status'];
   }
 
-  dynamic _data;
+  // dynamic _data;
   String? _message;
   List<String>? _error;
   bool? _success;
   int? _status;
 
-  dynamic get data => _data;
+  // dynamic get data => _data;
 
   String? get message => _message;
 
@@ -39,7 +40,7 @@ class UserInfoEditResponseModel {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['data'] = _data;
+    // map['data'] = _data;
     map['message'] = _message;
     map['error'] = _error;
     map['success'] = _success;
@@ -48,6 +49,7 @@ class UserInfoEditResponseModel {
   }
 }
 
+*/
 /*
 class UserInfoEditRequestModel {
   UserInfoEditRequestModel({
@@ -295,13 +297,14 @@ class City {
     return map;
   }
 }
-*/
+*//*
+
 
 class UserInfoEditRequestModel {
   String token;
   String? name;
   String? family;
-  String? gender;
+  // int? gender;
   String? email;
   String? mainAddress;
 
@@ -329,7 +332,7 @@ class UserInfoEditRequestModel {
     required this.token,
     this.name,
     this.family,
-    this.gender,
+    // this.gender,
     this.email,
     this.mainAddress,
     // this.addressList,
@@ -354,12 +357,14 @@ class UserInfoEditRequestModel {
       : token = json['token'],
         name = json['name'],
         family = json['family'],
-        gender = json['gender'],
+        // gender = json['gender'],
         email = json['email'],
         mainAddress = json['main_address'],
-        /*addressList = json['address_list'] != null
+        */
+/*addressList = json['address_list'] != null
             ? json['address_list'].cast<String>()
-            : [],*/
+            : [],*//*
+
         // active = json['active'],
         nationalCode = json['national_code'],
         birthday = json['birthday'],
@@ -374,15 +379,17 @@ class UserInfoEditRequestModel {
         // companyCode = json['company_code'],
         sosPhone = json['sosPhone'];
 
-  /*city = json['city'] != null ? City.fromJson(json['city']) : null,
+  */
+/*city = json['city'] != null ? City.fromJson(json['city']) : null,
         province =
-        json['province'] != null ? Province.fromJson(json['province']) : null;*/
+        json['province'] != null ? Province.fromJson(json['province']) : null;*//*
+
 
   Map<String, dynamic> toJson() => {
         'token': token.trim(),
         'name': name!.trim(),
         'family': family!.trim(),
-        'gender': gender,
+        // 'gender': gender,
         'email': email!.trim(),
         'main_address': mainAddress!.trim(),
         // 'address_list': addressList,
@@ -399,14 +406,17 @@ class UserInfoEditRequestModel {
         // 'national_id': nationalId!.trim(),
         // 'company_code': companyCode!.trim(),
         'sosPhone': sosPhone!.trim(),
-        /*if (city != null) {
+        */
+/*if (city != null) {
       'city':city?.toJson()!.trim(),
     }
     if (province != null) {
       'province':province?.toJson()!.trim(),
-    }*/
+    }*//*
+
       };
 }
+*/
 /*
 class Province {
   Province({
@@ -478,3 +488,4 @@ class City {
     map['lng'] = _lng;
     return map;
   }*/
+

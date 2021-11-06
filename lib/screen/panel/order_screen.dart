@@ -22,6 +22,7 @@ class _OrderScreenState extends State<OrderScreen> {
   late PanelOrderResponseData orderData;
   late String token;
   String bankUrl = '';
+
   // String urlBase = 'https://demo.sivanland.com/pay';
   String urlBase = 'http://192.168.168.215:6005/pay';
 
@@ -105,7 +106,8 @@ class _OrderScreenState extends State<OrderScreen> {
                               ElevatedButton(
                                 onPressed: () {
                                   // String urlFinal = "$urlBase?token=$token&pay_code=${orderData.docs![index].cart_id}";
-                                  String urlFinal = "$urlBase/$token/${orderData.docs![index].cart_id}";
+                                  String urlFinal =
+                                      "$urlBase/${orderData.docs![index].list![0].payment_info![0].id}/$token";
                                   print("urlFinal");
                                   print(urlFinal);
                                   _launchURL(urlFinal);

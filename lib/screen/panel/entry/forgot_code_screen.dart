@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_send_model.dart';
 import 'package:flutter_sl_001/model/panel/forgot_code_validate_model.dart';
@@ -71,211 +73,220 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
                 ],
               ),
               SizedBox(height: 40),
-              Form(
-                key: formKeyForgetPass1,
-                child: Padding(
-                  padding: const EdgeInsets.all(48.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Phone Number
-                      TextFormField(
-                        validator: (value) => value!.isEmpty
-                            ? 'شماره تماس خود را وارد کنید'
-                            : null,
-                        autofocus: true,
-                        textDirection: TextDirection.ltr,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                          label: Text('شماره تلفن'),
-                          prefixIcon: Icon(Icons.phone),
-                          contentPadding: EdgeInsets.all(18),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(
-                              style: BorderStyle.solid,
-                              width: 2.0,
+              Padding(
+                padding: const EdgeInsets.all(48.0),
+                child: Column(
+                  children: [
+                    Form(
+                      key: formKeyForgetPass1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Phone Number
+                          TextFormField(
+                            validator: (value) => value!.isEmpty
+                                ? 'شماره تماس خود را وارد کنید'
+                                : null,
+                            autofocus: true,
+                            textDirection: TextDirection.ltr,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              label: Text('شماره تلفن'),
+                              prefixIcon: Icon(Icons.phone),
+                              contentPadding: EdgeInsets.all(18),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(
+                                  style: BorderStyle.solid,
+                                  width: 2.0,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
+                            ),
+                            onChanged: (input) {
+                              forgetCodeSendRequestModel.phone = input;
+                              forgetCodeValidateRequestModel.phone = input;
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          // Resend Forgotten Validation Code
+                          OutlinedButton(
+                            style: ElevatedButton.styleFrom(
+                              side: BorderSide(
+                                width: 2.8,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            onPressed: () async {
+                              if (formKeyForgetPass1.currentState!.validate()) {
+                                getNewValidationCode();
+                              }
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              child: Text(
+                                "درخواست کد احراز",
+                                style: TextStyle(
+                                    fontFamily: 'Vazir', fontSize: 20),
+                              ),
                             ),
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              width: 1.0,
+                          const SizedBox(
+                            height: 40
+                          ),
+                        ],
+                      ),
+                    ),
+                    Form(
+                      key: formKeyForgetPass2,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: true,
+                            validator: (value) => value!.isEmpty
+                                ? 'کد احراز دریافت شده را وارد کنید'
+                                : null,
+                            textDirection: TextDirection.ltr,
+                            textInputAction: TextInputAction.next,
+                            decoration: InputDecoration(
+                              label: Text("کد احراز"),
+                              contentPadding: EdgeInsets.all(18),
+                              prefixIcon: Icon(Icons.code),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(
+                                  style: BorderStyle.solid,
+                                  width: 2.0,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
                             ),
+                            onChanged: (input) {
+                              forgetCodeValidateRequestModel.recCode = input;
+                            },
                           ),
-                        ),
-                        onChanged: (input) {
-                          forgetCodeSendRequestModel.phone = input;
-                          forgetCodeValidateRequestModel.phone = input;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      // Resend Forgotten Validation Code
-                      OutlinedButton(
-                        style: ElevatedButton.styleFrom(
-                          side: BorderSide(
-                            width: 2.8,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        onPressed: () async {
-                          if (formKeyForgetPass1.currentState!.validate()) {
-                            getNewValidationCode();
-                          }
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          child: Text(
-                            "درخواست کد احراز",
-                            style: TextStyle(fontFamily: 'Vazir', fontSize: 20),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      TextFormField(
-                        keyboardType: TextInputType.visiblePassword,
-                        obscureText: true,
-                        validator: (value) => value!.isEmpty
-                            ? 'کد احراز دریافت شده را وارد کنید'
-                            : null,
-                        textDirection: TextDirection.ltr,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          label: Text("کد احراز"),
-                          contentPadding: EdgeInsets.all(18),
-                          prefixIcon: Icon(Icons.code),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(
-                              style: BorderStyle.solid,
-                              width: 2.0,
+                          const SizedBox(height: 16),
+                          // Password
+                          TextFormField(
+                            keyboardType: TextInputType.number,
+                            validator: (value) => value!.isEmpty
+                                ? 'رمز عبور جدید را وارد کنید'
+                                : null,
+                            textDirection: TextDirection.ltr,
+                            textInputAction: TextInputAction.go,
+                            decoration: InputDecoration(
+                              label: Text("رمز عبور"),
+                              contentPadding: EdgeInsets.all(18),
+                              prefixIcon: Icon(Icons.lock),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(
+                                  style: BorderStyle.solid,
+                                  width: 2.0,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
                             ),
+                            onChanged: (input) {
+                              forgetCodeValidateRequestModel.newPass = input;
+                            },
                           ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              width: 1.0,
-                            ),
-                          ),
-                        ),
-                        onChanged: (input) {
-                          forgetCodeValidateRequestModel.recCode = input;
-                        },
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      // Password
-                      TextFormField(
-                        keyboardType: TextInputType.number,
-                        validator: (value) => value!.isEmpty
-                            ? 'رمز عبور جدید را وارد کنید'
-                            : null,
-                        textDirection: TextDirection.ltr,
-                        textInputAction: TextInputAction.go,
-                        decoration: InputDecoration(
-                          label: Text("رمز عبور"),
-                          contentPadding: EdgeInsets.all(18),
-                          prefixIcon: Icon(Icons.lock),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(
-                              style: BorderStyle.solid,
-                              width: 2.0,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              width: 1.0,
-                            ),
-                          ),
+                    ),
+                    const SizedBox(height: 16),
+                    // Signup and request code on phone
+                    OutlinedButton(
+                      style: ElevatedButton.styleFrom(
+                        side: BorderSide(
+                          width: 2.8,
+                          color: Theme.of(context).primaryColor,
                         ),
-                        onChanged: (input) {
-                          forgetCodeValidateRequestModel.newPass = input;
-                        },
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      // Signup and request code on phone
-                      OutlinedButton(
-                        style: ElevatedButton.styleFrom(
-                          side: BorderSide(
-                            width: 2.8,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        onPressed: () async {
-                          if (formKeyForgetPass2.currentState!.validate()) {
-                            confirmNewPass();
-                          }
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 32,
-                            vertical: 16,
-                          ),
-                          child: Text(
-                            "تایید رمز عبور جدید",
-                          ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      Container(
-                        height: 42,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('عضو نیستید؟'),
-                            TextButton(
-                              // style: TextButton.styleFrom(fixedSize: Size.fromHeight(30)),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignupScreen(),
-                                  ),
-                                );
-                              },
-                              child: const Text("ثبت نام"),
-                            ),
-                          ],
+                      onPressed: () async {
+                        if (formKeyForgetPass2.currentState!.validate()) {
+                          confirmNewPass();
+                        }
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 16,
+                        ),
+                        child: Text(
+                          "تایید رمز عبور جدید",
                         ),
                       ),
-                      Container(
-                        height: 42,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('عضو هستید؟'),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgotCodeScreen(),
-                                  ),
-                                );
-                              },
-                              child: const Text("وارد شوید"),
-                            ),
-                          ],
-                        ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      height: 42,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('عضو نیستید؟'),
+                          TextButton(
+                            // style: TextButton.styleFrom(fixedSize: Size.fromHeight(30)),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignupScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text("ثبت نام"),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Container(
+                      height: 42,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('عضو هستید؟'),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text("وارد شوید"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -328,7 +339,6 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
       },
     ).whenComplete(
       () {
-        print("Complete");
         setState(
           () {
             _isApiCallProcess = false;
@@ -339,17 +349,16 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
   }
 
   void confirmNewPass() {
-    setState(
-      () {
-        _isApiCallProcess = true;
-      },
-    );
+    setState(() {
+      _isApiCallProcess = true;
+    });
     apiService.forgetCodeValidate(forgetCodeValidateRequestModel).then(
       (value) {
         setState(
           () {
             if (value.status == 200) {
               _isApiCallProcess = false;
+              toast(message: value.message.toString(), long: true);
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -357,25 +366,7 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
                 ),
               );
             } else {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  // return object of type Dialog
-                  return AlertDialog(
-                    title: Text(value.error.toString()),
-                    content: Text(value.message.toString()),
-                    actions: <Widget>[
-                      // usually buttons at the bottom of the dialog
-                      ElevatedButton(
-                        child: const Text("بستن"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
+              toast(message: value.message.toString(), long: false);
             }
           },
         );
@@ -400,7 +391,7 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
     );
   }
 
-  void toast(String message, bool? long) {
+  void toast({required String message, bool? long}) {
     Fluttertoast.showToast(
       msg: message,
       toastLength: long == true ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT,

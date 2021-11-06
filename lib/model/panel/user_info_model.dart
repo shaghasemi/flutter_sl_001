@@ -1,5 +1,5 @@
 class UserInfoResponseModel {
-  Data? data;
+  UserInfoData? data;
   List<String>? error;
   String? message;
   int? status;
@@ -15,7 +15,7 @@ class UserInfoResponseModel {
 
   factory UserInfoResponseModel.fromJson(Map<String, dynamic> json) {
     return UserInfoResponseModel(
-      data: json['data'] != null ? Data.fromJson(json['data']) : null,
+      data: json['data'] != null ? UserInfoData.fromJson(json['data']) : null,
       error:
       json['error'] != null ? new List<String>.from(json['error']) : null,
       message: json['message'],
@@ -39,7 +39,7 @@ class UserInfoResponseModel {
   }
 }
 
-class Data {
+class UserInfoData {
   int? v;
   String? id;
   String? createdAt;
@@ -52,7 +52,7 @@ class Data {
   String? updatedAt;
   UserId? user_id;
 
-  Data({
+  UserInfoData({
     this.v,
     this.id,
     this.createdAt,
@@ -66,8 +66,8 @@ class Data {
     this.user_id,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
+  factory UserInfoData.fromJson(Map<String, dynamic> json) {
+    return UserInfoData(
       v: json['__v'],
       id: json['_id'],
       createdAt: json['createdAt'],

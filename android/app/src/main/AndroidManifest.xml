@@ -35,9 +35,9 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="hamedshahghasemi.com"
+                    android:host="sivanland.com/app_launch"
                     android:pathPrefix="/"
-                    android:scheme="http" />
+                    android:scheme="https" />
             <!--<data
                     android:host="dev.sivanland.com/app_launch"
                     android:pathPrefix="/"

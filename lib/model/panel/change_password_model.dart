@@ -26,14 +26,14 @@ class ChangePasswordRequestModel {
 }
 
 class ChangePasswordResponseModel {
-  String? data;
+  // String? data;
   String? message;
   List<dynamic>? error;
   bool? success;
   int? status;
 
   ChangePasswordResponseModel({
-    this.data,
+    // this.data,
     this.message,
     this.error,
     this.success,
@@ -41,7 +41,7 @@ class ChangePasswordResponseModel {
   });
 
   ChangePasswordResponseModel.fromJson(dynamic json) {
-    data = json['data'];
+    // data = json['data'];
     message = json['message'];
     error = json['error'];
     success = json['success'];
@@ -50,7 +50,7 @@ class ChangePasswordResponseModel {
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map['data'] = data;
+    // map['data'] = data;
     map['message'] = message;
     /*if (error != null) {
       map['error'] = error?.map((v) => v.toJson()).toList();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/screen/helper/under_construction.dart';
 import 'package:flutter_sl_001/screen/panel/logout_screen.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 
@@ -7,45 +8,60 @@ class ProfileSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
-        ProfileSectionGoToWidget(
-          iconName: Icons.question_answer_outlined,
-          title: "FAQ",
-          destination: LogoutGlobalScreen(),
-        ),
-        ProfileSectionGoToWidget(
-          iconName: Icons.privacy_tip_outlined,
-          title: "Privacy",
-          destination: LogoutGlobalScreen(),
-        ),
-        ProfileSectionGoToWidget(
-          iconName: Icons.verified_user_outlined,
-          title: "How to Use",
-          destination: LogoutGlobalScreen(),
-        ),
-        ProfileSectionGoToWidget(
-          iconName: Icons.contact_phone_outlined,
-          title: "Contact Us",
-          destination: LogoutGlobalScreen(),
-        ),
-        ProfileSectionGoToWidget(
-          iconName: Icons.error_outline,
-          title: "Submit Error",
-          destination: LogoutGlobalScreen(),
-        ),
-        ProfileSectionGoToWidget(
-          iconName: Icons.star_rate_outlined,
-          title: "rate Us",
-          destination: LogoutGlobalScreen(),
-        ),
-        // tapping logout shows snackbar
-        ProfileSectionGoToWidget(
-          iconName: Icons.logout_outlined,
-          title: "Log Out",
-          destination: LogoutGlobalScreen(),
-        ),
+    return NestedScrollView(
+      scrollDirection: Axis.vertical,
+      headerSliverBuilder: (context, innerBoxIsScroller) => [
+        SliverAppBar(
+          centerTitle: true,
+          title: Text("تنظیمات"),
+          elevation: 8,
+          snap: true,
+          floating: true,
+        )
       ],
+      body: Expanded(
+        child: Column(
+          children: const [
+            SizedBox(height: 24),
+            ProfileSectionGoToWidget(
+              iconName: Icons.question_answer_outlined,
+              title: "پرسش های متداول",
+              destination: UnderConstructionScreen(),
+            ),
+            ProfileSectionGoToWidget(
+              iconName: Icons.privacy_tip_outlined,
+              title: "حریم خصوصی",
+              destination: UnderConstructionScreen(),
+            ),
+            ProfileSectionGoToWidget(
+              iconName: Icons.verified_user_outlined,
+              title: "راهنمای استفاده",
+              destination: UnderConstructionScreen(),
+            ),
+            ProfileSectionGoToWidget(
+              iconName: Icons.contact_phone_outlined,
+              title: "تماس با ما",
+              destination: UnderConstructionScreen(),
+            ),
+            ProfileSectionGoToWidget(
+              iconName: Icons.error_outline,
+              title: "گزارش خطا",
+              destination: UnderConstructionScreen(),
+            ),
+            ProfileSectionGoToWidget(
+              iconName: Icons.star_rate_outlined,
+              title: "امتیازدهی",
+              destination: UnderConstructionScreen(),
+            ),
+            // tapping logout shows snackbar
+            ProfileSectionGoToWidget(
+              iconName: Icons.logout_outlined,
+              title: "خروج از حساب کاربری",
+              destination: LogoutGlobalScreen(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

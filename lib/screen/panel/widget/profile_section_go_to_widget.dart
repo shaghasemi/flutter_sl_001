@@ -15,33 +15,32 @@ class ProfileSectionGoToWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Container(
-        decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(width: 1, color: Colors.grey)),
-        ),
-        child: InkWell(
-          child: Row(
-            children: [
-              Icon(iconName),
-              Expanded(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 24),
+      child: InkWell(
+        child: Row(
+          children: [
+            Icon(iconName),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(title),
               ),
-              const Icon(
-                Icons.forward,
-                color: Colors.grey,
-              ),
-            ],
-          ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => destination,
-              ),
-            );
-          },
+            ),
+            const Icon(
+              // Icons.arrow_forward,
+              Icons.navigate_next,
+              color: Colors.grey,
+            ),
+          ],
         ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => destination,
+            ),
+          );
+        },
       ),
     );
   }

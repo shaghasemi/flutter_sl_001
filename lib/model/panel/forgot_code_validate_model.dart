@@ -22,14 +22,14 @@ class ForgetCodeValidateRequestModel {
 }
 
 class ForgetCodeValidateResponseModel {
-  String? data;
+  // String? data;
   String? message;
   List<dynamic>? error;
   bool? success;
   int? status;
 
   ForgetCodeValidateResponseModel({
-    this.data,
+    // this.data,
     this.message,
     this.error,
     this.success,
@@ -37,7 +37,7 @@ class ForgetCodeValidateResponseModel {
   });
 
   ForgetCodeValidateResponseModel.fromJson(dynamic json) {
-    data = json['data'];
+    // data = json['data'];
     message = json['message'];
     error = json['error'];
     success = json['success'];
@@ -46,7 +46,7 @@ class ForgetCodeValidateResponseModel {
 
   Map<String, dynamic> toJson() {
     var map = <String, dynamic>{};
-    map['data'] = data;
+    // map['data'] = data;
     map['message'] = message;
     /*if (error != null) {
       map['error'] = error?.map((v) => v.toJson()).toList();
