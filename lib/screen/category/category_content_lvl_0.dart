@@ -9,6 +9,8 @@ import 'package:flutter_sl_001/screen/category/widget/product_list_by_category.d
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
+import 'category_content_lvl_2.dart';
+
 class CategoryContentScreenZero extends StatefulWidget {
   const CategoryContentScreenZero({Key? key}) : super(key: key);
 
@@ -51,7 +53,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreenZero> {
               itemCount: categoryListInfo.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 8, 12),
+                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 12),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     child: Column(
@@ -76,36 +78,52 @@ class _CategoryContentScreenState extends State<CategoryContentScreenZero> {
                             shrinkWrap: true,
                             itemCount: categoryListInfo[index].subCat1!.length,
                             itemBuilder: (BuildContext context, int index1) {
-                              return Container(
-                                width: 120,
-                                height: 140,
-                                child: Card(
-                                  elevation: 2,
-                                  color: Colors.grey.shade200,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.dns,
-                                          size: 48,
-                                          color: Colors.green.shade700,
-                                        ),
-                                        SizedBox(height: 8),
-                                        Text(
-                                          categoryListInfo[index]
-                                              .subCat1![index1]
-                                              .titleFa!,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                      ],
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          CategoryContentScreenTwo(
+                                              categoryId:
+                                                  categoryListInfo[index]
+                                                      .subCat1![index1]
+                                                      .id!),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  width: 120,
+                                  height: 140,
+                                  child: Card(
+                                    elevation: 4,
+                                    color: Colors.grey.shade200,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.dns,
+                                            size: 48,
+                                            color: Colors.green.shade700,
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            categoryListInfo[index]
+                                                .subCat1![index1]
+                                                .titleFa!,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),

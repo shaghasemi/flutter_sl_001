@@ -1,6 +1,6 @@
 class CategorySubTwoResponseModel {
   CategorySubTwoResponseModel({
-    List<Data>? data,
+    List<CategorySubTwoData>? data,
     String? message,
     bool? success,
     int? status,
@@ -15,7 +15,7 @@ class CategorySubTwoResponseModel {
     if (json['data'] != null) {
       _data = [];
       json['data'].forEach((v) {
-        _data?.add(Data.fromJson(v));
+        _data?.add(CategorySubTwoData.fromJson(v));
       });
     }
     _message = json['message'];
@@ -23,12 +23,12 @@ class CategorySubTwoResponseModel {
     _status = json['status'];
   }
 
-  List<Data>? _data;
+  List<CategorySubTwoData>? _data;
   String? _message;
   bool? _success;
   int? _status;
 
-  List<Data>? get data => _data;
+  List<CategorySubTwoData>? get data => _data;
 
   String? get message => _message;
 
@@ -48,8 +48,8 @@ class CategorySubTwoResponseModel {
   }
 }
 
-class Data {
-  Data({
+class CategorySubTwoData {
+  CategorySubTwoData({
     int? status,
     String? id,
     int? trackingCode,
@@ -75,7 +75,7 @@ class Data {
     _v = v;
   }
 
-  Data.fromJson(dynamic json) {
+  CategorySubTwoData.fromJson(dynamic json) {
     _status = json['status'];
     _id = json['_id'];
     _trackingCode = json['tracking_code'];
@@ -141,23 +141,24 @@ class Data {
 }
 
 class CategorySubTwoRequestModel {
-  String token;
+  // String token;
   int status;
   String parentId;
 
   CategorySubTwoRequestModel({
-    required this.token,
+    // required this.token,
     required this.status,
     required this.parentId,
   });
 
   CategorySubTwoRequestModel.fromJson(Map<String, dynamic> json)
-      : token = json['x-access-token'],
+      :
+        // token = json['x-access-token'],
         status = json['status'],
         parentId = json['parent_id'];
 
   Map<String, dynamic> toJson() => {
-        "x-access-token": token.trim(),
+        // "x-access-token": token.trim(),
         "status": status,
         "parent_id": parentId.trim(),
       };

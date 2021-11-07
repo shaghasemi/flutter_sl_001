@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
-import 'package:flutter_sl_001/model/product/product_list_by_category_model.dart';
+import 'package:flutter_sl_001/model/category/product_by_category_model.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
 import 'package:flutter_sl_001/screen/product/product_single_screen.dart';
 
@@ -19,7 +19,7 @@ class ProductListByCategoryWidget extends StatefulWidget {
 class _ProductListByCategoryWidgetState
     extends State<ProductListByCategoryWidget> {
   late ProductListByCategoryRequestModel productListByCategoryRequestModel;
-  late List<Data> productByCategoryListInfo;
+  late List<ProductListByCategoryData> productByCategoryListInfo;
   bool _isApiCallProcess = false;
 
   @override
@@ -72,7 +72,7 @@ class _ProductListByCategoryWidgetState
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProductSingleScreen(
-                          product_id: productByCategoryListInfo[index].shop_id!.id!,
+                          product_id: productByCategoryListInfo[index].shopId!.id!,
                         ),
                       ),
                     );
@@ -82,9 +82,9 @@ class _ProductListByCategoryWidgetState
                       children: [
                         Image.asset('assets/images/awaiting_payment.png'),
                         // Image.asset("assets/images/awaiting_payment.png"),
-                        Text(productByCategoryListInfo[index].title_fa ??
+                        Text(productByCategoryListInfo[index].titleFa ??
                             "Product Title Fa"),
-                        Text(productByCategoryListInfo[index].shop_id!.id ??
+                        Text(productByCategoryListInfo[index].shopId!.id ??
                             "Shop Id"),
                         Text(productByCategoryListInfo[index].price ??
                             "Price Maybe"),
