@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/data/provider/user_provider.dart';
@@ -21,19 +23,32 @@ class UserInfoEditScreenUpdated extends StatefulWidget {
 
 class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
   APIServicePanel apiService = APIServicePanel();
-  UserInfoRequestModel userInfoRequestModel = UserInfoRequestModel(token: '');
-  UserInfoEditRequestModel userInfoEditRequestModel =
-      UserInfoEditRequestModel(token: '');
+  UserInfoEditRequestModel userInfoEditRequestModel = UserInfoEditRequestModel(
+      token: '', company: UserInfoEditRequestCompany());
   UserInfoData userInfo = UserInfoData();
   bool _isApiCallProcess = false;
   LoginData input = LoginData();
-  int _genderRdaio = 0;
+  String _genderRadio = "0";
+  bool _typeRadio = true;
+  GlobalKey<FormState> formKeyUserInfo = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    super.initState();
-    // fetchUserInfo();
-  }
+  final textEditingControllerName = TextEditingController(text: '');
+  final textEditingControllerFamily = TextEditingController(text: '');
+  final textEditingControllerBirthDate = TextEditingController(text: '');
+  final textEditingControllerGender = TextEditingController(text: '');
+  final textEditingControllerEmail = TextEditingController(text: '');
+  final textEditingControllerNationalCode = TextEditingController(text: '');
+  final textEditingControllerForeignCode = TextEditingController(text: '');
+  final textEditingControllerPostalCode = TextEditingController(text: '');
+  final textEditingControllerLandLine = TextEditingController(text: '');
+  final textEditingControllerSOS = TextEditingController(text: '');
+  final textEditingControllerEconomicCode = TextEditingController(text: '');
+  final textEditingControllerLat = TextEditingController(text: '');
+  final textEditingControllerLon = TextEditingController(text: '');
+  final textEditingControllerProvince = TextEditingController(text: '');
+  final textEditingControllerCity = TextEditingController(text: '');
+  final textEditingControllerAddress = TextEditingController(text: '');
+  final textEditingControllerReal = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -44,37 +59,57 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
     );
   }
 
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // myController.dispose();
+    super.dispose();
+  }
+
   Widget _uiSetup(BuildContext context) {
     input = widget.userInfoInput;
     userInfoEditRequestModel.token = widget.userInfoInput.token!;
-    userInfoEditRequestModel.name = widget.userInfoInput.user_id!.name;
-    userInfoEditRequestModel.family = widget.userInfoInput.user_id!.family;
-    // userInfoEditRequestModel.gender = widget.userInfoInput.user_id!.gender;
-    userInfoEditRequestModel.email = widget.userInfoInput.user_id!.email;
-    userInfoEditRequestModel.mainAddress =
-        widget.userInfoInput.user_id!.main_address;
-    userInfoEditRequestModel.nationalCode =
-        widget.userInfoInput.user_id!.national_code;
-    userInfoEditRequestModel.birthday = widget.userInfoInput.user_id!.birthday;
-    userInfoEditRequestModel.foreignNational =
-        widget.userInfoInput.user_id!.foreign_national;
-    userInfoEditRequestModel.postalCode =
-        widget.userInfoInput.user_id!.postal_code;
-    userInfoEditRequestModel.telephone =
-        widget.userInfoInput.user_id!.telephone;
-    userInfoEditRequestModel.sosPhone = widget.userInfoInput.user_id!.sosPhone;
-    /*userInfoEditRequestModel.name = userInfo.user_id!.name!;
-    userInfoEditRequestModel.family = userInfo.user_id!.family!;
-    userInfoEditRequestModel.gender = userInfo.user_id!.gender!.toString();
-    userInfoEditRequestModel.email = userInfo.user_id!.email!;
-    userInfoEditRequestModel.mainAddress = userInfo.user_id!.main_address!;
-    userInfoEditRequestModel.nationalCode = userInfo.user_id!.national_code!;
-    userInfoEditRequestModel.birthday = userInfo.user_id!.birthday!;
-    userInfoEditRequestModel.foreignNational =
-        userInfo.user_id!.foreign_national!;
-    userInfoEditRequestModel.postalCode = userInfo.user_id!.postal_code!;
-    userInfoEditRequestModel.telephone = userInfo.user_id!.telephone!;
-    userInfoEditRequestModel.sosPhone = userInfo.user_id!.sosPhone!;*/
+    userInfoEditRequestModel.name = input.user_id!.name;
+    userInfoEditRequestModel.family = input.user_id!.family;
+    userInfoEditRequestModel.birthday = input.user_id!.birthday;
+    userInfoEditRequestModel.gender = input.user_id!.gender.toString();
+    userInfoEditRequestModel.email = input.user_id!.email;
+    userInfoEditRequestModel.nationalCode = input.user_id!.national_code;
+    userInfoEditRequestModel.foreignNational = input.user_id!.foreign_national;
+    userInfoEditRequestModel.postalCode = input.user_id!.postal_code;
+    userInfoEditRequestModel.telephone = input.user_id!.telephone;
+    userInfoEditRequestModel.sosPhone = input.user_id!.sosPhone;
+    userInfoEditRequestModel.company!.economicCode =
+        input.user_id!.company!.economic_code;
+    userInfoEditRequestModel.lat = input.user_id!.lat;
+    userInfoEditRequestModel.lon = input.user_id!.lon;
+    userInfoEditRequestModel.province = input.user_id!.province;
+    userInfoEditRequestModel.city = input.user_id!.city;
+    userInfoEditRequestModel.mainAddress = input.user_id!.main_address;
+    userInfoEditRequestModel.personal = input.user_id!.personal;
+
+    textEditingControllerName.text = input.user_id!.name.toString();
+    textEditingControllerFamily.text = input.user_id!.family.toString();
+    textEditingControllerBirthDate.text = input.user_id!.birthday.toString();
+    textEditingControllerGender.text = input.user_id!.gender.toString();
+    textEditingControllerEmail.text = input.user_id!.email.toString();
+    textEditingControllerNationalCode.text =
+        input.user_id!.national_code.toString();
+    textEditingControllerForeignCode.text =
+        input.user_id!.foreign_national.toString();
+    textEditingControllerPostalCode.text =
+        input.user_id!.postal_code.toString();
+    textEditingControllerLandLine.text = input.user_id!.telephone.toString();
+    textEditingControllerSOS.text = input.user_id!.sosPhone.toString();
+    textEditingControllerEconomicCode.text =
+        input.user_id!.company!.economic_code.toString();
+    textEditingControllerLat.text = input.user_id!.lat.toString();
+    textEditingControllerLon.text = input.user_id!.lon.toString();
+    textEditingControllerProvince.text = input.user_id!.province.toString();
+    textEditingControllerCity.text = input.user_id!.city.toString();
+    textEditingControllerAddress.text = input.user_id!.main_address.toString();
+    textEditingControllerReal.text = input.user_id!.personal.toString();
+
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScroller) => [
         const SliverAppBar(
@@ -91,251 +126,233 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
           floating: true,
         ),
       ],
-      body: SingleChildScrollView(
-        child: Consumer<UserProvider>(
-          builder: (context, value, child) {
-            return Column(
-              children: [
-                // Name
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("نام"),
-                      TextFormField(
-                        initialValue: input.user_id!.name,
-                        onChanged: (input) {
-                          userInfoEditRequestModel.name = input;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                //Surname
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("نام خانوادگی"),
-                      TextFormField(
-                        initialValue: input.user_id!.family!,
-                        onChanged: (input) {
-                          userInfoEditRequestModel.family = input;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                // Gender
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("جنسیت"),
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        // mainAxisSize: MainAxisSize.max,
+      body: Scaffold(
+        body: SingleChildScrollView(
+          child: Consumer<UserProvider>(
+            builder: (context, value, child) {
+              return Form(
+                key: formKeyUserInfo,
+                child: Column(
+                  children: [
+                    SizedBox(height: 16),
+                    // Province
+                    UserInfoItem(
+                      label: 'نام',
+                      textEditingController: textEditingControllerName,
+                    ),
+                    UserInfoItem(
+                      label: 'نام خانوادگی',
+                      textEditingController: textEditingControllerFamily,
+                    ),
+                    UserInfoItem(
+                      label: 'تاریخ تولد',
+                      textEditingController: textEditingControllerBirthDate,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
                         children: [
-                          Expanded(
-                            child: ListTile(
-                              title: const Text('آقا'),
-                              leading: Radio<int>(
-                                value: 0,
-                                groupValue: _genderRdaio,
-                                onChanged: (int? value) {
-                                  setState(() {
-                                    _genderRdaio = value!;
-                                    // userInfoEditRequestModel.gender = value;
-                                  });
-                                },
+                          Text("جنسیت"),
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  title: const Text('آقا'),
+                                  leading: Radio<String>(
+                                    value: "0",
+                                    groupValue: _genderRadio,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        _genderRadio = value!;
+                                        userInfoEditRequestModel.gender = value;
+                                      });
+                                    },
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          Expanded(
-                            child: ListTile(
-                              title: const Text('خانم'),
-                              leading: Radio<int>(
-                                value: 1,
-                                groupValue: _genderRdaio,
-                                onChanged: (int? value) {
-                                  setState(() {
-                                    _genderRdaio = value!;
-                                    // userInfoEditRequestModel.gender = value;
-                                  });
-                                },
+                              Expanded(
+                                child: ListTile(
+                                  title: const Text('خانم'),
+                                  leading: Radio<String>(
+                                    value: "1",
+                                    groupValue: _genderRadio,
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        _genderRadio = value!;
+                                        userInfoEditRequestModel.gender = value;
+                                      });
+                                    },
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-
-                // Email Address
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("پست الکترونیک"),
-                      TextFormField(
-                        initialValue: input.user_id!.email,
-                        onChanged: (input) {
-                          userInfoEditRequestModel.email = input;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                // Main Address
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("نشانی اصلی"),
-                      TextFormField(
-                        initialValue: input.user_id!.main_address,
-                        onChanged: (input) {
-                          userInfoEditRequestModel.mainAddress = input;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                // National Code
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("کد ملی"),
-                      TextFormField(
-                        initialValue: input.user_id!.national_code,
-                        onChanged: (input) {
-                          userInfoEditRequestModel.nationalCode = input;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                // Birthday
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("تاریخ تولد"),
-                      TextFormField(
-                        initialValue: input.user_id!.birthday,
-                        onChanged: (input) {
-                          userInfoEditRequestModel.birthday = input;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                // Foreign National
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("تابعیت خارجی"),
-                      TextFormField(
-                        initialValue: input.user_id!.foreign_national,
-                        onChanged: (input) {
-                          userInfoEditRequestModel.foreignNational = input;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                // Postal Code
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("کد پستی"),
-                      TextFormField(
-                        initialValue: input.user_id!.postal_code,
-                        onChanged: (input) {
-                          userInfoEditRequestModel.postalCode = input;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                // Telephone
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("شماره تلفن ثابت"),
-                      TextFormField(
-                        initialValue: input.user_id!.telephone,
-                        onChanged: (input) {
-                          userInfoEditRequestModel.telephone = input;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                // SoS Phone
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text("شماره تماس اضطراری"),
-                      TextFormField(
-                        initialValue: input.user_id!.sosPhone,
-                        onChanged: (input) {
-                          userInfoEditRequestModel.sosPhone = input;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 40),
-                OutlinedButton(
-                  style: ElevatedButton.styleFrom(
-                    side: BorderSide(
-                      width: 2.8,
-                      color: Theme.of(context).primaryColor,
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                    UserInfoItem(
+                      label: 'پست الکترونیک',
+                      textEditingController: textEditingControllerEmail,
                     ),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isApiCallProcess = true;
-                    });
-                    updateUserInfo();
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
+                    UserInfoItem(
+                      label: 'کد ملی',
+                      textEditingController: textEditingControllerNationalCode,
                     ),
-                    child: Text("بروزرسانی اطلاعات"),
-                  ),
+                    UserInfoItem(
+                      label: 'کد اتباع خارجه',
+                      textEditingController: textEditingControllerForeignCode,
+                    ),
+                    UserInfoItem(
+                      label: 'کد پستی',
+                      textEditingController: textEditingControllerPostalCode,
+                    ),
+                    UserInfoItem(
+                      label: 'تلفن ثابت',
+                      textEditingController: textEditingControllerLandLine,
+                    ),
+                    UserInfoItem(
+                      label: 'تلفن اضطراری',
+                      textEditingController: textEditingControllerSOS,
+                    ),
+                    UserInfoItem(
+                      label: 'کد اقتصادی',
+                      textEditingController: textEditingControllerEconomicCode,
+                    ),
+                    UserInfoItem(
+                      label: 'استان',
+                      textEditingController: textEditingControllerProvince,
+                    ),
+                    UserInfoItem(
+                      label: 'شهر',
+                      textEditingController: textEditingControllerCity,
+                    ),
+                    UserInfoItem(
+                      label: 'آدرس پیش فرض',
+                      textEditingController: textEditingControllerAddress,
+                    ),
+                    UserInfoItem(
+                      label: 'نوع حساب کاربری',
+                      textEditingController: textEditingControllerReal,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text("نوع حساب کاربری"),
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  title: const Text('حقیقی'),
+                                  leading: Radio<bool>(
+                                    value: true,
+                                    groupValue: _typeRadio,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _typeRadio = value!;
+                                        userInfoEditRequestModel.personal =
+                                            value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ListTile(
+                                  title: const Text('حقوقی'),
+                                  leading: Radio<bool>(
+                                    value: false,
+                                    groupValue: _typeRadio,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _typeRadio = value!;
+                                        userInfoEditRequestModel.personal =
+                                            value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 60),
+                  ],
                 ),
-                const SizedBox(height: 40),
-              ],
-            );
+              );
+            },
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: FloatingActionButton(
+          elevation: 4,
+          // child: Text('ویرایش'),
+          child: Icon(Icons.check),
+          onPressed: () {
+            if (formKeyUserInfo.currentState!.validate()) {
+              setState(() {
+                _isApiCallProcess = true;
+              });
+              updateUserInfo();
+            }
           },
         ),
       ),
     );
   }
 
-  void fetchUserInfo() {
-    apiService.getUserInfo(userInfoRequestModel).then((value) {
-      setState(() {
-        _isApiCallProcess = false;
-      });
-      if (value.status == 200) {
-        userInfo = value.data!;
-      }
-    }).whenComplete(
-      () => _isApiCallProcess = false,
+  Padding UserInfoItem({
+    required String label,
+    required TextEditingController textEditingController,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+      child: TextFormField(
+        textInputAction: TextInputAction.next,
+        keyboardType: TextInputType.multiline,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'تکمیل این فیلد ضروری است';
+          } else {
+            return null;
+          }
+        },
+        decoration: InputDecoration(
+          labelText: label,
+          // label: Text('استان'),
+          alignLabelWithHint: true,
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
+          prefix: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+          ),
+          // errorText: " نام استان حداقل دو حرف می باشد.",
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(
+              style: BorderStyle.solid,
+              width: 2.0,
+            ),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(
+              width: 1.0,
+            ),
+          ),
+        ),
+        controller: textEditingController,
+        // Update on the fly
+        // onChanged: (_) => setState(() {}),
+      ),
     );
   }
 

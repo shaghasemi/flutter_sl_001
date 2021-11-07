@@ -15,7 +15,7 @@ class UserInfoEditResponseModel {
     status = json['status'];
   }
 
-  dynamic data;
+  // dynamic data;
   String? message;
   List<String>? error;
   bool? success;

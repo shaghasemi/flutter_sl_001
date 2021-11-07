@@ -49,13 +49,13 @@ class UserInfoEditRequestModel {
     foreignNational = json['foreign_national'];
     personal = json['personal'];
     company =
-        json['company'] != null ? Company.fromJson(json['company']) : null;
+        json['company'] != null ? UserInfoEditRequestCompany.fromJson(json['company']) : null;
   }
 
   String? token;
   String? name;
   String? family;
-  int? gender;
+  String? gender;
   String? email;
   String? mainAddress;
   List<String>? addressList;
@@ -71,7 +71,7 @@ class UserInfoEditRequestModel {
   List<Images>? images;
   String? foreignNational;
   bool? personal;
-  Company? company;
+  UserInfoEditRequestCompany? company;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -103,8 +103,8 @@ class UserInfoEditRequestModel {
   }
 }
 
-class Company {
-  Company({
+class UserInfoEditRequestCompany {
+  UserInfoEditRequestCompany({
     this.name,
     this.telephone,
     this.postalCode,
@@ -114,7 +114,7 @@ class Company {
     this.registrationCode,
   });
 
-  Company.fromJson(dynamic json) {
+  UserInfoEditRequestCompany.fromJson(dynamic json) {
     name = json['name'];
     telephone = json['telephone'];
     postalCode = json['postal_code'];
