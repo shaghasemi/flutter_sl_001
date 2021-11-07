@@ -122,7 +122,7 @@ class UserId {
   String? foreign_national;
   int? gender;
   String? image;
-  List<Image>? images;
+  List<UserInfoImage>? images;
   String? lat;
   String? lon;
   String? main_address;
@@ -193,7 +193,7 @@ class UserId {
       gender: json['gender'],
       image: json['image'],
       images: json['images'] != null
-          ? (json['images'] as List).map((i) => Image.fromJson(i)).toList()
+          ? (json['images'] as List).map((i) => UserInfoImage.fromJson(i)).toList()
           : null,
       lat: json['lat'],
       lon: json['lon'],
@@ -254,15 +254,15 @@ class UserId {
   }
 }
 
-class Image {
+class UserInfoImage {
   String? id;
   String? type;
   String? url;
 
-  Image({this.id, this.type, this.url});
+  UserInfoImage({this.id, this.type, this.url});
 
-  factory Image.fromJson(Map<String, dynamic> json) {
-    return Image(
+  factory UserInfoImage.fromJson(Map<String, dynamic> json) {
+    return UserInfoImage(
       id: json['_id'],
       type: json['type'],
       url: json['url'],

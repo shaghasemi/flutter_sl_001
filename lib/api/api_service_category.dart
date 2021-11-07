@@ -1,4 +1,5 @@
 import 'package:flutter_sl_001/model/category/category_all_model.dart';
+import 'package:flutter_sl_001/model/category/category_all_model_saeed.dart';
 import 'package:flutter_sl_001/model/category/category_main.dart';
 import 'package:flutter_sl_001/model/category/category_sub_1.dart';
 import 'package:flutter_sl_001/model/category/category_sub_2.dart';
@@ -15,22 +16,31 @@ const String userRole = "guest/";
 
 class ApiServiceCategory {
   // Get All Categories (All Levels)
-  Future<CategoryAllResponseModel> categoryAll(
+  Future<CategoryAllModelSaeed> categorySaeed(
+    // CategoryAllRequestModel categoryAllRequestModel,
+  ) async {
+    String url = "${baseURLV1}commission/category/tree";
+    final response = await http.get(
+      Uri.parse(url),
+    );
+    if (response.statusCode == 200) {
+      return CategoryAllModelSaeed.fromJson(json.decode(response.body));
+    } else {
+      return Future.error(jsonDecode(response.body)['message']);
+    }
+  }
+Future<CategoryAllResponseModel> categoryAll(
     CategoryAllRequestModel categoryAllRequestModel,
   ) async {
     String url = "$baseURLV1${userRole}category/all/list";
     final response = await http.get(
       Uri.parse(url),
     );
-    /* if (response.statusCode == 200 || response.statusCode == 400) {
-      return LoginResponseModel.fromJson(json.decode(response.body));
+    if (response.statusCode == 200) {
+      return CategoryAllResponseModel.fromJson(json.decode(response.body));
     } else {
-      print("Error from API Service");
-      // return LoginResponseErrorModel.fromJson(json.decode(response.body));
-      throw Exception('Failed to Login');
-    }*/
-    // print(UserInfoResponseModel.fromJson(json.decode(response.body)));
-    return CategoryAllResponseModel.fromJson(json.decode(response.body));
+      return Future.error(jsonDecode(response.body)['message']);
+    }
   }
 
 // Get Level Zero Categories
@@ -82,7 +92,7 @@ class ApiServiceCategory {
   }
 
 // Get Level Two Categories
-  Future<CategorySubTwoResponseModel> categoryTwoOne(
+  Future<CategorySubTwoResponseModel> categorySubTwo(
     CategorySubTwoRequestModel categorySubTwoRequestModel,
   ) async {
     String url = "$baseURLV1${userRole}category/sub/two/list/"

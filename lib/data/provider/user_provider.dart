@@ -27,6 +27,11 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void loadUserOnline() {
+    userData = UserPreferences().getUser();
+    notifyListeners();
+  }
+
   void removeUser() {
     userData = LoginData();
     notifyListeners();

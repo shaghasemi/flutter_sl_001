@@ -212,8 +212,6 @@ class APIServicePanel extends ChangeNotifier {
     UserInfoEditRequestModel userInfoEditRequestModel,
   ) async {
     String url = "${baseURLV1}${userRole}info/editor";
-    print("Edit Info 1");
-    print(jsonEncode(userInfoEditRequestModel));
     final response = await http.put(
       Uri.parse(url),
       body: userInfoEditRequestModel.toJson(),

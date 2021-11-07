@@ -23,32 +23,71 @@ class UserInfoEditScreenUpdated extends StatefulWidget {
 
 class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
   APIServicePanel apiService = APIServicePanel();
+  UserInfoRequestModel userInfoRequestModel = UserInfoRequestModel(token: '');
   UserInfoEditRequestModel userInfoEditRequestModel = UserInfoEditRequestModel(
-      token: '', company: UserInfoEditRequestCompany());
+    token: '',
+    /*company: UserInfoEditRequestCompany(
+      name: 'AA',
+      address: 'AA',
+      economicCode: 'AA',
+      nationalId: 'AA',
+      postalCode: 'AA',
+      registrationCode: 'AA',
+      telephone: 'AA',
+    ),*/
+  );
   UserInfoData userInfo = UserInfoData();
   bool _isApiCallProcess = false;
   LoginData input = LoginData();
   String _genderRadio = "0";
-  bool _typeRadio = true;
+  String _typeRadio = "true";
   GlobalKey<FormState> formKeyUserInfo = GlobalKey<FormState>();
 
-  final textEditingControllerName = TextEditingController(text: '');
-  final textEditingControllerFamily = TextEditingController(text: '');
-  final textEditingControllerBirthDate = TextEditingController(text: '');
-  final textEditingControllerGender = TextEditingController(text: '');
-  final textEditingControllerEmail = TextEditingController(text: '');
-  final textEditingControllerNationalCode = TextEditingController(text: '');
-  final textEditingControllerForeignCode = TextEditingController(text: '');
-  final textEditingControllerPostalCode = TextEditingController(text: '');
-  final textEditingControllerLandLine = TextEditingController(text: '');
-  final textEditingControllerSOS = TextEditingController(text: '');
-  final textEditingControllerEconomicCode = TextEditingController(text: '');
-  final textEditingControllerLat = TextEditingController(text: '');
-  final textEditingControllerLon = TextEditingController(text: '');
-  final textEditingControllerProvince = TextEditingController(text: '');
-  final textEditingControllerCity = TextEditingController(text: '');
-  final textEditingControllerAddress = TextEditingController(text: '');
-  final textEditingControllerReal = TextEditingController(text: '');
+  var textEditingControllerName = TextEditingController(text: '');
+  var textEditingControllerFamily = TextEditingController(text: '');
+  var textEditingControllerBirthDate = TextEditingController(text: '');
+  var textEditingControllerGender = TextEditingController(text: '');
+  var textEditingControllerEmail = TextEditingController(text: '');
+  var textEditingControllerNationalCode = TextEditingController(text: '');
+  var textEditingControllerForeignCode = TextEditingController(text: '');
+  var textEditingControllerPostalCode = TextEditingController(text: '');
+  var textEditingControllerLandLine = TextEditingController(text: '');
+  var textEditingControllerSOS = TextEditingController(text: '');
+  var textEditingControllerEconomicCode = TextEditingController(text: '');
+  var textEditingControllerLat = TextEditingController(text: '');
+  var textEditingControllerLon = TextEditingController(text: '');
+  var textEditingControllerProvince = TextEditingController(text: '');
+  var textEditingControllerCity = TextEditingController(text: '');
+  var textEditingControllerAddress = TextEditingController(text: '');
+  var textEditingControllerReal = TextEditingController(text: '');
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserInfo();
+  }
+
+  @override
+  void dispose() {
+    textEditingControllerName.dispose();
+    textEditingControllerFamily.dispose();
+    textEditingControllerBirthDate.dispose();
+    textEditingControllerGender.dispose();
+    textEditingControllerEconomicCode.dispose();
+    textEditingControllerNationalCode.dispose();
+    textEditingControllerForeignCode.dispose();
+    textEditingControllerPostalCode.dispose();
+    textEditingControllerLandLine.dispose();
+    textEditingControllerSOS.dispose();
+    textEditingControllerEconomicCode.dispose();
+    textEditingControllerLat.dispose();
+    textEditingControllerLon.dispose();
+    textEditingControllerProvince.dispose();
+    textEditingControllerCity.dispose();
+    textEditingControllerAddress.dispose();
+    textEditingControllerReal.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,16 +98,10 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
     );
   }
 
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the widget tree.
-    // myController.dispose();
-    super.dispose();
-  }
-
   Widget _uiSetup(BuildContext context) {
     input = widget.userInfoInput;
-    userInfoEditRequestModel.token = widget.userInfoInput.token!;
+    userInfoRequestModel.token = input.token!;
+/*userInfoEditRequestModel.token = widget.userInfoInput.token!;
     userInfoEditRequestModel.name = input.user_id!.name;
     userInfoEditRequestModel.family = input.user_id!.family;
     userInfoEditRequestModel.birthday = input.user_id!.birthday;
@@ -86,7 +119,7 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
     userInfoEditRequestModel.province = input.user_id!.province;
     userInfoEditRequestModel.city = input.user_id!.city;
     userInfoEditRequestModel.mainAddress = input.user_id!.main_address;
-    userInfoEditRequestModel.personal = input.user_id!.personal;
+    userInfoEditRequestModel.personal = input.user_id!.personal;*/
 
     textEditingControllerName.text = input.user_id!.name.toString();
     textEditingControllerFamily.text = input.user_id!.family.toString();
@@ -144,6 +177,7 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
                       label: 'نام خانوادگی',
                       textEditingController: textEditingControllerFamily,
                     ),
+                    // DatePicker(),
                     UserInfoItem(
                       label: 'تاریخ تولد',
                       textEditingController: textEditingControllerBirthDate,
@@ -248,10 +282,10 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
                               Expanded(
                                 child: ListTile(
                                   title: const Text('حقیقی'),
-                                  leading: Radio<bool>(
-                                    value: true,
+                                  leading: Radio<String>(
+                                    value: "true",
                                     groupValue: _typeRadio,
-                                    onChanged: (bool? value) {
+                                    onChanged: (String? value) {
                                       setState(() {
                                         _typeRadio = value!;
                                         userInfoEditRequestModel.personal =
@@ -264,10 +298,10 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
                               Expanded(
                                 child: ListTile(
                                   title: const Text('حقوقی'),
-                                  leading: Radio<bool>(
-                                    value: false,
+                                  leading: Radio<String>(
+                                    value: "false",
                                     groupValue: _typeRadio,
-                                    onChanged: (bool? value) {
+                                    onChanged: (String? value) {
                                       setState(() {
                                         _typeRadio = value!;
                                         userInfoEditRequestModel.personal =
@@ -356,22 +390,84 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
     );
   }
 
-  void updateUserInfo() {
-    apiService.editUserInfo(userInfoEditRequestModel).then(
+  fetchUserInfo() {
+    setState(() {
+      _isApiCallProcess = true;
+    });
+    apiService.userInfo(userInfoRequestModel).then(
       (value) {
         setState(() {
           _isApiCallProcess = false;
         });
-        _isApiCallProcess = false;
         Fluttertoast.showToast(
           msg: value.message.toString(),
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           // fontSize: 16.0,
         );
+        // Provider.of<UserProvider>(context, listen: false).setUser(userInfoEditRequestModel);
       },
     ).onError(
       (error, stackTrace) {
+        print("OnError: $error");
+        Fluttertoast.showToast(
+          msg: error.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          // fontSize: 16.0,
+        );
+      },
+    ).whenComplete(
+      () {
+        setState(
+          () {
+            _isApiCallProcess = false;
+          },
+        );
+      },
+    );
+  }
+
+  void updateUserInfo() {
+    userInfoEditRequestModel.token = widget.userInfoInput.token!;
+    userInfoEditRequestModel.name = textEditingControllerName.text;
+    userInfoEditRequestModel.family = textEditingControllerFamily.text;
+    userInfoEditRequestModel.birthday = textEditingControllerBirthDate.text;
+    userInfoEditRequestModel.gender = textEditingControllerGender.text;
+    userInfoEditRequestModel.email = textEditingControllerEmail.text;
+    userInfoEditRequestModel.nationalCode =
+        textEditingControllerNationalCode.text;
+    userInfoEditRequestModel.foreignNational =
+        textEditingControllerForeignCode.text;
+    userInfoEditRequestModel.postalCode = textEditingControllerPostalCode.text;
+    userInfoEditRequestModel.telephone = textEditingControllerLandLine.text;
+    userInfoEditRequestModel.sosPhone = textEditingControllerSOS.text;
+    /*userInfoEditRequestModel.company!.economicCode =
+        textEditingControllerEconomicCode.text;*/
+    userInfoEditRequestModel.lat = textEditingControllerLat.text;
+    userInfoEditRequestModel.lon = textEditingControllerLon.text;
+    userInfoEditRequestModel.province = textEditingControllerProvince.text;
+    userInfoEditRequestModel.city = textEditingControllerCity.text;
+    userInfoEditRequestModel.mainAddress = textEditingControllerAddress.text;
+    userInfoEditRequestModel.personal = textEditingControllerReal.text;
+
+    apiService.editUserInfo(userInfoEditRequestModel).then(
+      (value) {
+        setState(() {
+          _isApiCallProcess = false;
+        });
+        Fluttertoast.showToast(
+          msg: value.message.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          // fontSize: 16.0,
+        );
+        // Provider.of<UserProvider>(context, listen: false).setUser(userInfoEditRequestModel);
+        dispose();
+      },
+    ).onError(
+      (error, stackTrace) {
+        print("OnError: $error");
         Fluttertoast.showToast(
           msg: error.toString(),
           toastLength: Toast.LENGTH_SHORT,

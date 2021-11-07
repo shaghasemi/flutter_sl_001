@@ -6,7 +6,7 @@ class UserInfoEditRequestModel {
     this.gender,
     this.email,
     this.mainAddress,
-    this.addressList,
+    // this.addressList,
     this.nationalCode,
     this.birthday,
     this.telephone,
@@ -19,7 +19,7 @@ class UserInfoEditRequestModel {
     this.images,
     this.foreignNational,
     this.personal,
-    this.company,
+    // this.company,
   });
 
   UserInfoEditRequestModel.fromJson(dynamic json) {
@@ -29,8 +29,8 @@ class UserInfoEditRequestModel {
     gender = json['gender'];
     email = json['email'];
     mainAddress = json['main_address'];
-    addressList =
-        json['address_list'] != null ? json['address_list'].cast<String>() : [];
+    /*addressList =
+        json['address_list'] != null ? json['address_list'].cast<String>() : [];*/
     nationalCode = json['national_code'];
     birthday = json['birthday'];
     telephone = json['telephone'];
@@ -48,8 +48,8 @@ class UserInfoEditRequestModel {
     }
     foreignNational = json['foreign_national'];
     personal = json['personal'];
-    company =
-        json['company'] != null ? UserInfoEditRequestCompany.fromJson(json['company']) : null;
+    /*company =
+        json['company'] != null ? UserInfoEditRequestCompany.fromJson(json['company']) : null;*/
   }
 
   String? token;
@@ -58,7 +58,8 @@ class UserInfoEditRequestModel {
   String? gender;
   String? email;
   String? mainAddress;
-  List<String>? addressList;
+
+  // List<String>? addressList;
   String? nationalCode;
   String? birthday;
   String? telephone;
@@ -70,8 +71,9 @@ class UserInfoEditRequestModel {
   String? city;
   List<Images>? images;
   String? foreignNational;
-  bool? personal;
-  UserInfoEditRequestCompany? company;
+  String? personal;
+
+  // UserInfoEditRequestCompany? company;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -81,7 +83,7 @@ class UserInfoEditRequestModel {
     map['gender'] = gender;
     map['email'] = email;
     map['main_address'] = mainAddress;
-    map['address_list'] = addressList;
+    // map['address_list'] = addressList;
     map['national_code'] = nationalCode;
     map['birthday'] = birthday;
     map['telephone'] = telephone;
@@ -96,9 +98,9 @@ class UserInfoEditRequestModel {
     }
     map['foreign_national'] = foreignNational;
     map['personal'] = personal;
-    if (company != null) {
+    /* if (company != null) {
       map['company'] = company?.toJson();
-    }
+    }*/
     return map;
   }
 }

@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/data/provider/user_provider.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
+import 'package:flutter_sl_001/model/panel/user_info_model.dart';
 import 'package:flutter_sl_001/screen/helper/under_construction.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
 import 'package:flutter_sl_001/screen/panel/message_list_screen.dart';
@@ -11,6 +15,7 @@ import 'package:flutter_sl_001/screen/panel/user_info_screen_editable.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'profile_settings_screen.dart';
 
@@ -23,11 +28,21 @@ class ProfileScreenContent extends StatefulWidget {
 
 class _ProfileScreenContentState extends State<ProfileScreenContent> {
   late LoginResponseModel userInfo;
+  bool _isApiCallProcess = false;
+  APIServicePanel apiService = APIServicePanel();
+  UserInfoRequestModel userInfoRequestModel = UserInfoRequestModel(token: '');
+  String tokenPref = '';
 
   @override
   void initState() {
     super.initState();
     // UserProvider().loadUser();
+    // tokenPref = UserPreferences().getToken();
+    print("tokenPref");
+    print(tokenPref);
+    fetchUserInfo(tokenPref);
+
+    // This is currently used to display user name and phone number on top of the page
     Provider.of<UserProvider>(context, listen: false).loadUser();
   }
 
@@ -167,6 +182,50 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
           ],
         ),
       ),
+    );
+  }
+
+  fetchUserInfo(String token) {
+    userInfoRequestModel.token = token;
+    print("Fetch 1");
+    print(jsonEncode(userInfoRequestModel));
+    setState(() {
+      _isApiCallProcess = true;
+    });
+    apiService.userInfo(userInfoRequestModel).then(
+      (value) {
+        setState(() {
+          _isApiCallProcess = false;
+        });
+        Fluttertoast.showToast(
+          msg: value.message.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          // fontSize: 16.0,
+        );
+
+        print("Fetch 2");
+        print(jsonEncode(value));
+        // Provider.of<UserProvider>(context, listen: false).setUser(userInfoEditRequestModel);
+      },
+    ).onError(
+      (error, stackTrace) {
+        print("OnError: $error");
+        Fluttertoast.showToast(
+          msg: error.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          // fontSize: 16.0,
+        );
+      },
+    ).whenComplete(
+      () {
+        setState(
+          () {
+            _isApiCallProcess = false;
+          },
+        );
+      },
     );
   }
 }

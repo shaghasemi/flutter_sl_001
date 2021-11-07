@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/screen/category/category_content_list.dart';
+import 'package:flutter_sl_001/screen/category/category_content_lvl_0.dart';
 
 class CategoryScreen extends StatefulWidget {
   const CategoryScreen({Key? key}) : super(key: key);
@@ -20,7 +21,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
         ),
         centerTitle: true,
       ),
-      body: const CategoryContentScreen(),
+      // body: const CategoryContentScreen(),
+      body: const CategoryContentScreenZero(),
     );
   }
 }
