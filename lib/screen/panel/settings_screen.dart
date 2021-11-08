@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/user_pref.dart';
+import 'package:flutter_sl_001/main.dart';
 import 'package:flutter_sl_001/data/provider/user_provider.dart';
 import 'package:flutter_sl_001/screen/helper/under_construction.dart';
+import 'package:flutter_sl_001/screen/panel/logout_screen.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +19,7 @@ class SettingsScreen extends StatelessWidget {
       return showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context2) {
+        builder: (_) {
           return AlertDialog(
             // title: Text('خروج از حساب کاربری'),
             title: SvgPicture.asset(
@@ -42,19 +44,19 @@ class SettingsScreen extends StatelessWidget {
                   Provider.of<UserProvider>(context, listen: false)
                       .removeToken();
                   UserPreferences().removeUser();
-                  Navigator.of(context2).pop();
-                  Navigator.push(
-                    context2,
+                  Navigator.of(_).pop();
+                  Navigator.pushAndRemoveUntil(
+                    context,
                     MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
-                    ),
+                        builder: (context) => const LoginScreen()),
+                    (route) => false,
                   );
                 },
               ),
               ElevatedButton(
                 child: Text('خیر'),
                 onPressed: () {
-                  Navigator.of(context2).pop();
+                  Navigator.of(_).pop();
                 },
               ),
             ],
@@ -65,7 +67,7 @@ class SettingsScreen extends StatelessWidget {
 
     return NestedScrollView(
       scrollDirection: Axis.vertical,
-      headerSliverBuilder: (context2, innerBoxIsScroller) => [
+      headerSliverBuilder: (context, innerBoxIsScroller) => [
         SliverAppBar(
           centerTitle: true,
           title: Text("تنظیمات"),
@@ -108,7 +110,11 @@ class SettingsScreen extends StatelessWidget {
               title: "امتیازدهی",
               destination: UnderConstructionScreen(),
             ),
-            // tapping logout shows snackbar
+            /*ProfileSectionGoToWidget(
+              iconName: Icons.logout_outlined,
+              title: "صفحه خروج",
+              destination: LogoutGlobalScreen(),
+            ),*/
             GestureDetector(
               onTap: () {
                 _logoutDialog();

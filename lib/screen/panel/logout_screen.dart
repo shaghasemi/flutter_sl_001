@@ -20,10 +20,13 @@ class _LogoutGlobalScreenState extends State<LogoutGlobalScreen> {
           onPressed: () {
             setState(
               () {
-                UserPreferences.userPrefs.clear();
+                Provider.of<UserProvider>(context, listen: false).removeUser();
+                Provider.of<UserProvider>(context, listen: false).removeToken();
+                UserPreferences().removeUser();
+                /*UserPreferences.userPrefs.clear();
                 UserPreferences().removeUser();
                 Provider.of<UserProvider>(context, listen: false)
-                    .removeUser(); // UserPreferences().removeUser();
+                    .removeUser();*/
                 // Here we need to handle events that rely on login status
                 // Cart Screen should be refreshed
                 // AppHome.build

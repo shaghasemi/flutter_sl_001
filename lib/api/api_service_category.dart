@@ -110,11 +110,6 @@ class ApiServiceCategory {
     final response = await http.get(
       Uri.parse(url),
     );
-    // print("jsonEncode(response.body)");
-    // print(jsonEncode(response.body));
-   /* print(
-        ProductListByCategoryResponseModel.fromJson(json.decode(response.body))
-            .status);*/
     if (response.statusCode == 200) {
       return ProductListByCategoryResponseModel.fromJson(
           json.decode(response.body));
