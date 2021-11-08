@@ -7,6 +7,7 @@ import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
 import 'package:flutter_sl_001/model/product/product_single_model.dart';
 import 'package:flutter_sl_001/util/app_url.dart';
+import 'package:persian_number_utility/src/extensions.dart';
 import 'package:provider/provider.dart';
 
 enum order_options {
@@ -49,6 +50,12 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   late ProcessingRequestSelectedPropertyIdList
       processingRequestSelectedPropertyIdList;
 
+  bool _pack_is_selected = false;
+  int selected_pack = 999;
+
+  int min_order_temp = 0;
+  int min_order_calc = 0;
+  int max_order_calc = 0;
   int latestPrice = 0;
   ProductSingleData productSingleData = ProductSingleData();
   ProcessingResponseData processingData = ProcessingResponseData();
@@ -180,126 +187,187 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               ),
             ],
             body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  // Image Slider
-                  ImageSliderProduct(context),
-                  SizedBox(height: vertical_distance),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Image Slider
+                    ImageSliderProduct(context),
+                    Divider(
+                      thickness: 1,
+                      indent: 16,
+                      endIndent: 16,
+                    ),
+                    SizedBox(height: vertical_distance),
 
-                  // Product Title
-                  Text(productSingleData.title_fa!),
-                  SizedBox(height: vertical_distance),
-
-                  // Product Code
-                  Text(
-                    'کد محصول: ${productSingleData.tracking_code!}',
-                    style: TextStyle(fontSize: 10),
-                  ),
-                  SizedBox(height: vertical_distance),
-
-                  // Price per Item
-                  Text(
-                    'قیمت هر ${productSingleData.unit}: ${productSingleData.price!}',
-                  ),
-                  SizedBox(height: vertical_distance),
-
-                  MinMaxOrder(),
-                  SizedBox(height: vertical_distance),
-
-                  // Discount based on order quantity
-                  DiscountConditional(),
-                  SizedBox(height: vertical_distance),
-
-                  // Order Options
-                  OrderOptions(case_property),
-
-                  // Geographical Information
-                  Form(
-                    key: _formKeyProductSingle,
-                    child: Column(
+                    // TODO: To be implemented in future
+                    // Parent Categories
+                    /*Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text('اطلاعات موقعیتی'),
+                        Text(productSingleData.category_id_list![1]),
+                        Text('/'),
+                        Text(productSingleData.category_id_list![2]),
+                      ],
+                    ),*/
 
-                        // Get Province
-                        TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'استان',
-                            labelText: 'استان',
-                          ),
-                          validator: (val) {
-                            if (val!.isEmpty) {
-                              return "الزامی";
-                            }
-                            if (val.length < 2) {
-                              return "نام استان حداقل دو حرف می باشد.";
-                            }
-                          },
-                          keyboardType: TextInputType.streetAddress,
-                          onChanged: (input) {
-                            processingRequestModel.orderList[0].province =
-                                input.trim();
-                          },
+                    // Product Title
+                    Text(
+                      productSingleData.title_fa!,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    // Seller
+                    SizedBox(height: vertical_distance / 4),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.storefront,
+                          color: Colors.green,
+                          size: 20,
                         ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'شهر',
-                            labelText: 'شهر',
+                        Text(
+                          ' فروشنده: ${productSingleData.branch_id!.name!}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w200,
                           ),
-                          validator: (val) {
-                            if (val!.isEmpty) {
-                              return "الزامی";
-                            }
-                            if (val.length < 2) {
-                              return "نام شهر حداقل دو حرف می باشد.";
-                            }
-                          },
-                          keyboardType: TextInputType.streetAddress,
-                          onChanged: (input) {
-                            processingRequestModel.orderList[0].city =
-                                input.trim();
-                          },
                         ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'نشانی',
-                            labelText: 'نشانی',
-                          ),
-                          validator: (val) {
-                            if (val!.isEmpty) {
-                              return "الزامی";
-                            }
-                            if (val.length < 12) {
-                              return "نشانی حداقل دوازده حرف می باشد.";
-                            }
-                          },
-                          keyboardType: TextInputType.streetAddress,
-                          onChanged: (input) {
-                            processingRequestModel.orderList[0].address =
-                                input.trim();
-                          },
-                        )
                       ],
                     ),
-                  ),
-                  // Card(),
+                    SizedBox(height: vertical_distance),
 
-                  Text(productSingleData.title_fa!),
-                  SizedBox(height: vertical_distance),
+                    // Product Code
+                    /*Text(
+                      'کد محصول: ${productSingleData.tracking_code!}',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                    SizedBox(height: vertical_distance),*/
 
-                  // Add to Cart Button
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKeyProductSingle.currentState!.validate()) {
-                        if (_formKeyOrderOption.currentState!.validate()) {
-                          // getPrice();
-                          addToCart();
+                    // Price per Item
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.attach_money,
+                          // Icons.paid,
+                          color: Colors.green,
+                          size: 20,
+                        ),
+                        Text(
+                          ' قیمت هر ${productSingleData.unit}: ${productSingleData.price!.toPersianDigit().seRagham()} هزار تومان',
+                          // productSingleData.title_fa!,
+                          style: TextStyle(
+                            fontSize: 18,
+                            // fontFamily: 'Vazir',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: vertical_distance),
+
+                    MinMaxOrder(),
+                    SizedBox(height: vertical_distance),
+
+                    // Discount based on order quantity
+                    DiscountConditional(),
+                    SizedBox(height: vertical_distance),
+
+                    // Order Options
+                    OrderOptions(case_property),
+
+                    // Geographical Information
+                    Form(
+                      key: _formKeyProductSingle,
+                      child: Column(
+                        children: [
+                          Text('اطلاعات موقعیتی'),
+
+                          // Get Province
+                          TextFormField(
+                            decoration: InputDecoration(
+                              hintText: 'استان',
+                              labelText: 'استان',
+                            ),
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return "الزامی";
+                              }
+                              if (val.length < 2) {
+                                return "نام استان حداقل دو حرف می باشد.";
+                              }
+                            },
+                            keyboardType: TextInputType.streetAddress,
+                            onChanged: (input) {
+                              processingRequestModel.orderList[0].province =
+                                  input.trim();
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              hintText: 'شهر',
+                              labelText: 'شهر',
+                            ),
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return "الزامی";
+                              }
+                              if (val.length < 2) {
+                                return "نام شهر حداقل دو حرف می باشد.";
+                              }
+                            },
+                            keyboardType: TextInputType.streetAddress,
+                            onChanged: (input) {
+                              processingRequestModel.orderList[0].city =
+                                  input.trim();
+                            },
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              hintText: 'نشانی',
+                              labelText: 'نشانی',
+                            ),
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return "الزامی";
+                              }
+                              if (val.length < 12) {
+                                return "نشانی حداقل دوازده حرف می باشد.";
+                              }
+                            },
+                            keyboardType: TextInputType.streetAddress,
+                            onChanged: (input) {
+                              processingRequestModel.orderList[0].address =
+                                  input.trim();
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    // Card(),
+
+                    Text(productSingleData.title_fa!),
+                    SizedBox(height: vertical_distance),
+
+                    // Add to Cart Button
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKeyProductSingle.currentState!.validate()) {
+                          if (_formKeyOrderOption.currentState!.validate()) {
+                            // getPrice();
+                            addToCart();
+                          }
                         }
-                      }
-                    },
-                    child: Text("افزودن به سبد خرید"),
-                  ),
-                  SizedBox(height: vertical_distance),
-                ],
+                      },
+                      child: Text("افزودن به سبد خرید"),
+                    ),
+                    SizedBox(height: vertical_distance),
+                  ],
+                ),
               ),
             ),
           );
@@ -316,22 +384,26 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     );
   }
 
-  Container ImageSliderProduct(BuildContext context) {
+  ImageSliderProduct(BuildContext context) {
     return Container(
-      height: 200,
+      height: 300,
+      // color: Colors.grey.shade400,
       width: MediaQuery.of(context).size.width,
-      child: Center(
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemCount: productSingleData.images!.length,
-          itemBuilder: (context, index) {
-            return Image.network(
-              "${AppUrl.imageBaseUrl}${productSingleData.images![index].url}",
-              // height: 240,
-              width: MediaQuery.of(context).size.width * .8,
-            );
-          },
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+        child: Center(
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: productSingleData.images!.length,
+            itemBuilder: (context, index) {
+              return Image.network(
+                "${AppUrl.imageBaseUrl}${productSingleData.images![index].url}",
+                // height: 240,
+                width: MediaQuery.of(context).size.width * .8,
+              );
+            },
+          ),
         ),
       ),
     );
@@ -355,7 +427,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   if (case_property == order_options.number_packing ||
                       case_property ==
                           order_options.number_calculating_packing) {
-                    // print("Packing Val: $val");
                     if (val!.length == 0) {
                       return "الزامی";
                     }
@@ -377,6 +448,9 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                 onChanged: (newValue) {
                   dropDownPacking = newValue!;
                   processingRequestModel.orderList[0].packId = newValue;
+                  selected_pack = productSingleData.pack_list!
+                      .indexWhere((element) => element.id == newValue);
+                  _pack_is_selected = true;
                   getPrice();
                 },
               ),
@@ -403,7 +477,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   if (case_property == order_options.number_calculating ||
                       case_property ==
                           order_options.number_calculating_packing) {
-                    // print("Calc Val: $val");
                     if (val!.length == 0) {
                       return "الزامی";
                     }
@@ -485,20 +558,77 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     );
   }
 
-  Row MinMaxOrder() {
-    return Row(
+  // Calculates min and max
+  // If no packing selected, original units
+  // If packing selected, new min and max values based on packing
+  MinMaxOrder() {
+    if (_pack_is_selected) {
+      if ((productSingleData.inventory! <
+              int.parse(
+                  productSingleData.pack_list![selected_pack].ratio_unit!)) ||
+          productSingleData.inventory! < productSingleData.min_order!) {
+        min_order_calc = 0;
+      } else {
+        min_order_temp = (productSingleData.min_order! /
+                int.parse(
+                    productSingleData.pack_list![selected_pack].ratio_unit!))
+            .floor();
+        if (min_order_temp < 1) {
+          min_order_calc = 1;
+        } else {
+          min_order_calc = min_order_temp;
+        }
+      }
+      if (productSingleData.inventory! <
+          int.parse(productSingleData.pack_list![selected_pack].ratio_unit!)) {
+        max_order_calc = 0;
+      } else if (productSingleData.inventory! < productSingleData.max_order!) {
+        max_order_calc = (productSingleData.inventory! /
+                int.parse(
+                    productSingleData.pack_list![selected_pack].ratio_unit!))
+            .floor();
+      } else {
+        max_order_calc = (productSingleData.max_order! /
+                int.parse(
+                    productSingleData.pack_list![selected_pack].ratio_unit!))
+            .floor();
+      }
+    } else {
+      min_order_calc = productSingleData.min_order!;
+      max_order_calc = productSingleData.max_order!;
+    }
+
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Row(
           children: [
-            Text('حداقل سفارش: '),
-            Text(productSingleData.min_order.toString()),
+            Icon(
+              Icons.expand_less,
+              color: Colors.green,
+              size: 20,
+            ),
+            Text(' حداقل سفارش: '),
+            Text(min_order_calc.toString()),
+            Text(' '),
+            Text(_pack_is_selected
+                ? productSingleData.pack_list![selected_pack].name!
+                : productSingleData.unit!),
           ],
         ),
         Row(
           children: [
-            Text('حداکثر سفارش: '),
-            Text(productSingleData.max_order.toString()),
+            Icon(
+              Icons.expand_more,
+              color: Colors.green,
+              size: 20,
+            ),
+            Text(' حداکثر سفارش: '),
+            Text(max_order_calc.toString()),
+            Text(' '),
+            Text(_pack_is_selected
+                ? productSingleData.pack_list![selected_pack].name!
+                : productSingleData.unit!),
           ],
         ),
       ],
@@ -516,12 +646,12 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   void addToCart() {
     apiServiceOrder.processing(processingRequestModel).then(
-          (value) {
+      (value) {
         Provider.of<CartProvider>(context, listen: false)
             .addOrderToCart(value.data![0]);
       },
     );
-   /* if (order_options.number_calculating == true) {
+    /* if (order_options.number_calculating == true) {
       print("Fill required");
     } else {
       apiServiceOrder.processing(processingRequestModel).then(

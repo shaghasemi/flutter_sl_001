@@ -5,11 +5,14 @@ class ProductSingleResponseModel {
   int? status;
   bool? success;
 
-  ProductSingleResponseModel({this.data, this.error, this.message, this.status, this.success});
+  ProductSingleResponseModel(
+      {this.data, this.error, this.message, this.status, this.success});
 
   factory ProductSingleResponseModel.fromJson(Map<String, dynamic> json) {
     return ProductSingleResponseModel(
-      data: json['data'] != null ? ProductSingleData.fromJson(json['data']) : null,
+      data: json['data'] != null
+          ? ProductSingleData.fromJson(json['data'])
+          : null,
       error: json['error'],
       message: json['message'],
       status: json['status'],
