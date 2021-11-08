@@ -17,7 +17,7 @@ import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'profile_settings_screen.dart';
+import 'settings_screen.dart';
 
 class ProfileScreenContent extends StatefulWidget {
   const ProfileScreenContent({Key? key}) : super(key: key);
@@ -74,7 +74,7 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const ProfileSettingsScreen(),
+                      builder: (context) => const SettingsScreen(),
                     ),
                   );
                 },
