@@ -9,7 +9,7 @@ import 'package:flutter_sl_001/model/panel/user_info_model.dart';
 import 'package:flutter_sl_001/screen/helper/under_construction.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
 import 'package:flutter_sl_001/screen/panel/message_list_screen.dart';
-import 'package:flutter_sl_001/screen/panel/order_screen.dart';
+import 'package:flutter_sl_001/screen/panel/order/order_screen.dart';
 import 'package:flutter_sl_001/screen/panel/password_change_screen.dart';
 import 'package:flutter_sl_001/screen/panel/user_info_screen_editable.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';

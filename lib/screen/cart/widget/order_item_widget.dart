@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_sl_001/api/api_service_order.dart';
 import 'package:flutter_sl_001/data/provider/cart_provider.dart';
 import 'package:flutter_sl_001/model/order/processing_request_model.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
+import 'package:flutter_sl_001/util/app_url.dart';
+import 'package:persian_number_utility/src/extensions.dart';
 import 'package:provider/provider.dart';
 
 class OrderItemWidget extends StatefulWidget {
@@ -47,6 +50,7 @@ class OrderItemWidget extends StatefulWidget {
 
 class _OrderItemWidgetState extends State<OrderItemWidget> {
   ApiServiceOrder apiServiceOrder = ApiServiceOrder();
+  TextEditingController _textControllerQuantity = TextEditingController();
 
   // ProcessingRequestModel processingRequestModel = ProcessingRequestModel(orderList: );
   late ProcessingRequestModel processingRequestModel;
@@ -55,7 +59,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
       processingRequestSelectedPropertyIdList;
   ProcessingResponseData processingData = ProcessingResponseData();
   int price = 0;
-  late int quantity /*= 0*/;
+  late int quantity/*= 0*/;
 
   // int price = payAmount;
 
@@ -65,7 +69,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
 
     // Passing order arguments from processing response in last step
     // to processing request in order to update price based on quantity
-    ProcessingResponseData processingData = ProcessingResponseData();
+    // ProcessingResponseData processingData = ProcessingResponseData();
     processingRequestModel = ProcessingRequestModel(
       orderList: [
         ProcessingRequestOrderList(
@@ -100,53 +104,279 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              Provider.of<CartProvider>(context, listen: false)
-                  .removeOrder(widget.index);
-            },
+    _textControllerQuantity.text = widget.quantity.toString();
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 2),
+        child: Card(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                child: Text(
+                  widget.productName.toString(),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: null,
+                  softWrap: true,
+                ),
+              ),
+              Row(
+                children: [
+                  Flexible(
+                    flex: 3,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                      child: Image.network(
+                        "${AppUrl.imageBaseUrl}"
+                        "${widget.image}",
+                        height: 130,
+                        width: 130,
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 5,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.storefront,
+                                color: Colors.green,
+                                size: 20,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  ' شعبه: ${widget.branchName}',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w200,
+                                  ),
+                                  // maxLines: null,
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.storefront,
+                                color: Colors.green,
+                                size: 20,
+                              ),
+                              Flexible(
+                                child: Text(
+                                  ' واحد: ${widget.unit}',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w200,
+                                  ),
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          widget.packing != null
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.storefront,
+                                      color: Colors.green,
+                                      size: 20,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        ' بسته بندی: ${widget.packing}',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w200,
+                                        ),
+                                        softWrap: true,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : SizedBox.shrink(),
+                          widget.calculatingProperty != null
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Icon(
+                                      Icons.storefront,
+                                      color: Colors.green,
+                                      size: 20,
+                                    ),
+                                    //TODO: Calculating Property Name
+                                    Flexible(
+                                      child: Text(
+                                        ' فروشنده: ${widget.calculatingProperty}',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w200,
+                                        ),
+                                        softWrap: true,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : SizedBox.shrink(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.directions,
+                                color: Colors.green,
+                                size: 20,
+                              ),
+                              //TODO: Calculating Property Name
+                              Flexible(
+                                child: Text(
+                                  ' نشانی: ${widget.deliveryAddress}',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w200,
+                                  ),
+                                  softWrap: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Card(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            int currentValue =
+                                int.parse(_textControllerQuantity.text);
+                            setState(
+                              () {
+                                currentValue++;
+                                _textControllerQuantity.text =
+                                    currentValue.toString();
+                                getPrice();
+                              },
+                            );
+                          },
+                          icon: Icon(Icons.add),
+                          iconSize: 18,
+                        ),
+                        Container(
+                          width: 40,
+                          child: Center(
+                            child: TextFormField(
+                              textDirection: TextDirection.ltr,
+                              textAlign: TextAlign.center,
+                              // initialValue: quantity.toString(),
+                              controller: _textControllerQuantity,
+                              keyboardType: TextInputType.phone,
+                              onChanged: (input) {
+                                getPrice();
+                              },
+                              decoration: InputDecoration(
+                                  // icon: Icon(Icons.tag),
+                                  // hintText: "order Quantity",
+                                  ),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            int currentValue =
+                                int.parse(_textControllerQuantity.text);
+                            setState(
+                              () {
+                                currentValue--;
+                                _textControllerQuantity.text =
+                                    (currentValue > 0 ? currentValue : 0)
+                                        .toString();
+                                getPrice();
+                              },
+                            );
+                          },
+                          icon: Icon(Icons.remove),
+                          iconSize: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      widget.discountSum! > 0
+                          ? Row(
+                              children: [
+                                Text(widget.discountSum.toString()),
+                                Text(' درصد تخفیف'),
+                              ],
+                            )
+                          : SizedBox.shrink(),
+                      // Text(widget.payAmount.toString()),
+                      Row(
+                        children: [
+                          Text(
+                            price.toString().toPersianDigit().seRagham(),
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold
+                                // color: Colors.green
+                                ),
+                          ),
+                          Text(' ریال'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                      semanticLabel: 'حذف  آیتم',
+                    ),
+                    onPressed: () {
+                      Provider.of<CartProvider>(context, listen: false)
+                          .removeOrder(widget.index);
+                    },
+                  ),
+                ],
+              ),
+              // Text(quantity.toString()),
+            ],
           ),
-          Container(
-            height: 140,
-            width: 140,
-            // child: Image.network(widget.image.toString()),
-          ),
-          Text(widget.productName.toString()),
-          Text(widget.salesType.toString()),
-          Text(widget.shopName.toString()),
-          Text(widget.branchName.toString()),
-          Text(widget.unit.toString()),
-          Text(widget.packing.toString()),
-          Text(widget.calculatingProperty.toString()),
-          Text(widget.discountSum.toString()),
-          // Text(widget.payAmount.toString()),
-          Text(price.toString()),
-          Text(widget.deliveryAddress.toString()),
-          Text(quantity.toString()),
-          TextFormField(
-            initialValue: quantity.toString(),
-
-            keyboardType: TextInputType.number,
-            onChanged: (input) {
-              processingRequestModel.orderList[0].number = int.parse(input);
-              getPrice();
-            },
-            decoration: InputDecoration(
-              icon: Icon(Icons.tag),
-              hintText: "order Quantity",
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
   // To update the price when changing order quantity
   void getPrice() {
+    processingRequestModel.orderList[0].number =
+        int.parse(_textControllerQuantity.text);
     apiServiceOrder.processing(processingRequestModel).then((value) {
       /*Provider.of<CartOrderList>(context, listen: false)
           .updateOrder(widget.index, value.data![0]);*/
@@ -161,5 +391,11 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
         // processingData = value.data![0];
       });*/
     });
+  }
+
+  @override
+  void dispose() {
+    _textControllerQuantity.dispose();
+    super.dispose();
   }
 }

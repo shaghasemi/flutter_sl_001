@@ -29,21 +29,14 @@ class _CartScreenState extends State<CartScreen> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
-            leading: TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CustomerInfoOrderScreen()),
-                );
-              },
-              child: Text("تایید اطلاعات"),
-            ),
             title: const Text(
               "سبد خرید",
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Vazir'),
+              style: TextStyle(
+                  // fontWeight: FontWeight.bold,
+                  // fontFamily: 'Vazir',
+                  ),
             ),
-            backgroundColor: Color(0xff28a745),
+            // backgroundColor: Color(0xff28a745),
             snap: true,
             centerTitle: true,
             floating: true,
@@ -88,7 +81,8 @@ class _CartScreenState extends State<CartScreen> {
                                   index: index,
                                   productId:
                                       value.processingList[index].order!.id!,
-                                  image: '',
+                                  image: value
+                                      .processingList[index].product!.images,
                                   productName: value.processingList[index]
                                           .product!.titleFa ??
                                       'Name',
@@ -125,7 +119,8 @@ class _CartScreenState extends State<CartScreen> {
                                               null
                                       ? value.processingList[index].calculated!
                                           .propertyListInfo![0].name
-                                      : 'No Calculating Property',
+                                      // : 'No Calculating Property',
+                                      : null,
                                   discountSum: value.processingList[index]
                                           .calculated!.discountPriceRatio ??
                                       12,
@@ -146,20 +141,65 @@ class _CartScreenState extends State<CartScreen> {
                       );
                     }
                   },
-                )
+                ),
+                SizedBox(height: 50,),
               ],
             ),
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      /*floatingActionButton: ElevatedButton.icon(
+        label: Text('تایید و ادامه'),
+        icon: Icon(Icons.arrow_forward),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CustomerInfoOrderScreen()),
+          );
+        },
+      ),*/
+      floatingActionButton: ElevatedButton(
+        style: ButtonStyle(
+            elevation: MaterialStateProperty.all(8),
+            padding: MaterialStateProperty.all(
+              EdgeInsets.fromLTRB(12, 10, 18, 10),
+            ),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'تایید آیتم ها و ادامه',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(width: 8),
+            Icon(Icons.arrow_forward),
+          ],
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CustomerInfoOrderScreen()),
+          );
+        },
+      ),
+      /*floatingActionButton: FloatingActionButton.extended(
+        elevation: 4,
+        // child: Text('ویرایش'),
+
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CustomerInfoOrderScreen()),
+          );
+        },
+        label: Text('تایید و ادامه'),
+      ),*/
     );
   }
 }
-
-/*checkLoginState(String? token) {
-  if (token != null) {
-    return true;
-  } else {
-    return false;
-  }
-}*/

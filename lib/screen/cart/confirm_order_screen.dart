@@ -6,6 +6,7 @@ import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/data/provider/cart_provider.dart';
 import 'package:flutter_sl_001/model/order/register_list_model.dart';
 import 'package:flutter_sl_001/screen/cart/widget/order_item_confirm_widget.dart';
+import 'package:flutter_sl_001/screen/panel/entry/login_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
@@ -61,16 +62,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     ),
                 onPressed: () {
                   registerListRequestModel.token = token;
-                  print(
-                      "Print Cart 11: ${jsonEncode(registerListRequestModel.orderList)}");
-                  print(
-                      "Print Cart 12: ${jsonEncode(registerListRequestModel.token)}");
-                   print(
-                      "Print Cart 13: ${jsonEncode(registerListRequestModel.customerInfo)}");
-                  print("Print Cart 2 token: ${token}"); // String tokenCustom =
-                  print("Print Cart 3 token: ${widget.token}"); // String tokenCustom =
-                  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA1MjQsImV4cCI6MTYzNjI2NTMyNH0.x6p0skHvLvKhqFM51grrcOHFy7nNm1e04OYYaZAbA_E";
-                  // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA5ODcsImV4cCI6MTYzNjI2NTc4N30.b59L1ZG6uMYCG6t3ynpqRWW9BTDpizl4Zlw5l8Q3fn4;
                   apiServiceOrder
                       .registerListOrder(registerListRequestModel)
                       .then((value) {
@@ -81,10 +72,15 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                       gravity: ToastGravity.BOTTOM,
                       // fontSize: 16.0,
                     );
+                    /*Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                          (route) => false,
+                    );*/
                     /*Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      );*/
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );*/
                   }).onError(
                     (error, stackTrace) {
                       Fluttertoast.showToast(

@@ -4,7 +4,6 @@ import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/model/panel/panel_order_model.dart';
 import 'package:flutter_sl_001/model/panel/payment_init_model.dart';
-import 'package:flutter_sl_001/screen/panel/order/payment_webview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OrderScreen extends StatefulWidget {
