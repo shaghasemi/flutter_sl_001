@@ -20,7 +20,7 @@ class UserPreferences {
 
   void saveToken(String token) {
     print("User Preferences: Save Token Called.");
-    userPrefs.setString('token', jsonEncode(token));
+    userPrefs.setString('token', token);
   }
 
   String getToken() {
@@ -29,7 +29,7 @@ class UserPreferences {
     if (token == null) {
       throw Exception('Token Not Available!');
     } else {
-      return jsonDecode(token);
+      return token;
     }
   }
 
@@ -62,7 +62,7 @@ class UserPreferences {
   Future<String?> getTokenAsync() async {
     print("User Preferences: Load Token Called.");
     String? token = userPrefs.getString('token');
-    return jsonDecode(token!);
+    return token!;
     /*if (token == null) {
       throw Exception('Token Not Available!');
     } else {

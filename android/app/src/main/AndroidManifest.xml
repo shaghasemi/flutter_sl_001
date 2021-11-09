@@ -35,13 +35,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="sivanland.com/app_launch"
-                    android:pathPrefix="/"
+                    android:host="sivanland.com"
+                    android:pathPrefix="/app_launch"
                     android:scheme="https" />
-            <!--<data
-                    android:host="dev.sivanland.com/app_launch"
-                    android:pathPrefix="/"
-                    android:scheme="https" />-->
+                <!--<data
+                    android:host="hamedhamedhamed.com"
+                    android:pathPrefix="/app_launch"
+                    android:scheme="http" />-->
+
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

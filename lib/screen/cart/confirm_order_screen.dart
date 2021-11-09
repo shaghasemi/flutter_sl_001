@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_order.dart';
 import 'package:flutter_sl_001/data/local/user_pref.dart';
@@ -54,15 +56,31 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             floating: true,
             actions: [
               TextButton(
+                style: ButtonStyle(
+                    // elevation: 4,
+                    ),
                 onPressed: () {
-                  // registerListRequestModel.token = widget.token;
-                  // String tokenCustom =
+                  registerListRequestModel.token = token;
+                  print(
+                      "Print Cart 11: ${jsonEncode(registerListRequestModel.orderList)}");
+                  print(
+                      "Print Cart 12: ${jsonEncode(registerListRequestModel.token)}");
+                   print(
+                      "Print Cart 13: ${jsonEncode(registerListRequestModel.customerInfo)}");
+                  print("Print Cart 2 token: ${token}"); // String tokenCustom =
+                  print("Print Cart 3 token: ${widget.token}"); // String tokenCustom =
                   // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA1MjQsImV4cCI6MTYzNjI2NTMyNH0.x6p0skHvLvKhqFM51grrcOHFy7nNm1e04OYYaZAbA_E";
                   // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA5ODcsImV4cCI6MTYzNjI2NTc4N30.b59L1ZG6uMYCG6t3ynpqRWW9BTDpizl4Zlw5l8Q3fn4;
                   apiServiceOrder
                       .registerListOrder(registerListRequestModel)
                       .then((value) {
                     CartProvider().clearCart();
+                    Fluttertoast.showToast(
+                      msg: value.message.toString(),
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      // fontSize: 16.0,
+                    );
                     /*Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -87,7 +105,10 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   );
                   ;
                 },
-                child: Text("تایید اطلاعات"),
+                child: Text(
+                  "تایید اطلاعات",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
             ],
           ),

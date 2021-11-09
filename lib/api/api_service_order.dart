@@ -40,6 +40,7 @@ class ApiServiceOrder {
   Future<RegisterListResponseModel> registerListOrder(
       // Future registerListOrder(
       RegisterListRequestModel registerListRequestModel) async {
+    print("Print Order 1: ${jsonEncode(registerListRequestModel)}");
     var body = {
       "order_list": [
         {
@@ -98,23 +99,26 @@ class ApiServiceOrder {
 
     var bodyJson = jsonEncode(body);
     String url = "${baseURLV1}${userRoleCustomer}order/register/list";
+    print("Print Order 21: ${registerListRequestModel.token!}");
+    // print("Print Order 22: ${jsonDecode(registerListRequestModel.token!)}");
     Map<String, String> headers = {
       'x-access-token': registerListRequestModel.token!,
+      // 'x-access-token': jsonDecode(registerListRequestModel.token!),
       'Content-Type': 'application/json',
       'Charset': 'utf-8',
       'Accept': '*/*'
     };
     // print(registerListRequestModel.token);
     // print(jsonEncode(registerListRequestModel));
-    print("Print Order 1: ${jsonEncode(registerListRequestModel)}");
+    print("Print Order 3: ${jsonEncode(registerListRequestModel)}");
     final response = await http.post(
       Uri.parse(url),
-      // body: jsonEncode(registerListRequestModel),
+      body: jsonEncode(registerListRequestModel),
       // body: body,
-      body: bodyJson,
+      // body: bodyJson,
       headers: headers,
     );
-    print("Print Order 2: ${jsonEncode(response.body)}");
+    print("Print Order 4: ${jsonEncode(response.body)}");
     // print(jsonEncode(response.body));
     if (response.statusCode == 200) {
       return RegisterListResponseModel.fromJson(jsonDecode(response.body));

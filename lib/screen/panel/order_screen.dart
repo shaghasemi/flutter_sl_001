@@ -23,8 +23,8 @@ class _OrderScreenState extends State<OrderScreen> {
   late String token;
   String bankUrl = '';
 
-  // String urlBase = 'https://demo.sivanland.com/pay';
-  String urlBase = 'http://192.168.168.215:6005/pay';
+  String urlBase = 'https://sivanland.com/pay';
+  // String urlBase = 'http://192.168.168.215:6005/pay';
 
   @override
   void initState() {
@@ -58,7 +58,8 @@ class _OrderScreenState extends State<OrderScreen> {
           child: SingleChildScrollView(
             child: FutureBuilder(
               future: getOrderData(),
-              builder: (context, snapshot) {
+              builder:
+                  (context, AsyncSnapshot<PanelOrderResponseData> snapshot) {
                 print("jsonEncode(snapshot)");
                 print(snapshot.error);
                 print(snapshot.stackTrace);
@@ -72,10 +73,13 @@ class _OrderScreenState extends State<OrderScreen> {
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: orderData.docs!.length,
+                      // itemCount: orderData.docs!.length,
+                      itemCount: snapshot.data!.docs!.length,
                       itemBuilder: (context, index) {
-                        paymentInitRequestModel.paymentId =
-                            orderData.docs![index].list![0].payment_info![0].id;
+                        /*paymentInitRequestModel.paymentId =
+                            orderData.docs![index].list![0].payment_info![0].id;*/
+                        paymentInitRequestModel.paymentId = snapshot
+                            .data!.docs![index].list![0].payment_info![0].id;
                         return Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -89,7 +93,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                 },
                                 child: Text("فاکتور"),
                               ),
-                              ElevatedButton(
+                              /*ElevatedButton(
                                 onPressed: () {
                                   apiServicePanel
                                       .initPayment(paymentInitRequestModel)
@@ -102,12 +106,14 @@ class _OrderScreenState extends State<OrderScreen> {
                                   );
                                 },
                                 child: Text("پرداخت"),
-                              ),
+                              ),*/
                               ElevatedButton(
                                 onPressed: () {
                                   // String urlFinal = "$urlBase?token=$token&pay_code=${orderData.docs![index].cart_id}";
+                                  /*String urlFinal =
+                                      "$urlBase/${orderData.docs![index].list![0].payment_info![0].id}/$token";*/
                                   String urlFinal =
-                                      "$urlBase/${orderData.docs![index].list![0].payment_info![0].id}/$token";
+                                      "$urlBase/${orderData.docs![index].list![0].payment_info![0].tracking_code}/$token";
                                   print("urlFinal");
                                   print(urlFinal);
                                   _launchURL(urlFinal);
