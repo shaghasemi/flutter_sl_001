@@ -42,7 +42,7 @@ class _CustomerInfoOrderScreenState extends State<CustomerInfoOrderScreen> {
           postalCode: '7135641258',
           sosPhone: ''),
     );
-    getToken().then((value) async{
+    getToken().then((value) async {
       return registerListRequestModel.token = value;
     });
   }

@@ -115,4 +115,101 @@ class _SearchScreenState extends State<SearchScreen> {
       print("Api Call Error: $err");
     });
   }
+
+// TODO: Use this template for results.
+// TODO: Making it a widget would be better for scaling
+/*GestureDetector ProductListItem(BuildContext context, int index) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ProductSingleScreen(product_id: productListInfo[index].id!),
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+        child: Card(
+          elevation: 4,
+          color: Colors.grey.shade200,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  // height: 120,
+                  width: MediaQuery.of(context).size.width / 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.network(
+                      "${AppUrl.imageBaseUrl}${productListInfo[index].images![0].url}",
+                      alignment: Alignment.center,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        productListInfo[index].titleFa!,
+                        textAlign: TextAlign.justify,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 18),
+                        maxLines: 3,
+                      ),
+                      Text(
+                        productListInfo[index].status.toString(),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 4,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        productListInfo[index]
+                            .price!
+                            .toPersianDigit()
+                            .seRagham(),
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      Text('تومان'),
+                      */ /*if (productListInfo[index]
+                                                    .discountPercent !=
+                                                0)
+                                              Text(
+                                                productListInfo[index]
+                                                    .discountPercent!
+                                                    .toPersianDigit(),
+                                                style:
+                                                    TextStyle(fontSize: 16),
+                                              )
+                                            else
+                                              SizedBox(),*/ /*
+                      */ /*Text(
+                                              productListInfo[index]
+                                                  .supporting
+                                                  .toString(),
+                                            ),*/ /*
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }*/
 }

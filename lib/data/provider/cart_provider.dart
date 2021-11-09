@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/cart_pref.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CartProvider extends ChangeNotifier {
   List<ProcessingResponseData> processingList = [];
@@ -31,6 +32,7 @@ class CartProvider extends ChangeNotifier {
 
     if (sameProductOrderData.length == 0) {
       addOK();
+      toast(message: 'محصول به سبد خرید اضافه شد');
     } else if (orderItem.order!.packId != null &&
         orderItem.order!.selectedPropertyIdList![0].propertyId != null) {
       repeatOrder = sameProductOrderData
@@ -39,17 +41,23 @@ class CartProvider extends ChangeNotifier {
               e.order!.selectedPropertyIdList![0].partId ==
                   orderItem.order!.selectedPropertyIdList![0].partId)
           .toList();
+      toast(message: 'محصول با این ویژگی ها در سبد خرید موجود است');
       if (repeatOrder.length == 0) {
         addOK();
+        toast(message: 'محصول به سبد خرید اضافه شد');
       } else {}
     } else if (orderItem.order!.packId != null) {
       if (samePackingOrderData.length == 0) {
         addOK();
+        toast(message: 'محصول به سبد خرید اضافه شد');
       } else {}
     } else if (orderItem.order!.selectedPropertyIdList![0].propertyId != null) {
       if (samePropertyOrderData.length == 0) {
         addOK();
-      } else {}
+        toast(message: 'محصول به سبد خرید اضافه شد');
+      } else {
+        toast(message: 'محصول با این ویژگی ها در سبد خرید موجود است');
+      }
     }
   }
 
@@ -85,5 +93,14 @@ class CartProvider extends ChangeNotifier {
     CartPreferences().saveCart(processingList);
     print("Cleared Cart");
     notifyListeners();
+  }
+
+  void toast({required String message, bool? long}) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: long == true ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      // fontSize: 16.0,
+    );
   }
 }

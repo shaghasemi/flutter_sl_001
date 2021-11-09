@@ -4,6 +4,7 @@ import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/data/provider/cart_provider.dart';
 import 'package:flutter_sl_001/model/order/register_list_model.dart';
 import 'package:flutter_sl_001/screen/cart/widget/order_item_confirm_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
@@ -60,18 +61,31 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX2lkIjoiNjE2Mjk4MzdlMzExZGU2OTI4YjgyOTNmIiwibW9iaWxlIjoiMDkxNzEyNDU0MDIiLCJpcCI6Ijo6ZmZmZjoxOTIuMTY4LjE2OC4xODUiLCJ0eXBlIjoiY3VzdG9tZXIiLCJpYXQiOjE2MzU2NjA5ODcsImV4cCI6MTYzNjI2NTc4N30.b59L1ZG6uMYCG6t3ynpqRWW9BTDpizl4Zlw5l8Q3fn4;
                   apiServiceOrder
                       .registerListOrder(registerListRequestModel)
-                      .then(
-                    (value) {
-                      CartProvider().clearCart();
-                      /*Navigator.push(
+                      .then((value) {
+                    CartProvider().clearCart();
+                    /*Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => HomeScreen()),
                       );*/
+                  }).onError(
+                    (error, stackTrace) {
+                      Fluttertoast.showToast(
+                        msg: error.toString(),
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        // fontSize: 16.0,
+                      );
                     },
-                    onError: (err) {
-                      print("Error1" + err);
+                  ).whenComplete(
+                    () {
+                      /*setState(
+                            () {
+                          _isApiCallProcess = false;
+                        },
+                      );*/
                     },
                   );
+                  ;
                 },
                 child: Text("تایید اطلاعات"),
               ),

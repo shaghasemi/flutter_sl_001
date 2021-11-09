@@ -379,6 +379,9 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                           if (_formKeyOrderOption.currentState!.validate()) {
                             // getPrice();
                             addToCart();
+                          } else {
+                            return null;
+                            // setState(() {_autoVa});
                           }
                         }
                       },
@@ -631,6 +634,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Form(
           key: _formKeyOrderOption,
+          // Auto validation causes null issue
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
               Text(
@@ -655,13 +660,25 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                     ),
                     elevation: 2,
                     validator: (val) {
-                      if (case_property == order_options.number_packing ||
+                      if (val != null) {
+                        if (val.length == 0) {
+                          return "بسته بندی انتخاب شود.";
+                        } else {
+                          // return null;
+                        }
+                      } else {
+                        // return null;
+                      }
+
+                      /*if (case_property == order_options.number_packing ||
                           case_property ==
                               order_options.number_calculating_packing) {
                         if (val!.length == 0) {
-                          return "الزامی";
+                          return "بسته بندی انتخاب شود.";
+                        } else {
+                          return null;
                         }
-                      }
+                      }*/
                     },
                     value: dropDownPacking,
                     items: productSingleData.pack_list!.map((object) {
@@ -677,6 +694,9 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                       selected_pack = productSingleData.pack_list!
                           .indexWhere((element) => element.id == newValue);
                       _pack_is_selected = true;
+                      print(
+                          "Print 3: ${jsonEncode(processingRequestModel.orderList)}");
+
                       getPrice();
                     },
                   ),
@@ -729,6 +749,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                           productProperty.select_ratio_list!
                               .firstWhere((element) => element.id == newValue)
                               .name;
+                      print(
+                          "Print 4: ${jsonEncode(processingRequestModel.orderList)}");
                       getPrice();
                     },
                   ),
@@ -744,15 +766,25 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      child: Text(
-                        'تعداد بر حسب ${_pack_is_selected ? productSingleData.pack_list![selected_pack].name! : productSingleData.unit!}: ',
-                        maxLines: 3,
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
+                      child: _pack_is_selected
+                          ? Text(
+                              'تعداد بر حسب ${productSingleData.pack_list![selected_pack].name!}: ',
+                              maxLines: 3,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            )
+                          : Text(
+                              'تعداد بر حسب ${productSingleData.unit!}: ',
+                              maxLines: 3,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
                     ),
                     Container(
                       // height: 60,
@@ -772,8 +804,18 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                             Expanded(
                               flex: 3,
                               child: TextFormField(
+                                // key: _inputQuantityKey,
                                 textDirection: TextDirection.ltr,
                                 textAlign: TextAlign.center,
+                                validator: (val) {
+                                  if (int.parse(val!) < min_order_calc) {
+                                    return 'مقدار سفارش از حداقل مجاز کمتر است';
+                                  } else if (int.parse(val) > max_order_calc) {
+                                    return 'مقدار سفارش از حداکثر مجاز بیشتر است';
+                                  } else {
+                                    return null;
+                                  }
+                                },
                                 decoration: InputDecoration(
                                   /*contentPadding: EdgeInsets.symmetric(
                                       vertical: 8.0, horizontal: 8),*/
@@ -790,6 +832,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
                                 onChanged: (input) {
+                                  print(
+                                      "Print 5: ${jsonEncode(processingRequestModel.orderList)}");
                                   getPrice();
                                 },
                               ),
@@ -864,6 +908,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
         child: Form(
           key: _formKeyProductSingle,
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -1006,19 +1051,23 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   void getPrice() {
-    // The issue with double and int still exists.
-    // When double values come in, things stop working
-    //TODO: FIx int and double issue
-    print("Print 1: ${_textControllerQuantity.text}");
-    print("Print 2: ${int.parse(_textControllerQuantity.text)}");
-    processingRequestModel.orderList[0].number =
-        int.parse(_textControllerQuantity.text);
-    apiServiceOrder.processing(processingRequestModel).then((value) {
-      setState(() {
-        latestPrice = value.data![0].calculated!.total!;
-        processingData = value.data![0];
+    if (_formKeyOrderOption.currentState!.validate()) {
+// The issue with double and int still exists.
+      // When double values come in, things stop working
+      //TODO: FIx int and double issue
+      print("Print 1: ${_textControllerQuantity.text}");
+      processingRequestModel.orderList[0].number =
+          int.parse(_textControllerQuantity.text);
+      print("Print 2: ${jsonEncode(processingRequestModel.orderList)}");
+      apiServiceOrder.processing(processingRequestModel).then((value) {
+        setState(() {
+          latestPrice = value.data![0].calculated!.total!;
+          processingData = value.data![0];
+        });
       });
-    });
+    } else {
+      return null;
+    }
   }
 
   void addToCart() {
@@ -1041,14 +1090,14 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     }*/
   }
 
-  /*@override
+@override
   void dispose() {
     textControllerCity.dispose();
     textControllerProvince.dispose();
     textControllerAddress.dispose();
     _textControllerQuantity.dispose();
     super.dispose();
-  }*/
+  }
 }
 
 void handleClick(int item) {

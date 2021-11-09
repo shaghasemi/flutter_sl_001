@@ -38,7 +38,7 @@ class ApiServiceOrder {
 
   // Register List for an Order
   Future<RegisterListResponseModel> registerListOrder(
-  // Future registerListOrder(
+      // Future registerListOrder(
       RegisterListRequestModel registerListRequestModel) async {
     var body = {
       "order_list": [
@@ -95,6 +95,7 @@ class ApiServiceOrder {
         "company_registration_code": ""
       }
     };
+
     var bodyJson = jsonEncode(body);
     String url = "${baseURLV1}${userRoleCustomer}order/register/list";
     Map<String, String> headers = {
@@ -104,7 +105,8 @@ class ApiServiceOrder {
       'Accept': '*/*'
     };
     // print(registerListRequestModel.token);
-    print(jsonEncode(registerListRequestModel));
+    // print(jsonEncode(registerListRequestModel));
+    print("Print Order 1: ${jsonEncode(registerListRequestModel)}");
     final response = await http.post(
       Uri.parse(url),
       // body: jsonEncode(registerListRequestModel),
@@ -112,14 +114,12 @@ class ApiServiceOrder {
       body: bodyJson,
       headers: headers,
     );
-    print("response.body");
-    print(response.body);
+    print("Print Order 2: ${jsonEncode(response.body)}");
     // print(jsonEncode(response.body));
-    return RegisterListResponseModel.fromJson(jsonDecode(response.body));
-    /*if (response.statusCode == 200) {
+    if (response.statusCode == 200) {
       return RegisterListResponseModel.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to Retrieve Processing Info');
-    }*/
+      return Future.error(jsonDecode(response.body)['message']);
+    }
   }
 }

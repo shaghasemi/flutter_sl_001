@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/provider/cart_provider.dart';
 import 'package:flutter_sl_001/screen/cart/cusotmer_info_order.dart';
-import 'package:flutter_sl_001/screen/cart/widget/OrderItemWidget.dart';
+import 'package:flutter_sl_001/screen/cart/widget/order_item_widget.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
