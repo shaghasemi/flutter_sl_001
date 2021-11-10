@@ -1,6 +1,6 @@
 class RegisterListResponseModel {
   RegisterListResponseModel({
-    this.data,
+    // this.data,
     this.message,
     this.error,
     this.success,
@@ -8,14 +8,14 @@ class RegisterListResponseModel {
   });
 
   RegisterListResponseModel.fromJson(dynamic json) {
-    data = json['data'];
+    // data = json['data'];
     message = json['message'];
     error = json['error'] != null ? json['error'].cast<String>() : [];
     success = json['success'];
     status = json['status'];
   }
 
-  bool? data;
+  // bool? data;
   String? message;
   List<String>? error;
   bool? success;
@@ -23,7 +23,7 @@ class RegisterListResponseModel {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['data'] = data;
+    // map['data'] = data;
     map['message'] = message;
     map['error'] = error;
     map['success'] = success;

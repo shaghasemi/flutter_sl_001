@@ -54,7 +54,10 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
       processingRequestSelectedPropertyIdList;
 
   bool _pack_is_selected = false;
-  int selected_pack = 999;
+  bool _calc_is_selected = false;
+  int selected_pack = 0;
+  int selected_calc = 0;
+  int allowed_quantity = 0;
 
   int min_order_temp = 0;
   int min_order_calc = 0;
@@ -465,40 +468,113 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   MinMaxOrder() {
     if (_pack_is_selected) {
-      if ((productSingleData.inventory! <
-              int.parse(
-                  productSingleData.pack_list![selected_pack].ratio_unit!)) ||
-          productSingleData.inventory! < productSingleData.min_order!) {
+      if (_calc_is_selected) {
+        if ((productSingleData.property_list![0]
+                    .select_ratio_list![selected_calc].inventory! <
+                int.parse(
+                    productSingleData.pack_list![selected_pack].ratio_unit!)) ||
+            productSingleData.property_list![0]
+                    .select_ratio_list![selected_calc].inventory! <
+                productSingleData.min_order!) {
+          min_order_calc = 0;
+        } else {
+          min_order_temp = (productSingleData.min_order! /
+                  int.parse(
+                      productSingleData.pack_list![selected_pack].ratio_unit!))
+              .floor();
+          if (min_order_temp < 1) {
+            min_order_calc = 1;
+          } else {
+            min_order_calc = min_order_temp;
+          }
+        }
+        if (productSingleData.property_list![0]
+                .select_ratio_list![selected_calc].inventory! <
+            int.parse(
+                productSingleData.pack_list![selected_pack].ratio_unit!)) {
+          max_order_calc = 0;
+        } else if (productSingleData.property_list![0]
+                .select_ratio_list![selected_calc].inventory! <
+            productSingleData.max_order!) {
+          max_order_calc = (productSingleData.inventory! /
+                  int.parse(
+                      productSingleData.pack_list![selected_pack].ratio_unit!))
+              .floor();
+        } else {
+          max_order_calc = (productSingleData.max_order! /
+                  int.parse(
+                      productSingleData.pack_list![selected_pack].ratio_unit!))
+              .floor();
+        }
+      } else {
+        if ((productSingleData.inventory! <
+                int.parse(
+                    productSingleData.pack_list![selected_pack].ratio_unit!)) ||
+            productSingleData.inventory! < productSingleData.min_order!) {
+          min_order_calc = 0;
+        } else {
+          min_order_temp = (productSingleData.min_order! /
+                  int.parse(
+                      productSingleData.pack_list![selected_pack].ratio_unit!))
+              .floor();
+          if (min_order_temp < 1) {
+            min_order_calc = 1;
+          } else {
+            min_order_calc = min_order_temp;
+          }
+        }
+        if (productSingleData.inventory! <
+            int.parse(
+                productSingleData.pack_list![selected_pack].ratio_unit!)) {
+          max_order_calc = 0;
+        } else if (productSingleData.inventory! <
+            productSingleData.max_order!) {
+          max_order_calc = (productSingleData.inventory! /
+                  int.parse(
+                      productSingleData.pack_list![selected_pack].ratio_unit!))
+              .floor();
+        } else {
+          max_order_calc = (productSingleData.max_order! /
+                  int.parse(
+                      productSingleData.pack_list![selected_pack].ratio_unit!))
+              .floor();
+        }
+      }
+    } else if (_calc_is_selected) {
+      if (productSingleData
+              .property_list![0].select_ratio_list![selected_calc].inventory! <
+          productSingleData.min_order!) {
         min_order_calc = 0;
       } else {
-        min_order_temp = (productSingleData.min_order! /
-                int.parse(
-                    productSingleData.pack_list![selected_pack].ratio_unit!))
-            .floor();
+        min_order_temp = (productSingleData.min_order!);
         if (min_order_temp < 1) {
           min_order_calc = 1;
         } else {
           min_order_calc = min_order_temp;
         }
       }
-      if (productSingleData.inventory! <
-          int.parse(productSingleData.pack_list![selected_pack].ratio_unit!)) {
-        max_order_calc = 0;
-      } else if (productSingleData.inventory! < productSingleData.max_order!) {
-        max_order_calc = (productSingleData.inventory! /
-                int.parse(
-                    productSingleData.pack_list![selected_pack].ratio_unit!))
-            .floor();
+      if (productSingleData
+              .property_list![0].select_ratio_list![selected_calc].inventory! <
+          productSingleData.max_order!) {
+        max_order_calc = (productSingleData.inventory!);
       } else {
-        max_order_calc = (productSingleData.max_order! /
-                int.parse(
-                    productSingleData.pack_list![selected_pack].ratio_unit!))
-            .floor();
+        max_order_calc = productSingleData.max_order!;
       }
     } else {
       min_order_calc = productSingleData.min_order!;
       max_order_calc = productSingleData.max_order!;
     }
+
+    print("MinMax 1:");
+    print(min_order_calc);
+    print(max_order_calc);
+    print(productSingleData.property_list![0].select_ratio_list![selected_calc]
+        .toString());
+    print("MinMax 2:");
+    print(_pack_is_selected);
+    print(selected_pack);
+    print(_calc_is_selected);
+    print(selected_calc);
 
     return Card(
       child: Padding(
@@ -514,7 +590,14 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                   size: 20,
                 ),
                 Text(' موجودی: '),
-                Text(productSingleData.inventory!.toString().toPersianDigit()),
+                _calc_is_selected
+                    ? Text(productSingleData.property_list![0]
+                        .select_ratio_list![selected_calc].inventory
+                        .toString()
+                        .toPersianDigit())
+                    : Text(productSingleData.inventory!
+                        .toString()
+                        .toPersianDigit()),
                 Text(' '),
                 Text(productSingleData.unit!),
               ],
@@ -691,13 +774,14 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                     onChanged: (newValue) {
                       dropDownPacking = newValue!;
                       processingRequestModel.orderList[0].packId = newValue;
-                      selected_pack = productSingleData.pack_list!
-                          .indexWhere((element) => element.id == newValue);
-                      _pack_is_selected = true;
                       print(
                           "Print 3: ${jsonEncode(processingRequestModel.orderList)}");
-
                       getPrice();
+                      setState(() {
+                        selected_pack = productSingleData.pack_list!
+                            .indexWhere((element) => element.id == newValue);
+                        _pack_is_selected = true;
+                      });
                     },
                   ),
                 ),
@@ -755,6 +839,11 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                       print(
                           "Print 4: ${jsonEncode(processingRequestModel.orderList)}");
                       getPrice();
+                      setState(() {
+                        _calc_is_selected = true;
+                        selected_calc = productProperty.select_ratio_list!
+                            .indexWhere((element) => element.id == newValue);
+                      });
                     },
                   ),
                 ),
@@ -765,33 +854,31 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               // Available in all cases - Order Quantity
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
-                      child: _pack_is_selected
-                          ? Text(
-                              'تعداد بر حسب ${productSingleData.pack_list![selected_pack].name!}: ',
-                              maxLines: 3,
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
-                            )
-                          : Text(
-                              'تعداد بر حسب ${productSingleData.unit!}: ',
-                              maxLines: 3,
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
+                    _pack_is_selected
+                        ? Text(
+                            'تعداد بر حسب ${productSingleData.pack_list![selected_pack].name!}: ',
+                            maxLines: 3,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16,
                             ),
-                    ),
+                          )
+                        : Text(
+                            'تعداد بر حسب ${productSingleData.unit!}: ',
+                            maxLines: 3,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
                     Container(
                       // height: 60,
-                      width: 120.0,
+                      // width: 120.0,
                       foregroundDecoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5.0),
                         border: Border.all(
@@ -811,12 +898,27 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                                 textDirection: TextDirection.ltr,
                                 textAlign: TextAlign.center,
                                 validator: (val) {
-                                  if (int.parse(val!) < min_order_calc) {
-                                    return 'مقدار سفارش از حداقل مجاز کمتر است';
-                                  } else if (int.parse(val) > max_order_calc) {
-                                    return 'مقدار سفارش از حداکثر مجاز بیشتر است';
+                                  if (productSingleData
+                                          .property_list![0]
+                                          .select_ratio_list![selected_calc]
+                                          .inventory! ==
+                                      0) {
+                                    return 'کالا با ویژگی های مورد نظر موجودی ندارد.';
+                                  } else if (int.parse(val!) >
+                                      productSingleData
+                                          .property_list![0]
+                                          .select_ratio_list![selected_calc]
+                                          .inventory!) {
+                                    return 'تعداد مورد نظر موجود نیست.';
                                   } else {
-                                    return null;
+                                    if (int.parse(val) < min_order_calc) {
+                                      return 'سفارش از حداقل مجاز کمتر است';
+                                    } else if (int.parse(val) >
+                                        max_order_calc) {
+                                      return 'سفارش از حداکثر مجاز بیشتر است';
+                                    } else {
+                                      return null;
+                                    }
                                   }
                                 },
                                 decoration: InputDecoration(
@@ -1074,7 +1176,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   void addToCart() {
-    print("Product 3: ${jsonEncode(processingRequestModel)}");
+    // print("Product 3: ${jsonEncode(processingRequestModel)}");
     apiServiceOrder.processing(processingRequestModel).then(
       (value) {
         Provider.of<CartProvider>(context, listen: false)

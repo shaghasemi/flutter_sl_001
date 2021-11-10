@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_panel.dart';
+import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/data/provider/user_provider.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
@@ -33,7 +34,7 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
   void initState() {
     super.initState();
     // UserProvider().loadUser();
-    // tokenPref = UserPreferences().getToken();
+    tokenPref = UserPreferences().getToken();
     print("tokenPref");
     print(tokenPref);
     fetchUserInfo(tokenPref);

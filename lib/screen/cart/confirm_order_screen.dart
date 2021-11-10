@@ -4,6 +4,8 @@ import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/data/provider/cart_provider.dart';
 import 'package:flutter_sl_001/model/order/register_list_model.dart';
 import 'package:flutter_sl_001/screen/cart/widget/order_item_confirm_widget_2.dart';
+import 'package:flutter_sl_001/screen/main/home_screen.dart';
+import 'package:flutter_sl_001/screen/panel/entry/login_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
@@ -267,6 +269,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
           apiServiceOrder
               .registerListOrder(registerListRequestModel)
               .then((value) {
+            print("Order Confirmed 1: ${value.message}");
             CartProvider().clearCart();
             Fluttertoast.showToast(
               msg: value.message.toString(),
@@ -275,16 +278,17 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               // fontSize: 16.0,
             );
             /*Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()),
-                          (route) => false,
-                    );*/
-            /*Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    );*/
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+              (route) => false,
+            );*/
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
           }).onError(
             (error, stackTrace) {
+              // print("Order Confirmed 2: ${error}");
               Fluttertoast.showToast(
                 msg: error.toString(),
                 toastLength: Toast.LENGTH_SHORT,
