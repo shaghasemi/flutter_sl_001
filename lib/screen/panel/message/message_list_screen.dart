@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sl_001/screen/panel/message_widget.dart';
+import 'package:flutter_sl_001/screen/panel/message/message_widget.dart';
 
 class MessageListScreen extends StatefulWidget {
   const MessageListScreen({Key? key}) : super(key: key);
@@ -15,9 +15,13 @@ class _MessageListScreenState extends State<MessageListScreen> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           const SliverAppBar(
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              fontFamily: 'Vazir',
+            ),
             title: Text(
-              "سیوان لند",
-              style: TextStyle(fontFamily: 'Vazir'),
+              "اطلاعیه  ها",
             ),
             backgroundColor: Color(0xff28a745),
             snap: true,

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_panel.dart';
 import 'package:flutter_sl_001/data/provider/user_provider.dart';
@@ -146,12 +144,13 @@ class _UserInfoEditScreenUpdatedState extends State<UserInfoEditScreenUpdated> {
     return NestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScroller) => [
         const SliverAppBar(
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            fontFamily: 'Vazir',
+          ),
           title: Text(
             "مشخصات کاربر",
-            style: TextStyle(
-                // color: Color(0xff28a745),
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Vazir'),
           ),
           backgroundColor: Color(0xff28a745),
           snap: true,

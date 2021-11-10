@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/user_pref.dart';
-import 'package:flutter_sl_001/main.dart';
 import 'package:flutter_sl_001/data/provider/user_provider.dart';
 import 'package:flutter_sl_001/screen/helper/under_construction.dart';
-import 'package:flutter_sl_001/screen/panel/logout_screen.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +19,7 @@ class SettingsScreen extends StatelessWidget {
         barrierDismissible: false, // user must tap button!
         builder: (_) {
           return AlertDialog(
+            buttonPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             // title: Text('خروج از حساب کاربری'),
             title: SvgPicture.asset(
               'assets/svg/logo_sl_2.svg',
@@ -30,34 +29,42 @@ class SettingsScreen extends StatelessWidget {
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  Text('آیا می خواهید از این حساب کاربری خارج شوید؟'),
+                  Text('آیا می خواهید از حساب کاربری خارج شوید؟'),
                   // Text('Would you like to approve of this message?'),
                 ],
               ),
             ),
             actions: <Widget>[
-              ElevatedButton(
-                child: Text('بله'),
-                onPressed: () {
-                  Provider.of<UserProvider>(context, listen: false)
-                      .removeUser();
-                  Provider.of<UserProvider>(context, listen: false)
-                      .removeToken();
-                  UserPreferences().removeUser();
-                  Navigator.of(_).pop();
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginScreen()),
-                    (route) => false,
-                  );
-                },
-              ),
-              ElevatedButton(
-                child: Text('خیر'),
-                onPressed: () {
-                  Navigator.of(_).pop();
-                },
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      child: Text('بله'),
+                      onPressed: () {
+                        Provider.of<UserProvider>(context, listen: false)
+                            .removeUser();
+                        Provider.of<UserProvider>(context, listen: false)
+                            .removeToken();
+                        UserPreferences().removeUser();
+                        Navigator.of(_).pop();
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginScreen()),
+                          (route) => false,
+                        );
+                      },
+                    ),
+                    ElevatedButton(
+                      child: Text('خیر'),
+                      onPressed: () {
+                        Navigator.of(_).pop();
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           );
@@ -70,6 +77,11 @@ class SettingsScreen extends StatelessWidget {
       headerSliverBuilder: (context, innerBoxIsScroller) => [
         SliverAppBar(
           centerTitle: true,
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            fontFamily: 'Vazir',
+          ),
           title: Text("تنظیمات"),
           elevation: 8,
           snap: true,

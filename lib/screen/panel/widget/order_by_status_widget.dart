@@ -62,7 +62,7 @@ class OrderByStatusWidget extends StatelessWidget {
             // Image.asset('assets/images/processing.png'),
             Icon(
               iconAsset,
-              size: 58,
+              size: 48,
             ),
             Text(
               title,

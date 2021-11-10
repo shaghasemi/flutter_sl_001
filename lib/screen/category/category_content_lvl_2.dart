@@ -9,8 +9,10 @@ import 'package:persian_number_utility/src/extensions.dart';
 
 class CategoryContentScreenTwo extends StatefulWidget {
   final String categoryId;
+  final String? categoryName;
 
-  const CategoryContentScreenTwo({Key? key, required this.categoryId})
+  const CategoryContentScreenTwo(
+      {Key? key, required this.categoryId, this.categoryName})
       : super(key: key);
 
   @override
@@ -56,12 +58,12 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
-            title: const Text(
-              //TODO: Name of the category level 1
-              "تکمیل اطلاعات خرید",
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Vazir'),
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              fontFamily: 'Vazir',
             ),
+            title: Text(widget.categoryName!),
             backgroundColor: Color(0xff28a745),
             snap: true,
             centerTitle: true,
@@ -96,16 +98,14 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
                             });
                           },
                           child: Container(
-                            // width: MediaQuery.of(context).size.width,
-                            // width: 120,
-                            // height: 140,
                             child: Card(
                               elevation: 4,
                               color: Colors.grey.shade200,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 4, vertical: 4),
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -130,7 +130,6 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
                             ),
                           ),
                         );
-                        // A futurebuilder inside this will show products based on category
                       },
                     );
                   } else if (snapshot.hasError) {
@@ -189,7 +188,7 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
     );
   }
 
-  GestureDetector ProductListItem(BuildContext context, int index) {
+  ProductListItem(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -201,9 +200,9 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
         child: Card(
-          elevation: 4,
+          elevation: 1,
           color: Colors.grey.shade200,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -216,11 +215,14 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
                   // height: 120,
                   width: MediaQuery.of(context).size.width / 4,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.network(
-                      "${AppUrl.imageBaseUrl}${productListInfo[index].images![0].url}",
-                      alignment: Alignment.center,
-                      fit: BoxFit.contain,
+                    padding: const EdgeInsets.fromLTRB(8, 4, 0, 4),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        "${AppUrl.imageBaseUrl}${productListInfo[index].images![0].url}",
+                        alignment: Alignment.center,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
@@ -232,20 +234,29 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
                     children: [
                       Text(
                         productListInfo[index].titleFa!,
-                        textAlign: TextAlign.justify,
+                        // textAlign: TextAlign.justify,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 14),
                         maxLines: 3,
                       ),
-                      Text(
-                        productListInfo[index].status.toString(),
-                      ),
+                      int.parse(productListInfo[index].discountPercent!) > 0
+                          ? Row(
+                              children: [
+                                Text(
+                                  productListInfo[index]
+                                      .discountPercent
+                                      .toString(),
+                                ),
+                                Text('درصد تخفیف'),
+                              ],
+                            )
+                          : SizedBox.shrink(),
                     ],
                   ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 4,
-                  child: Column(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
@@ -253,9 +264,12 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
                             .price!
                             .toPersianDigit()
                             .seRagham(),
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 14),
                       ),
-                      Text('تومان'),
+                      Text(
+                        ' ریال',
+                        style: TextStyle(fontSize: 10),
+                      ),
                       /*if (productListInfo[index]
                                                     .discountPercent !=
                                                 0)

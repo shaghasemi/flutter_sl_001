@@ -46,10 +46,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              fontFamily: 'Vazir',
+            ),
             title: const Text(
               "تغییر رمز عبور",
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Vazir'),
             ),
             backgroundColor: Color(0xff28a745),
             snap: true,

@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_category.dart';
-import 'package:flutter_sl_001/data/local/user_pref.dart';
-import 'package:flutter_sl_001/data/provider/user_provider.dart';
-import 'package:flutter_sl_001/model/category/category_all_model.dart';
 import 'package:flutter_sl_001/model/category/category_all_model_saeed.dart';
 import 'package:flutter_sl_001/progress_hud.dart';
-import 'package:flutter_sl_001/screen/category/widget/product_list_by_category.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
-
 import 'category_content_lvl_2.dart';
 
 class CategoryContentScreenZero extends StatefulWidget {
@@ -21,7 +15,7 @@ class CategoryContentScreenZero extends StatefulWidget {
 class _CategoryContentScreenState extends State<CategoryContentScreenZero> {
   ApiServiceCategory apiServiceCategory = ApiServiceCategory();
   bool _isApiCallProcess = false;
-
+  String categoryName = '';
   CategoryAllRequestModelSaeed categoryAllRequestModelSaeed =
       CategoryAllRequestModelSaeed();
   List<CategoryAllModelSaeedData> categoryListInfo = [
@@ -88,7 +82,11 @@ class _CategoryContentScreenState extends State<CategoryContentScreenZero> {
                                               categoryId:
                                                   categoryListInfo[index]
                                                       .subCat1![index1]
-                                                      .id!),
+                                                      .id!,
+                                              categoryName:
+                                                  categoryListInfo[index]
+                                                      .subCat1![index1]
+                                                      .titleFa!),
                                     ),
                                   );
                                 },

@@ -29,12 +29,13 @@ class _CartScreenState extends State<CartScreen> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              fontFamily: 'Vazir',
+            ),
             title: const Text(
               "سبد خرید",
-              style: TextStyle(
-                  // fontWeight: FontWeight.bold,
-                  // fontFamily: 'Vazir',
-                  ),
             ),
             // backgroundColor: Color(0xff28a745),
             snap: true,
@@ -91,13 +92,13 @@ class _CartScreenState extends State<CartScreen> {
                                       .toString(),
                                   shopName: value.processingList[index].product!
                                           .shopId!.commercialName ??
-                                      'Shop Name',
+                                      'No Shop Name',
                                   branchName: value.processingList[index]
                                           .product!.branchId!.name ??
-                                      'Branch Name',
+                                      'No Branch Name',
                                   unit: value.processingList[index].product!
                                           .unit ??
-                                      'Unit',
+                                      'No Unit',
                                   packing: value.processingList[index].order!
                                                   .packId !=
                                               "" ||
@@ -106,7 +107,7 @@ class _CartScreenState extends State<CartScreen> {
                                               null
                                       ? value.processingList[index].calculated!
                                           .packInfo!.name
-                                      : 'No Packing Info',
+                                      : null,
                                   calculatingProperty: value
                                                   .processingList[index]
                                                   .order!
@@ -119,7 +120,19 @@ class _CartScreenState extends State<CartScreen> {
                                               null
                                       ? value.processingList[index].calculated!
                                           .propertyListInfo![0].name
-                                      // : 'No Calculating Property',
+                                      : null,
+                                  calculatingPropertyUnit: value
+                                                  .processingList[index]
+                                                  .order!
+                                                  .selectedPropertyIdList !=
+                                              null &&
+                                          value
+                                                  .processingList[index]
+                                                  .calculated!
+                                                  .propertyListInfo !=
+                                              null
+                                      ? value.processingList[index].calculated!
+                                          .propertyListInfo![0].propertyName
                                       : null,
                                   discountSum: value.processingList[index]
                                           .calculated!.discountPriceRatio ??
@@ -142,7 +155,9 @@ class _CartScreenState extends State<CartScreen> {
                     }
                   },
                 ),
-                SizedBox(height: 50,),
+                SizedBox(
+                  height: 50,
+                ),
               ],
             ),
           ),

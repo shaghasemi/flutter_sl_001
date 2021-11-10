@@ -20,6 +20,7 @@ class OrderItemConfirmWidget2 extends StatefulWidget {
   final String? unit;
   final String? packing;
   final String? calculatingProperty;
+  final String? calculatingPropertyUnit;
   final int? discountSum;
   final int? payAmount;
   final String? deliveryAddress;
@@ -38,6 +39,7 @@ class OrderItemConfirmWidget2 extends StatefulWidget {
     /*required*/ this.unit,
     this.packing,
     this.calculatingProperty,
+    this.calculatingPropertyUnit,
     /*required*/ this.discountSum,
     /*required*/ this.payAmount,
     /*required*/ this.deliveryAddress,
@@ -108,9 +110,10 @@ class _OrderItemWidgetState extends State<OrderItemConfirmWidget2> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-                    child: Flexible(
+                  Flexible(
+                    flex: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
                       child: Text(
                         widget.productName.toString(),
                         style: TextStyle(
@@ -122,32 +125,49 @@ class _OrderItemWidgetState extends State<OrderItemConfirmWidget2> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
-                    child: Column(
-                      children: [
-                        widget.discountSum! > 0
-                            ? Row(
-                                children: [
-                                  Text(widget.discountSum.toString()),
-                                  Text(' درصد تخفیف'),
-                                ],
-                              )
-                            : SizedBox.shrink(),
-                        // Text(widget.payAmount.toString()),
-                        Row(
-                          children: [
-                            Text(
-                              price.toString().toPersianDigit().seRagham(),
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold
-                                  // color: Colors.green
-                                  ),
-                            ),
-                            Text(' ریال'),
-                          ],
-                        ),
-                      ],
+                  Flexible(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+                      child: Column(
+                        children: [
+                          widget.discountSum! > 0
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      widget.discountSum.toString(),
+                                      maxLines: null,
+                                      softWrap: true,
+                                    ),
+                                    Text(
+                                      ' درصد تخفیف',
+                                      maxLines: null,
+                                      softWrap: true,
+                                    ),
+                                  ],
+                                )
+                              : SizedBox.shrink(),
+                          // Text(widget.payAmount.toString()),
+                          Row(
+                            children: [
+                              Text(
+                                price.toString().toPersianDigit().seRagham(),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold
+                                    // color: Colors.green
+                                    ),
+                                maxLines: null,
+                                softWrap: true,
+                              ),
+                              Text(
+                                ' ریال',
+                                maxLines: null,
+                                softWrap: true,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -275,7 +295,7 @@ class _OrderItemWidgetState extends State<OrderItemConfirmWidget2> {
                                     //TODO: Calculating Property Name
                                     Flexible(
                                       child: Text(
-                                        ' فروشنده: ${widget.calculatingProperty}',
+                                        ' ${widget.calculatingPropertyUnit}: ${widget.calculatingProperty}',
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w200,

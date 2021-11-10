@@ -36,37 +36,62 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  SizedBox(height: 8),
+
                   // Slider Advertisement
                   BannerAdTopSliderWidget(),
 
                   // Favorite Categories
-                  Text("دسته های پرطرفدار"),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 18, 8, 4),
+                    child: Text(
+                      "دسته های پرطرفدار",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
                   FavoriteCategoriesSliderWidget(),
 
                   // Static Advertisement
+                  /*Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 10, 8, 4),
+                    child: Text(
+                      "دسته های پرطرفدار",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),*/
                   BannerAdTopStaticWidget(),
 
                   // Latest Products
-                  Text("جدیدترین محصولات"),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 18, 8, 4),
+                    child: Text(
+                      "جدیدترین محصولات",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
                   LatestProductsWidget(),
 
+                  SizedBox(height: 18),
                   CallToActionWidget(),
 
                   // Weekly Special
-                  Text("محصول ویزه هفته"),
+                  // Text("محصول ویزه هفته"),
 
                   // Links with Images
 
                   // Image Slider - Shops
-                  Text("فروشگاه های برتر"),
-                  SizedBox(
-                    height: 140,
-                    width: double.infinity,
-                    child: BannerShopSliderWidget(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 18, 8, 4),
+                    child: Text(
+                      "فروشگاه های برتر",
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ),
+                  BannerShopSliderWidget(),
+                  SizedBox(height: 18),
 
                   // Popular Categories
-                  Row(),
+                  // Row(),
                 ],
               ),
             ),

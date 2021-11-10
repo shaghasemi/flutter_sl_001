@@ -1,20 +1,16 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_panel.dart';
-import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/data/provider/user_provider.dart';
 import 'package:flutter_sl_001/model/panel/login_model.dart';
 import 'package:flutter_sl_001/model/panel/user_info_model.dart';
 import 'package:flutter_sl_001/screen/helper/under_construction.dart';
-import 'package:flutter_sl_001/screen/main/cart_screen.dart';
-import 'package:flutter_sl_001/screen/panel/message_list_screen.dart';
+import 'package:flutter_sl_001/screen/panel/message/message_list_screen.dart';
 import 'package:flutter_sl_001/screen/panel/order/order_screen.dart';
 import 'package:flutter_sl_001/screen/panel/password_change_screen.dart';
 import 'package:flutter_sl_001/screen/panel/user_info_screen_editable.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_sl_001/screen/panel/widget/order_by_status_widget.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'settings_screen.dart';
@@ -56,8 +52,17 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
         scrollDirection: Axis.vertical,
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              fontFamily: 'Vazir',
+            ),
+            title: Text("حساب کاربری"),
+            snap: true,
+            centerTitle: true,
+            floating: true,
             leading: IconButton(
-              icon: const Icon(Icons.alarm),
+              icon: const Icon(Icons.message),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -80,8 +85,6 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
                 },
               ),
             ],
-            snap: true,
-            floating: true,
           )
         ],
         body: Column(
@@ -98,10 +101,10 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.fromLTRB(8,8,16,4),
                               child: SizedBox(
-                                height: 90,
-                                width: 90,
+                                height: 72,
+                                width: 72,
                                 // child: Image.network('src'),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
@@ -134,10 +137,10 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
                           ],
                         ),
                         // Column for orders, with row for different status
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 20),
                         const OrderByStatusWidget(),
                         // Various entries for panel
-                        const SizedBox(height: 48),
+                        const SizedBox(height: 20),
                         Column(
                           children: [
                             ProfileSectionGoToWidget(
@@ -156,7 +159,7 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
                               destination: OrderScreen(),
                             ),
                             ProfileSectionGoToWidget(
-                              title: 'اطلاعات کاربر',
+                              title: 'مشخصات کاربر',
                               iconName: Icons.person_outline,
                               // destination: UserInfoScreen(),
                               destination: UserInfoEditScreenUpdated(

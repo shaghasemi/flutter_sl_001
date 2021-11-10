@@ -10,6 +10,11 @@ class UnderConstructionScreen extends StatelessWidget {
       headerSliverBuilder: (context, innerBoxIsScroller) => [
         SliverAppBar(
           centerTitle: true,
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            fontFamily: 'Vazir',
+          ),
           title: Text("در حال ساخت"),
           elevation: 8,
           snap: true,

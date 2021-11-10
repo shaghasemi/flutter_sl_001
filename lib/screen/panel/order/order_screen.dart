@@ -23,6 +23,7 @@ class _OrderScreenState extends State<OrderScreen> {
   String bankUrl = '';
 
   String urlBase = 'https://sivanland.com/pay';
+
   // String urlBase = 'http://192.168.168.215:6005/pay';
 
   @override
@@ -42,10 +43,13 @@ class _OrderScreenState extends State<OrderScreen> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              fontFamily: 'Vazir',
+            ),
             title: const Text(
               "سفارش ها",
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Vazir'),
             ),
             backgroundColor: Color(0xff28a745),
             snap: true,

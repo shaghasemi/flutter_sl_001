@@ -745,10 +745,13 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                       processingRequestModel.orderList[0]
                           .selectedPropertyIdList![0].partId = newValue;
                       processingRequestModel.orderList[0]
-                              .selectedPropertyIdList![0].propertyName =
+                              .selectedPropertyIdList![0].propertyId =
                           productProperty.select_ratio_list!
                               .firstWhere((element) => element.id == newValue)
-                              .name;
+                              .id;
+                      processingRequestModel.orderList[0]
+                              .selectedPropertyIdList![0].propertyName =
+                          productSingleData.item_id!.property_list![0].name_fa;
                       print(
                           "Print 4: ${jsonEncode(processingRequestModel.orderList)}");
                       getPrice();
@@ -1071,6 +1074,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   void addToCart() {
+    print("Product 3: ${jsonEncode(processingRequestModel)}");
     apiServiceOrder.processing(processingRequestModel).then(
       (value) {
         Provider.of<CartProvider>(context, listen: false)
@@ -1090,7 +1094,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
     }*/
   }
 
-@override
+  @override
   void dispose() {
     textControllerCity.dispose();
     textControllerProvince.dispose();

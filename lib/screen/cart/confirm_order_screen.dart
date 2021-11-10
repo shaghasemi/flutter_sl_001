@@ -43,11 +43,12 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScroller) => [
           SliverAppBar(
-            title: const Text(
-              "پرداخت",
-              style:
-                  TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Vazir'),
+            titleTextStyle: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              fontFamily: 'Vazir',
             ),
+            title: const Text("نهایی کردن سفارش"),
             backgroundColor: Color(0xff28a745),
             snap: true,
             centerTitle: true,
@@ -161,7 +162,8 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                   index: index,
                                   productId:
                                       value.processingList[index].order!.id!,
-                                  image: value.processingList[index].product!.images!,
+                                  image: value
+                                      .processingList[index].product!.images!,
                                   productName: value.processingList[index]
                                           .product!.titleFa ??
                                       'Name',
@@ -198,7 +200,20 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                                               null
                                       ? value.processingList[index].calculated!
                                           .propertyListInfo![0].name
-                                      : 'No Calculating Property',
+                                      : null,
+                                  calculatingPropertyUnit: value
+                                                  .processingList[index]
+                                                  .order!
+                                                  .selectedPropertyIdList !=
+                                              null &&
+                                          value
+                                                  .processingList[index]
+                                                  .calculated!
+                                                  .propertyListInfo !=
+                                              null
+                                      ? value.processingList[index].calculated!
+                                          .propertyListInfo![0].propertyName
+                                      : null,
                                   discountSum: value.processingList[index]
                                           .calculated!.discountPriceRatio ??
                                       12,

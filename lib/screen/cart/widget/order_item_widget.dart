@@ -20,6 +20,7 @@ class OrderItemWidget extends StatefulWidget {
   final String? unit;
   final String? packing;
   final String? calculatingProperty;
+  final String? calculatingPropertyUnit;
   final int? discountSum;
   final int? payAmount;
   final String? deliveryAddress;
@@ -38,6 +39,7 @@ class OrderItemWidget extends StatefulWidget {
     /*required*/ this.unit,
     this.packing,
     this.calculatingProperty,
+    this.calculatingPropertyUnit,
     /*required*/ this.discountSum,
     /*required*/ this.payAmount,
     /*required*/ this.deliveryAddress,
@@ -128,8 +130,8 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                   Flexible(
                     flex: 3,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 2, vertical: 2),
                       child: Image.network(
                         "${AppUrl.imageBaseUrl}"
                         "${widget.image}",
@@ -141,8 +143,8 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                   Flexible(
                     flex: 5,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 2, vertical: 2),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -225,7 +227,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                                     //TODO: Calculating Property Name
                                     Flexible(
                                       child: Text(
-                                        ' فروشنده: ${widget.calculatingProperty}',
+                                        ' ${widget.calculatingPropertyUnit}: ${widget.calculatingProperty}',
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w200,
