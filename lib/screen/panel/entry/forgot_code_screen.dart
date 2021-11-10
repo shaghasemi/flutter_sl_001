@@ -87,7 +87,7 @@ class _ForgotCodeScreenState extends State<ForgotCodeScreen> {
                             validator: (value) => value!.isEmpty
                                 ? 'شماره تماس خود را وارد کنید'
                                 : null,
-                            autofocus: true,
+                            // autofocus: true,
                             textDirection: TextDirection.ltr,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.phone,

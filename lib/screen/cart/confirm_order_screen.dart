@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_order.dart';
 import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/data/provider/cart_provider.dart';
 import 'package:flutter_sl_001/model/order/register_list_model.dart';
-import 'package:flutter_sl_001/screen/cart/widget/order_item_confirm_widget.dart';
-import 'package:flutter_sl_001/screen/panel/entry/login_screen.dart';
+import 'package:flutter_sl_001/screen/cart/widget/order_item_confirm_widget_2.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
@@ -55,58 +52,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             snap: true,
             centerTitle: true,
             floating: true,
-            actions: [
-              TextButton(
-                style: ButtonStyle(
-                    // elevation: 4,
-                    ),
-                onPressed: () {
-                  registerListRequestModel.token = token;
-                  apiServiceOrder
-                      .registerListOrder(registerListRequestModel)
-                      .then((value) {
-                    CartProvider().clearCart();
-                    Fluttertoast.showToast(
-                      msg: value.message.toString(),
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      // fontSize: 16.0,
-                    );
-                    /*Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LoginScreen()),
-                          (route) => false,
-                    );*/
-                    /*Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    );*/
-                  }).onError(
-                    (error, stackTrace) {
-                      Fluttertoast.showToast(
-                        msg: error.toString(),
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        // fontSize: 16.0,
-                      );
-                    },
-                  ).whenComplete(
-                    () {
-                      /*setState(
-                            () {
-                          _isApiCallProcess = false;
-                        },
-                      );*/
-                    },
-                  );
-                  ;
-                },
-                child: Text(
-                  "تایید اطلاعات",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-            ],
           ),
         ],
         body: SafeArea(
@@ -210,13 +155,13 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                               shrinkWrap: true,
                               itemCount: value.processingList.length,
                               itemBuilder: (context, index) {
-                                return OrderItemConfirmWidget(
+                                return OrderItemConfirmWidget2(
                                   customOrder:
                                       value.processingList[index].order!,
                                   index: index,
                                   productId:
                                       value.processingList[index].order!.id!,
-                                  image: '',
+                                  image: value.processingList[index].product!.images!,
                                   productName: value.processingList[index]
                                           .product!.titleFa ??
                                       'Name',
@@ -279,6 +224,70 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             ),
           ),
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: ElevatedButton(
+        style: ButtonStyle(
+            elevation: MaterialStateProperty.all(8),
+            padding: MaterialStateProperty.all(
+              EdgeInsets.fromLTRB(12, 10, 18, 10),
+            ),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'نهایی کردن سفارش',
+              style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(width: 8),
+            Icon(Icons.done),
+          ],
+        ),
+        onPressed: () {
+          registerListRequestModel.token = token;
+          apiServiceOrder
+              .registerListOrder(registerListRequestModel)
+              .then((value) {
+            CartProvider().clearCart();
+            Fluttertoast.showToast(
+              msg: value.message.toString(),
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              // fontSize: 16.0,
+            );
+            /*Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                          (route) => false,
+                    );*/
+            /*Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );*/
+          }).onError(
+            (error, stackTrace) {
+              Fluttertoast.showToast(
+                msg: error.toString(),
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                // fontSize: 16.0,
+              );
+            },
+          ).whenComplete(
+            () {
+              /*setState(
+                            () {
+                          _isApiCallProcess = false;
+                        },
+                      );*/
+            },
+          );
+          ;
+        },
       ),
     );
   }

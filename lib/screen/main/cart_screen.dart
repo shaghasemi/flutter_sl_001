@@ -56,7 +56,7 @@ class _CartScreenState extends State<CartScreen> {
               children: [
                 Consumer<CartProvider>(
                   builder: (context, value, child) {
-                    if (value.processingList == 0) {
+                    if (value.processingList.length == 0) {
                       return Text('سبد خرید خالی است.');
                     } else {
                       return SingleChildScrollView(
@@ -149,16 +149,6 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      /*floatingActionButton: ElevatedButton.icon(
-        label: Text('تایید و ادامه'),
-        icon: Icon(Icons.arrow_forward),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CustomerInfoOrderScreen()),
-          );
-        },
-      ),*/
       floatingActionButton: ElevatedButton(
         style: ButtonStyle(
             elevation: MaterialStateProperty.all(8),
