@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_sl_001/api/api_service_order.dart';
 import 'package:flutter_sl_001/api/api_service_product.dart';
 import 'package:flutter_sl_001/data/provider/cart_provider.dart';
@@ -378,8 +379,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                         ),
                       ),
                       onPressed: () {
-                        if (_formKeyProductSingle.currentState!.validate()) {
-                          if (_formKeyOrderOption.currentState!.validate()) {
+                        if (_formKeyOrderOption.currentState!.validate()) {
+                          if (_formKeyProductSingle.currentState!.validate()) {
                             // getPrice();
                             addToCart();
                           } else {
@@ -712,57 +713,48 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 
   OrderOptions(case_property) {
     return Card(
-      elevation: 0.5,
+      elevation: 1,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
         child: Form(
           key: _formKeyOrderOption,
           // Auto validation causes null issue
           // autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Column(
             children: [
-              Text(
-                'اطلاعات سفارش',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
+              Text('اطلاعات سفارش', style: TextStyle(fontSize: 18)),
               SizedBox(height: vertical_distance),
 
               // Select Packing if available
               if (case_property == order_options.number_packing ||
                   case_property == order_options.number_calculating_packing)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  padding: const EdgeInsets.fromLTRB(18, 0, 18, 8),
                   child: DropdownButtonFormField<String>(
+                    elevation: 2,
                     decoration: InputDecoration(
-                      // contentPadding: const EdgeInsets.symmetric(horizontal: 18),
-                      // prefixIcon: Icon(Icons.local_post_office),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          width: 1,
+                        ),
+                      ),
                       label: Text('بسته بندی'),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 12),
                       alignLabelWithHint: true,
                     ),
-                    elevation: 2,
                     validator: (val) {
                       if (val != null) {
                         if (val.length == 0) {
                           return "بسته بندی انتخاب شود.";
                         } else {
-                          // return null;
-                        }
-                      } else {
-                        // return null;
-                      }
-
-                      /*if (case_property == order_options.number_packing ||
-                          case_property ==
-                              order_options.number_calculating_packing) {
-                        if (val!.length == 0) {
-                          return "بسته بندی انتخاب شود.";
-                        } else {
                           return null;
                         }
-                      }*/
+                      } else {
+                        return null;
+                      }
                     },
+                    style: TextStyle(color: Colors.black, fontSize: 16),
                     value: dropDownPacking,
                     items: productSingleData.pack_list!.map((object) {
                       return DropdownMenuItem(
@@ -770,12 +762,9 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                         child: Text(object.name!),
                       );
                     }).toList(),
-                    iconSize: 30.0,
                     onChanged: (newValue) {
                       dropDownPacking = newValue!;
                       processingRequestModel.orderList[0].packId = newValue;
-                      print(
-                          "Print 3: ${jsonEncode(processingRequestModel.orderList)}");
                       getPrice();
                       setState(() {
                         selected_pack = productSingleData.pack_list!
@@ -790,23 +779,18 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
               if (case_property == order_options.number_calculating ||
                   case_property == order_options.number_calculating_packing)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  padding: const EdgeInsets.fromLTRB(18, 8, 18, 8),
                   child: DropdownButtonFormField<String>(
                     elevation: 2,
                     decoration: InputDecoration(
+                      enabledBorder:
+                          OutlineInputBorder(borderSide: BorderSide(width: 1)),
                       label: Text(calculatingProperty!.name_fa!),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 12),
                       alignLabelWithHint: true,
-                      /*enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),*/
                     ),
                     style: TextStyle(color: Colors.black, fontSize: 16),
-                    // isDense: true,
-                    iconSize: 30.0,
-                    // iconEnabledColor: Colors.white,
                     value: dropDownCalculating,
                     validator: (val) {
                       if (case_property == order_options.number_calculating ||
@@ -836,8 +820,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                       processingRequestModel.orderList[0]
                               .selectedPropertyIdList![0].propertyName =
                           productSingleData.item_id!.property_list![0].name_fa;
-                      print(
-                          "Print 4: ${jsonEncode(processingRequestModel.orderList)}");
                       getPrice();
                       setState(() {
                         _calc_is_selected = true;
@@ -847,36 +829,134 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                     },
                   ),
                 ),
-              SizedBox(
-                height: vertical_distance,
-              ),
+              SizedBox(height: vertical_distance / 2),
 
               // Available in all cases - Order Quantity
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                padding: const EdgeInsets.fromLTRB(18, 0, 18, 8),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _pack_is_selected
-                        ? Text(
-                            'تعداد بر حسب ${productSingleData.pack_list![selected_pack].name!}: ',
-                            maxLines: 3,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16,
+                        ? Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                            child: Text(
+                              'تعداد بر حسب ${productSingleData.pack_list![selected_pack].name!}: ',
+                              maxLines: 3,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 16),
                             ),
                           )
-                        : Text(
-                            'تعداد بر حسب ${productSingleData.unit!}: ',
-                            maxLines: 3,
-                            softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16,
+                        : Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                            child: Text(
+                              'تعداد بر حسب ${productSingleData.unit!}: ',
+                              maxLines: 3,
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 16),
                             ),
                           ),
-                    Container(
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 0),
+                            onPressed: () {
+                              int currentValue =
+                                  int.parse(_textControllerQuantity.text);
+                              setState(
+                                () {
+                                  currentValue++;
+                                  _textControllerQuantity.text =
+                                      currentValue.toString();
+                                  getPrice();
+                                },
+                              );
+                            },
+                            icon: Icon(Icons.add),
+                            iconSize: 18,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: TextFormField(
+                            style: TextStyle(fontSize: 18),
+                            textDirection: TextDirection.ltr,
+                            textAlign: TextAlign.center,
+                            validator: (val) {
+                              if (productSingleData
+                                      .property_list![0]
+                                      .select_ratio_list![selected_calc]
+                                      .inventory! ==
+                                  0) {
+                                return 'کالا با ویژگی های مورد نظر موجودی ندارد.';
+                              } else if (int.parse(val!) >
+                                  productSingleData
+                                      .property_list![0]
+                                      .select_ratio_list![selected_calc]
+                                      .inventory!) {
+                                return 'تعداد مورد نظر موجود نیست.';
+                              } else {
+                                if (int.parse(val) < min_order_calc) {
+                                  return 'سفارش از حداقل مجاز کمتر است';
+                                } else if (int.parse(val) > max_order_calc) {
+                                  return 'سفارش از حداکثر مجاز بیشتر است';
+                                } else {
+                                  return null;
+                                }
+                              }
+                            },
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(12),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                            ),
+                            controller: _textControllerQuantity,
+                            keyboardType: TextInputType.numberWithOptions(
+                              decimal: false,
+                              signed: true,
+                            ),
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            onChanged: (input) {
+                              getPrice();
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 0),
+                            onPressed: () {
+                              int currentValue =
+                                  int.parse(_textControllerQuantity.text);
+                              setState(
+                                () {
+                                  currentValue--;
+                                  _textControllerQuantity.text =
+                                      (currentValue > 0 ? currentValue : 0)
+                                          .toString();
+                                  getPrice();
+                                },
+                              );
+                            },
+                            icon: Icon(Icons.remove),
+                            iconSize: 18,
+                          ),
+                        )
+                      ],
+                    ),
+                    /*Container(
                       // height: 60,
                       // width: 120.0,
                       foregroundDecoration: BoxDecoration(
@@ -887,12 +967,12 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                         ),
                       ),
                       child: Container(
-                        height: 60,
+                        height: 52,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Expanded(
-                              flex: 3,
+                              flex: 5,
                               child: TextFormField(
                                 // key: _inputQuantityKey,
                                 textDirection: TextDirection.ltr,
@@ -922,8 +1002,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                                   }
                                 },
                                 decoration: InputDecoration(
-                                  /*contentPadding: EdgeInsets.symmetric(
-                                      vertical: 8.0, horizontal: 8),*/
+                                  *//*contentPadding: EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 8),*//*
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0),
                                   ),
@@ -995,7 +1075,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                           ],
                         ),
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),

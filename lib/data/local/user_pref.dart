@@ -26,6 +26,11 @@ class UserPreferences {
   String getToken() {
     print("User Preferences: Load Token Called.");
     String? token = userPrefs.getString('token');
+    /*if (token == null) {
+      return Future.error('Token Unavailable');
+    } else {
+      return token;
+    }*/
     if (token == null) {
       throw Exception('Token Not Available!');
     } else {
@@ -62,12 +67,17 @@ class UserPreferences {
   Future<String?> getTokenAsync() async {
     print("User Preferences: Load Token Called.");
     String? token = userPrefs.getString('token');
-    return token!;
+    // return token!;
     /*if (token == null) {
       throw Exception('Token Not Available!');
     } else {
       return token;
     }*/
+    if (token == null) {
+      return Future.error('Token Unavailable');
+    } else {
+      return token;
+    }
   }
 
   Future<void> saveUserAsync(LoginData user) async {

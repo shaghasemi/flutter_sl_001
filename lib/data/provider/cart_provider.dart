@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/data/local/cart_pref.dart';
 import 'package:flutter_sl_001/model/order/processing_response_model.dart';
@@ -91,7 +93,7 @@ class CartProvider extends ChangeNotifier {
   clearCart() {
     processingList = [];
     CartPreferences().saveCart(processingList);
-    print("Cleared Cart");
+    print("Cleared Cart: ${jsonEncode(processingList)}");
     notifyListeners();
   }
 
