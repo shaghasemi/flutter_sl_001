@@ -211,9 +211,8 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  // height: 120,
-                  width: MediaQuery.of(context).size.width / 4,
+                Expanded(
+                  flex: 1,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(8, 4, 0, 4),
                     child: ClipRRect(
@@ -226,8 +225,8 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
                     ),
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3,
+                Expanded(
+                  flex: 3,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,9 +253,10 @@ class _CategoryContentScreenState extends State<CategoryContentScreenTwo> {
                     ],
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Row(
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(

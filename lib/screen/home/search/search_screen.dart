@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sl_001/api/api_service_search.dart';
 import 'package:flutter_sl_001/data/provider/search_provider.dart';
 import 'package:flutter_sl_001/model/search/product_search.dart';
+import 'package:flutter_sl_001/screen/product/widget/product_item_widget_2.dart';
 import 'package:flutter_sl_001/screen/product/widget/product_single_card_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -16,8 +17,12 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController textControllerSearch = TextEditingController();
   ApiServiceSearch apiServiceSearch = ApiServiceSearch();
   ProductSearchRequestModel productSearchRequestModel =
-      ProductSearchRequestModel(
-          page: 1, limit: 1000, cat: '', br: '', str: 'بتن');
+  ProductSearchRequestModel(
+      page: 1,
+      limit: 1000,
+      cat: '',
+      br: '',
+      str: 'بتن');
 
   @override
   void dispose() {
@@ -29,14 +34,15 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScroller) => [
+        headerSliverBuilder: (context, innerBoxIsScroller) =>
+        [
           SliverAppBar(
             backgroundColor: Colors.black26,
             title: TextField(
               controller: textControllerSearch,
               onChanged: (input) {
                 setState(
-                  () {
+                      () {
                     performSearch();
                   },
                 );
@@ -54,29 +60,29 @@ class _SearchScreenState extends State<SearchScreen> {
             actions: [
               textControllerSearch.text != ''
                   ? IconButton(
-                      // color: Colors.black,
-                      icon: Icon(Icons.close),
-                      onPressed: () {
-                        setState(
-                          () {
-                            textControllerSearch.text = '';
-                            performSearch();
-                          },
-                        );
-                      },
-                    )
+                // color: Colors.black,
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  setState(
+                        () {
+                      textControllerSearch.text = '';
+                      performSearch();
+                    },
+                  );
+                },
+              )
                   : IconButton(
-                      // color: Colors.black,
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        setState(
-                          () {
-                            // textControllerSearch.text = '';
-                            performSearch();
-                          },
-                        );
-                      },
-                    ),
+                // color: Colors.black,
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  setState(
+                        () {
+                      // textControllerSearch.text = '';
+                      performSearch();
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ],
@@ -91,12 +97,20 @@ class _SearchScreenState extends State<SearchScreen> {
                 scrollDirection: Axis.vertical,
                 itemCount: value.getData.docs!.length,
                 itemBuilder: (context, index) {
-                  return ProductSingleCardWidget(
-                      id: value.getData.docs![index].id!,
-                      image_logo: value.getData.docs![index].images![0].url!,
-                      title: value.getData.docs![index].titleFa!,
-                      seller_main: value.getData.docs![index].branchId!.name!,
-                      price_original: value.getData.docs![index].price!);
+                  return ProductItemWidget2(
+                    id: value.getData.docs![index].id!,
+                    image_logo: value.getData.docs![index].images![0].url!,
+                    title: value.getData.docs![index].titleFa!,
+                    seller_main: value.getData.docs![index].branchId!.name!,
+                    price_original: value.getData.docs![index].price!,
+                  );
+                  /*return ProductSingleCardWidget(
+                    id: value.getData.docs![index].id!,
+                    image_logo: value.getData.docs![index].images![0].url!,
+                    title: value.getData.docs![index].titleFa!,
+                    seller_main: value.getData.docs![index].branchId!.name!,
+                    price_original: value.getData.docs![index].price!,
+                  );*/
                 },
               );
             }
