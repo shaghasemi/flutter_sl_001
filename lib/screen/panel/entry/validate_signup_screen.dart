@@ -51,8 +51,10 @@ class _ValidateSignupScreenState extends State<ValidateSignupScreen> {
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  Image.asset('assets/images/panel/login_header_2.png'),
-                  Center(
+                  Image.asset(
+                    'assets/images/panel/login_header_2.png',
+                    width: MediaQuery.of(context).size.width,
+                  ),                  Center(
                     child: SvgPicture.asset(
                       'assets/svg/logo_sl_2.svg',
                       // color: Theme.of(context).primaryColor,

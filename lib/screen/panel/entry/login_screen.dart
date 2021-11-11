@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Image.asset(
                           'assets/images/panel/login_header_2.png',
-                          // width: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width,
                         ),
                         Center(
                           child: SvgPicture.asset(

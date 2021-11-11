@@ -5,7 +5,6 @@ import 'package:flutter_sl_001/screen/helper/under_construction.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-
 import 'entry/login_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -20,17 +19,13 @@ class SettingsScreen extends StatelessWidget {
         builder: (_) {
           return AlertDialog(
             buttonPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            // title: Text('خروج از حساب کاربری'),
             title: SvgPicture.asset(
               'assets/svg/logo_sl_2.svg',
-              // color: Theme.of(context).primaryColor,
-              // width: MediaQuery.of(context).size.width / 3,
             ),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
                   Text('آیا می خواهید از حساب کاربری خارج شوید؟'),
-                  // Text('Would you like to approve of this message?'),
                 ],
               ),
             ),
@@ -88,7 +83,7 @@ class SettingsScreen extends StatelessWidget {
           floating: true,
         )
       ],
-      body: Expanded(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(height: 24),

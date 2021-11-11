@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sivanland.flutter_sl_001">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:icon="@mipmap/launcher_icon"
         android:label="SivanLand">
@@ -26,9 +28,12 @@
             <meta-data
                 android:name="io.flutter.embedding.android.SplashScreenDrawable"
                 android:resource="@drawable/launch_background" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -38,10 +43,6 @@
                     android:host="sivanland.com"
                     android:pathPrefix="/app_launch"
                     android:scheme="https" />
-                <!--<data
-                    android:host="hamedhamedhamed.com"
-                    android:pathPrefix="/app_launch"
-                    android:scheme="http" />-->
 
             </intent-filter>
         </activity>

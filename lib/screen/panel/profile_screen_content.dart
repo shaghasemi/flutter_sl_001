@@ -35,9 +35,6 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
     super.initState();
     // UserProvider().loadUser();
     tokenPref = UserPreferences().getToken();
-    print("tokenPref");
-    print(tokenPref);
-    fetchUserInfo(tokenPref);
 
     // This is currently used to display user name and phone number on top of the page
     Provider.of<UserProvider>(context, listen: false).loadUser();
@@ -68,7 +65,8 @@ class _ProfileScreenContentState extends State<ProfileScreenContent> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const MessageListScreen(),
+                    // builder: (context) => const MessageListScreen(),
+                    builder: (context) => const UnderConstructionScreen(),
                   ),
                 );
               },
