@@ -261,19 +261,19 @@ class ProcessingResponseBranchId {
 
 class ProcessingResponseCalculated {
   final ProcessingResponsePackInfo? packInfo;
-  final int? rangePriceRatio;
+  final num? rangePriceRatio;
   final List<ProcessingResponsePropertyListInfo>? propertyListInfo;
-  final int? propertyPriceRatio;
-  final int? discountPriceRatio;
-  final int? priceRatioSum;
-  final int? priceRatioNumber;
-  final int? price;
-  final int? newPrice;
+  final num? propertyPriceRatio;
+  final num? discountPriceRatio;
+  final num? priceRatioSum;
+  final num? priceRatioNumber;
+  final num? price;
+  final num? newPrice;
   final int? number;
-  final int? ratioUnitNumber;
-  final int? currentPrice;
+  final num? ratioUnitNumber;
+  final num? currentPrice;
   final int? currentNumber;
-  final int? total;
+  final num? total;
 
   ProcessingResponseCalculated({
     this.packInfo,
@@ -297,22 +297,26 @@ class ProcessingResponseCalculated {
             ? ProcessingResponsePackInfo.fromJson(
                 json['pack_info'] as Map<String, dynamic>)
             : null,
-        rangePriceRatio = json['range_price_ratio'] as int?,
+        rangePriceRatio = json['range_price_ratio'] as num?,
         propertyListInfo = (json['property_list_info'] as List?)
             ?.map((dynamic e) => ProcessingResponsePropertyListInfo.fromJson(
                 e as Map<String, dynamic>))
             .toList(),
-        propertyPriceRatio = json['property_price_ratio'] as int?,
-        discountPriceRatio = json['discount_price_ratio'] as int?,
-        priceRatioSum = json['price_ratio_sum'] as int?,
-        priceRatioNumber = json['price_ratio_number'] as int?,
-        price = json['price'] as int?,
-        newPrice = json['new_price'] as int?,
+        propertyPriceRatio = json['property_price_ratio'] as num?,
+        discountPriceRatio = json['discount_price_ratio'] as num?,
+        priceRatioSum = json['price_ratio_sum'] as num?,
+        // priceRatioNumber = json['price_ratio_number'] as int?,
+        priceRatioNumber = json['price_ratio_number'] as num?,
+        // price = json['price'] as int?,
+        price = json['price'] as num?,
+        // newPrice = json['new_price'] as int?,
+        newPrice = json['new_price'] as num?,
         number = json['number'] as int?,
-        ratioUnitNumber = json['ratio_unit_number'] as int?,
-        currentPrice = json['current_price'] as int?,
+        // ratioUnitNumber = json['ratio_unit_number'] as int?,
+        ratioUnitNumber = json['ratio_unit_number'] as num?,
+        currentPrice = json['current_price'] as num?,
         currentNumber = json['current_number'] as int?,
-        total = json['total'] as int?;
+        total = json['total'] as num?;
 
   Map<String, dynamic> toJson() => {
         'pack_info': packInfo?.toJson(),

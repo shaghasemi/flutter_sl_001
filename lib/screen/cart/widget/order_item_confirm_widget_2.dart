@@ -21,8 +21,8 @@ class OrderItemConfirmWidget2 extends StatefulWidget {
   final String? packing;
   final String? calculatingProperty;
   final String? calculatingPropertyUnit;
-  final int? discountSum;
-  final int? payAmount;
+  final num? discountSum;
+  final num? payAmount;
   final String? deliveryAddress;
   final int quantity;
 
@@ -60,7 +60,7 @@ class _OrderItemWidgetState extends State<OrderItemConfirmWidget2> {
   late ProcessingRequestSelectedPropertyIdList
       processingRequestSelectedPropertyIdList;
   ProcessingResponseData processingData = ProcessingResponseData();
-  int price = 0;
+  num price = 0;
   late int quantity;
 
   @override

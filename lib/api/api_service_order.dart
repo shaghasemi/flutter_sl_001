@@ -23,12 +23,14 @@ class ApiServiceOrder {
       'Charset': 'utf-8',
       'Accept': '*/*'
     };
+    print("Print Order 1: ${jsonEncode(processingRequestModel)}");
 
     final response = await http.post(
       Uri.parse(url),
       headers: headers,
       body: processingBody,
     );
+    print("Print Order 2: ${response.body}");
     if (response.statusCode == 200) {
       return ProcessingResponseModel.fromJson(jsonDecode(response.body));
     } else {

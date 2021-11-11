@@ -63,7 +63,7 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   int min_order_temp = 0;
   int min_order_calc = 0;
   int max_order_calc = 0;
-  int latestPrice = 0;
+  num latestPrice = 0;
   ProductSingleData productSingleData = ProductSingleData();
   ProcessingResponseData processingData = ProcessingResponseData();
   PropertyListProduct productProperty = PropertyListProduct();
@@ -71,8 +71,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   PropertyList? calculatingProperty = PropertyList(id: '');
 
   int calculatingCode = 0;
-  int price = 0;
-  int ratioUnit = 1;
+  double price = 0;
+  double ratioUnit = 1;
   order_options case_property = order_options.blank;
   double vertical_distance = 20.0;
 
@@ -566,17 +566,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
       max_order_calc = productSingleData.max_order!;
     }
 
-    print("MinMax 1:");
-    print(min_order_calc);
-    print(max_order_calc);
-    print(productSingleData.property_list![0].select_ratio_list![selected_calc]
-        .toString());
-    print("MinMax 2:");
-    print(_pack_is_selected);
-    print(selected_pack);
-    print(_calc_is_selected);
-    print(selected_calc);
-
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -1017,8 +1006,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
                                 onChanged: (input) {
-                                  print(
-                                      "Print 5: ${jsonEncode(processingRequestModel.orderList)}");
                                   getPrice();
                                 },
                               ),
@@ -1056,7 +1043,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
                                             _textControllerQuantity.text);
                                         setState(
                                           () {
-                                            print("Setting state");
                                             currentValue--;
                                             _textControllerQuantity.text =
                                                 (currentValue > 0
@@ -1240,10 +1226,8 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
 // The issue with double and int still exists.
       // When double values come in, things stop working
       //TODO: FIx int and double issue
-      print("Print 1: ${_textControllerQuantity.text}");
       processingRequestModel.orderList[0].number =
           int.parse(_textControllerQuantity.text);
-      print("Print 2: ${jsonEncode(processingRequestModel.orderList)}");
       apiServiceOrder.processing(processingRequestModel).then((value) {
         setState(() {
           latestPrice = value.data![0].calculated!.total!;
@@ -1256,7 +1240,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
   }
 
   void addToCart() {
-    // print("Product 3: ${jsonEncode(processingRequestModel)}");
     apiServiceOrder.processing(processingRequestModel).then(
       (value) {
         Provider.of<CartProvider>(context, listen: false)
@@ -1265,7 +1248,6 @@ class _ProductSingleScreenState extends State<ProductSingleScreen> {
       },
     );
     /* if (order_options.number_calculating == true) {
-      print("Fill required");
     } else {
       apiServiceOrder.processing(processingRequestModel).then(
         (value) {
