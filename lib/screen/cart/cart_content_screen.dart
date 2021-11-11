@@ -15,6 +15,7 @@ class CartContentScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartContentScreen> {
   Future<String?> getToken() async => UserPreferences().getTokenAsync();
+  bool _cartEmpty = true;
 
   @override
   void initState() {
@@ -24,7 +25,7 @@ class _CartScreenState extends State<CartContentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // token = MySharedPreferences.mySharedPreferences.getString("token");
+// token = MySharedPreferences.mySharedPreferences.getString("token");
     // LoginData user = Provider.of<UserProvider>(context).getUser;
     // Future<List<ProcessingResponseData>> getCartData() => CartPreferences().loadCart();
     // CartPreferences().loadCart();
@@ -62,8 +63,10 @@ class _CartScreenState extends State<CartContentScreen> {
                 Consumer<CartProvider>(
                   builder: (context, value, child) {
                     if (value.processingList.length == 0) {
+                      _cartEmpty = true;
                       return Text('سبد خرید خالی است.');
                     } else {
+                      _cartEmpty = false;
                       return SingleChildScrollView(
                         child: Column(
                           children: [
@@ -189,7 +192,7 @@ class _CartScreenState extends State<CartContentScreen> {
             Icon(Icons.arrow_forward),
           ],
         ),
-        onPressed: () {
+        /*onPressed: () {
           getToken().then(
             (value) {
               print("Token: $value");
@@ -220,21 +223,49 @@ class _CartScreenState extends State<CartContentScreen> {
               );
             },
           );
+        },*/
+        onPressed: () {
+          if (_cartEmpty) {
+            Fluttertoast.showToast(
+              msg: 'سبد خرید خالی است.',
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              // fontSize: 16.0,
+            );
+          } else {
+            getToken().then(
+              (value) {
+                print("Token: $value");
+                if (value != null && value != '') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CustomerInfoOrderScreen()),
+                  );
+                } else {
+                  Fluttertoast.showToast(
+                    msg: 'جهت ثبت سفارش، وارد حساب کاربری خود شوید.',
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    // fontSize: 16.0,
+                  );
+                }
+              },
+            ).onError(
+              (error, stackTrace) {
+                // print("Order Confirmed 2: ${error}");
+                Fluttertoast.showToast(
+                  msg: 'جهت ثبت سفارش، وارد حساب کاربری خود شوید.',
+                  // msg: error.toString(),
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  // fontSize: 16.0,
+                );
+              },
+            );
+          }
         },
       ),
-      /*floatingActionButton: FloatingActionButton.extended(
-        elevation: 4,
-        // child: Text('ویرایش'),
-
-        icon: Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CustomerInfoOrderScreen()),
-          );
-        },
-        label: Text('تایید و ادامه'),
-      ),*/
     );
   }
 }

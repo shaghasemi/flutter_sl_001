@@ -5,8 +5,6 @@ import 'package:flutter_sl_001/data/provider/cart_provider.dart';
 import 'package:flutter_sl_001/model/order/register_list_model.dart';
 import 'package:flutter_sl_001/screen/cart/widget/order_item_confirm_widget_2.dart';
 import 'package:flutter_sl_001/screen/main/cart_screen.dart';
-import 'package:flutter_sl_001/screen/main/home_screen.dart';
-import 'package:flutter_sl_001/screen/panel/entry/login_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
@@ -298,4 +296,6 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
       ),
     );
   }
+
+  confimOrder() {}
 }
