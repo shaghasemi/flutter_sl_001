@@ -3,12 +3,15 @@ import 'package:flutter_sl_001/data/local/user_pref.dart';
 import 'package:flutter_sl_001/data/provider/user_provider.dart';
 import 'package:flutter_sl_001/screen/helper/under_construction.dart';
 import 'package:flutter_sl_001/screen/panel/widget/profile_section_go_to_widget.dart';
+import 'package:flutter_sl_001/util/app_version.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'entry/login_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
+
+  // final double version = 1.1;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +57,42 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                       child: Text('خیر'),
+                      onPressed: () {
+                        Navigator.of(_).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    Future<void> _aboutSivanApp() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (_) {
+          return AlertDialog(
+            buttonPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            title: Text('نسخه ${AppVersion.version}'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('آیا می خواهید از حساب کاربری خارج شوید؟'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      child: Text('بستن'),
                       onPressed: () {
                         Navigator.of(_).pop();
                       },
@@ -122,6 +161,24 @@ class SettingsScreen extends StatelessWidget {
               title: "صفحه خروج",
               destination: LogoutGlobalScreen(),
             ),*/
+            GestureDetector(
+              onTap: () {
+                _aboutSivanApp();
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 24),
+                child: Row(
+                  children: [
+                    Icon(Icons.logout_outlined),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text('درباره ی سیوان لند'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             GestureDetector(
               onTap: () {
                 _logoutDialog();
